@@ -76,7 +76,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: "Enrollment not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, enrollment: updated });c
+    return NextResponse.json({ success: true, enrollment: updated });
 
   } catch (error) {
     return NextResponse.json({ error: "Update failed" }, { status: 500 });

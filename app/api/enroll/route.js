@@ -4,13 +4,15 @@ import Enrollment from "@/models/Enrollment";
 import { sendAdminNotification, sendStudentConfirmation } from "@/lib/email";
 import { sendWhatsAppNotification } from "@/lib/whatsapp";
 
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200 });
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
     const { firstName, lastName, email, phone, certificationGoal, message } = body;
-    console.log("Received:", { firstName, lastName, email, phone, certificationGoal, message });
 
-    // Validation
     if (!firstName || !lastName || !email || !phone || !certificationGoal) {
       return NextResponse.json(
         { success: false, error: "Please fill in all required fields." },
@@ -18,18 +20,12 @@ export async function POST(request) {
       );
     }
 
-    // Save to MongoDB
     await connectDB();
     const enrollment = await Enrollment.create({
-      firstName,
-      lastName,
-      email,
-      phone,
-      certificationGoal,
+      firstName, lastName, email, phone, certificationGoal,
       message: message || "",
     });
 
-    // Send notifications
     try {
       await Promise.all([
         sendAdminNotification(enrollment),
@@ -41,14 +37,9 @@ export async function POST(request) {
     }
 
     return NextResponse.json(
-      {
-        success: true,
-        message: "Enrollment request received! We will contact you within 24–48 hours.",
-        id: enrollment._id,
-      },
+      { success: true, message: "Enrollment request received!", id: enrollment._id },
       { status: 201 }
     );
-
   } catch (error) {
     console.error("Enrollment error:", error);
     return NextResponse.json(
