@@ -230,6 +230,8 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
   .stats-grid { grid-template-columns: repeat(3, 1fr); }
   .ifa-content { padding: 16px; }
   .ifa-topbar { padding: 0 16px; }
+  .ifa-content { padding: 16px; }
+  .ifa-topbar { padding: 0 16px; }
 }
 
 @media (max-width: 640px) {
@@ -769,3 +771,4 @@ export default function AdminDashboard() {
     </>
   );
 }
+
