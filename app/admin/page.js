@@ -352,14 +352,14 @@ function LoginPage({ onLogin }) {
         <div className="login-card">
           <div className="login-emblem">??</div>
           <h1 className="login-title">Admin Portal</h1>
-          <p className="login-sub">International French Academy · Kigali</p>
+          <p className="login-sub">International French Academy Â· Kigali</p>
           <div className="login-label">Password</div>
           <input type="password" className="login-input" autoFocus value={pw} onChange={e => setPw(e.target.value)} onKeyDown={e => e.key === "Enter" && submit()} placeholder="Enter admin password" />
           {err && <p className="login-err">{err}</p>}
           <button className="btn btn-gold" style={{width:"100%",justifyContent:"center",padding:"12px",fontSize:"14px"}} onClick={submit} disabled={loading}>
-            {loading ? "Verifying…" : "Enter Dashboard ?"}
+            {loading ? "Verifyingâ€¦" : "Enter Dashboard ?"}
           </button>
-          <p className="login-footer">International French Academy · Rwanda</p>
+          <p className="login-footer">International French Academy Â· Rwanda</p>
         </div>
       </div>
     </>
@@ -451,7 +451,7 @@ function AnalyticsPage({ enrollments, stats }) {
 function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
   const [tab, setTab] = useState("info");
   const [notes, setNotes] = useState(e.notes||"");
-  const [subj, setSubj] = useState("Regarding your enrollment — IFA Kigali");
+  const [subj, setSubj] = useState("Regarding your enrollment â€” IFA Kigali");
   const [body, setBody] = useState(`Dear ${e.firstName},\n\nThank you for your interest in the International French Academy.\n\n`);
   const [sending, setSending] = useState(false);
 
@@ -490,7 +490,7 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
               <div style={{marginTop:6}}><StatusPill status={e.status}/></div>
             </div>
           </div>
-          <button className="close-btn" onClick={onClose}>×</button>
+          <button className="close-btn" onClick={onClose}>Ã—</button>
         </div>
       </div>
       <div className="panel-tabs">
@@ -541,7 +541,7 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
           <div>
             <div className="sec-label" style={{marginBottom:6}}>Internal Notes</div>
             <p style={{fontSize:12,color:"var(--text3)",marginBottom:10,lineHeight:1.5}}>Private notes, only visible to admin.</p>
-            <textarea className="panel-textarea" style={{height:100}} value={notes} onChange={ev=>setNotes(ev.target.value)} placeholder="Add notes about this student…"/>
+            <textarea className="panel-textarea" style={{height:100}} value={notes} onChange={ev=>setNotes(ev.target.value)} placeholder="Add notes about this studentâ€¦"/>
             <button className="btn btn-gold btn-sm" style={{marginTop:8}} onClick={saveNotes}>Save Notes</button>
             {e.notes&&<div style={{marginTop:14,padding:"10px 12px",background:"var(--ink3)",borderRadius:"var(--r-md)",fontSize:13,color:"var(--text2)",lineHeight:1.6,borderLeft:"2px solid var(--gold)"}}>{e.notes}</div>}
           </div>
@@ -554,7 +554,7 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
             <input className="panel-input" value={subj} onChange={ev=>setSubj(ev.target.value)}/>
             <div style={{fontSize:10,color:"var(--text3)",marginBottom:5,textTransform:"uppercase",letterSpacing:"1.5px"}}>Message</div>
             <textarea className="panel-textarea" style={{height:130}} value={body} onChange={ev=>setBody(ev.target.value)}/>
-            <button className="btn btn-gold btn-sm" style={{marginTop:10}} onClick={sendEmail} disabled={sending}>{sending ? "Sending…" : "? Send Email"}</button>
+            <button className="btn btn-gold btn-sm" style={{marginTop:10}} onClick={sendEmail} disabled={sending}>{sending ? "Sendingâ€¦" : "? Send Email"}</button>
           </div>
         )}
       </div>
@@ -648,7 +648,7 @@ export default function AdminDashboard() {
           <div className="sidebar-brand">
             <div className="brand-emblem">??</div>
             <div className="brand-name">International<br/>French Academy</div>
-            <div className="brand-tagline">Kigali · Rwanda</div>
+            <div className="brand-tagline">Kigali Â· Rwanda</div>
           </div>
           <nav className="sidebar-nav">
             <div className="nav-section-label">Management</div>
@@ -709,7 +709,7 @@ export default function AdminDashboard() {
                 <div className="filters-bar">
                   <div className="search-wrap">
                     <span className="search-icon">?</span>
-                    <input className="search-input" placeholder="Search name, email, phone…" value={search} onChange={e=>setSearch(e.target.value)}/>
+                    <input className="search-input" placeholder="Search name, email, phoneâ€¦" value={search} onChange={e=>setSearch(e.target.value)}/>
                   </div>
                   <div className="filter-chips">
                     {["all","new","contacted","enrolled","cancelled"].map(f=>(
@@ -728,7 +728,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="table-body">
                     {loading?(
-                      <div className="empty-state"><div className="empty-icon">?</div><p className="empty-text">Loading…</p></div>
+                      <div className="empty-state"><div className="empty-icon">?</div><p className="empty-text">Loadingâ€¦</p></div>
                     ):enrollments.length===0?(
                       <div className="empty-state"><div className="empty-icon">??</div><p className="empty-text">No enrollments found</p><p className="empty-sub">Try adjusting your search or filter</p></div>
                     ):enrollments.map(row=>(
