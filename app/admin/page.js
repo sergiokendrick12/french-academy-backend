@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const GLOBAL_CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@300;400;500;600&display=swap');
@@ -35,21 +35,12 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
   transition: transform .3s cubic-bezier(.4,0,.2,1); overflow: hidden;
 }
 .sidebar-brand { padding: 24px 20px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-.brand-emblem {
-  width: 40px; height: 40px; background: var(--gold-dim);
-  border: 1px solid rgba(212,168,67,.3); border-radius: var(--r-md);
-  display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px;
-}
+.brand-emblem { width: 40px; height: 40px; background: var(--gold-dim); border: 1px solid rgba(212,168,67,.3); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
 .brand-name { font-family: var(--font-display); font-size: 17px; font-weight: 500; color: var(--text); line-height: 1.25; }
 .brand-tagline { font-size: 10px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; margin-top: 3px; }
 .sidebar-nav { flex: 1; padding: 14px 12px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
 .nav-section-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text3); padding: 14px 8px 6px; font-weight: 600; }
-.nav-item {
-  display: flex; align-items: center; gap: 10px; padding: 9px 10px;
-  border-radius: var(--r-md); cursor: pointer; border: none; background: transparent;
-  color: var(--text2); font-size: 13px; font-weight: 400; font-family: var(--font-body);
-  width: 100%; text-align: left; transition: all .15s; white-space: nowrap; position: relative;
-}
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--r-md); cursor: pointer; border: none; background: transparent; color: var(--text2); font-size: 13px; font-weight: 400; font-family: var(--font-body); width: 100%; text-align: left; transition: all .15s; white-space: nowrap; position: relative; }
 .nav-item:hover { background: var(--gold-glow); color: var(--text); }
 .nav-item.active { background: var(--gold-dim); color: var(--gold); font-weight: 500; }
 .nav-item.active::before { content: ""; position: absolute; left: 0; top: 25%; bottom: 25%; width: 2px; background: var(--gold); border-radius: 1px; }
@@ -68,18 +59,9 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 
 .ifa-main { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100vh; overflow: hidden; }
 
-.ifa-topbar {
-  height: 60px; background: var(--ink2); border-bottom: 1px solid var(--border);
-  padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
-  flex-shrink: 0; gap: 12px;
-}
+.ifa-topbar { height: 60px; background: var(--ink2); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: 12px; }
 .topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.hamburger-btn {
-  display: none; width: 34px; height: 34px; border-radius: var(--r-sm);
-  border: 1px solid var(--border); background: transparent; color: var(--text2);
-  cursor: pointer; font-size: 16px; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: all .15s;
-}
+.hamburger-btn { display: none; width: 34px; height: 34px; border-radius: var(--r-sm); border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; font-size: 16px; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; }
 .hamburger-btn:hover { border-color: var(--gold); color: var(--gold); }
 .topbar-title { font-family: var(--font-display); font-size: 20px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -89,30 +71,22 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 .btn-gold:hover { background: var(--gold-lt); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212,168,67,.25); }
 .btn-outline { background: transparent; color: var(--text2); border: 1px solid var(--border); }
 .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-.btn-ghost { background: transparent; color: var(--text2); border: none; padding: 8px 10px; }
-.btn-ghost:hover { color: var(--text); background: var(--ink3); }
 .btn-danger { background: transparent; color: var(--rose); border: 1px solid rgba(224,92,122,.25); }
 .btn-danger:hover { background: var(--rose-dim); }
 .btn-sm { padding: 6px 12px; font-size: 12px; }
-.btn-xs { padding: 4px 8px; font-size: 11px; border-radius: var(--r-sm); }
-.btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
 
 .ifa-content { flex: 1; overflow-y: auto; padding: 24px; }
 
 .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 24px; }
-.stat-card {
-  background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r-lg);
-  padding: 18px; position: relative; overflow: hidden;
-  transition: transform .2s, border-color .2s, box-shadow .2s; cursor: default;
-}
+.stat-card { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px; position: relative; overflow: hidden; transition: transform .2s, box-shadow .2s; }
 .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
-.stat-card::after { content: ""; position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: radial-gradient(circle at top right, var(--accent-glow), transparent 70%); pointer-events: none; }
 .stat-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .stat-icon-wrap { width: 32px; height: 32px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 15px; }
 .stat-value { font-family: var(--font-display); font-size: 32px; font-weight: 500; line-height: 1; margin-bottom: 4px; }
 .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; }
 .stat-progress { height: 2px; background: var(--border); border-radius: 1px; margin-top: 14px; }
-.stat-progress-fill { height: 100%; border-radius: 1px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+.stat-progress-fill { height: 100%; border-radius: 1px; transition: width .8s; }
 
 .filters-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
 .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 340px; }
@@ -122,25 +96,24 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 .search-input:focus { border-color: var(--gold); }
 .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
 .chip { padding: 6px 13px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text2); font-size: 12px; font-weight: 500; font-family: var(--font-body); cursor: pointer; transition: all .15s; text-transform: capitalize; }
-.chip:hover:not(.chip-active) { border-color: var(--text2); color: var(--text); }
 .chip-active { border-color: var(--gold) !important; background: var(--gold-dim) !important; color: var(--gold) !important; }
 
 .table-wrap { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
 .table-header { display: grid; grid-template-columns: var(--cols); padding: 10px 18px; background: var(--ink3); border-bottom: 1px solid var(--border); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); }
 .table-body { max-height: 52vh; overflow-y: auto; }
-.table-row { display: grid; grid-template-columns: var(--cols); padding: 13px 18px; align-items: center; border-bottom: 1px solid rgba(36,54,80,.6); cursor: pointer; transition: background .12s; position: relative; }
+.table-row { display: grid; grid-template-columns: var(--cols); padding: 13px 18px; align-items: center; border-bottom: 1px solid rgba(36,54,80,.6); cursor: pointer; transition: background .12s; }
 .table-row:last-child { border-bottom: none; }
 .table-row:hover { background: var(--ink3); }
 .table-row.row-selected { background: var(--gold-glow); border-left: 2px solid var(--gold); padding-left: 16px; }
 .student-name { font-size: 13px; font-weight: 500; margin-bottom: 1px; }
 .student-email { font-size: 11px; color: var(--text3); }
-.cert-badge { display: inline-flex; align-items: center; background: var(--ink3); border: 1px solid var(--border2); color: var(--gold); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--r-sm); letter-spacing: .5px; }
+.cert-badge { display: inline-flex; align-items: center; background: var(--ink3); border: 1px solid var(--border2); color: var(--gold); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: var(--r-sm); }
 .date-text { font-size: 11px; color: var(--text3); }
 .delete-ico { width: 26px; height: 26px; border-radius: var(--r-sm); border: 1px solid var(--border); background: transparent; color: var(--text3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .12s; opacity: 0; }
 .table-row:hover .delete-ico { opacity: 1; }
 .delete-ico:hover { border-color: var(--rose); color: var(--rose); background: var(--rose-dim); }
 
-.status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: .3px; }
+.status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 600; }
 .status-dot { width: 5px; height: 5px; border-radius: 50%; }
 
 .empty-state { padding: 60px 20px; text-align: center; }
@@ -148,18 +121,15 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 .empty-text { font-size: 14px; color: var(--text2); }
 .empty-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
 
-.detail-panel { width: 360px; flex-shrink: 0; background: var(--ink2); border-left: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; animation: panelSlide .2s cubic-bezier(.4,0,.2,1); overflow: hidden; }
-@keyframes panelSlide { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.detail-panel { width: 360px; flex-shrink: 0; background: var(--ink2); border-left: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .panel-top { padding: 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .panel-head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
 .panel-avatar { width: 46px; height: 46px; border-radius: var(--r-md); background: var(--gold-dim); border: 1px solid rgba(212,168,67,.3); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; color: var(--gold); flex-shrink: 0; }
 .panel-name { font-family: var(--font-display); font-size: 18px; font-weight: 500; line-height: 1.2; }
 .panel-since { font-size: 11px; color: var(--text3); margin-top: 3px; }
-.close-btn { width: 28px; height: 28px; border-radius: var(--r-sm); border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .12s; }
-.close-btn:hover { border-color: var(--text); color: var(--text); }
+.close-btn { width: 28px; height: 28px; border-radius: var(--r-sm); border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .panel-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 20px; flex-shrink: 0; }
 .ptab { padding: 11px 14px; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; border: none; background: transparent; font-family: var(--font-body); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s; }
-.ptab:hover:not(.ptab-on) { color: var(--text); }
 .ptab-on { color: var(--gold); border-bottom-color: var(--gold); }
 .panel-body { flex: 1; overflow-y: auto; padding: 18px 20px; }
 .panel-footer { padding: 14px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-shrink: 0; }
@@ -182,7 +152,6 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 .bn-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 16px; cursor: pointer; border: none; background: transparent; font-family: var(--font-body); }
 .bn-icon { font-size: 18px; }
 .bn-lbl { font-size: 10px; color: var(--text3); }
-.bn-item.bn-active .bn-icon { filter: drop-shadow(0 0 4px var(--gold)); }
 .bn-item.bn-active .bn-lbl { color: var(--gold); }
 
 .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
@@ -191,8 +160,7 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 .chart-sub { font-size: 12px; color: var(--text3); margin-bottom: 18px; }
 .bar-chart-wrap { display: flex; align-items: flex-end; gap: 7px; height: 130px; }
 .bar-col-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-.bar-col { width: 100%; border-radius: 4px 4px 0 0; transition: height .7s cubic-bezier(.4,0,.2,1); cursor: pointer; min-height: 2px; }
-.bar-col:hover { filter: brightness(1.25); }
+.bar-col { width: 100%; border-radius: 4px 4px 0 0; transition: height .7s; cursor: pointer; min-height: 2px; }
 .bar-val { font-size: 10px; font-weight: 600; }
 .bar-lbl { font-size: 9px; color: var(--text3); }
 .donut-wrap { display: flex; align-items: center; gap: 20px; }
@@ -204,18 +172,15 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 .cert-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .cert-lbl { font-size: 11px; color: var(--text2); width: 90px; flex-shrink: 0; }
 .cert-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; }
-.cert-fill { height: 100%; border-radius: 3px; background: var(--gold); transition: width .7s cubic-bezier(.4,0,.2,1); }
+.cert-fill { height: 100%; border-radius: 3px; background: var(--gold); transition: width .7s; }
 .cert-count { font-size: 11px; font-weight: 600; color: var(--gold); width: 20px; text-align: right; }
 
 .toast-tray { position: fixed; bottom: 20px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.toast-item { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: var(--r-md); background: var(--ink3); border: 1px solid var(--border2); box-shadow: 0 8px 32px rgba(0,0,0,.5); font-size: 13px; font-weight: 500; animation: toastIn .2s cubic-bezier(.4,0,.2,1); min-width: 240px; }
-@keyframes toastIn { from { transform: translateX(30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.toast-item { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: var(--r-md); background: var(--ink3); border: 1px solid var(--border2); box-shadow: 0 8px 32px rgba(0,0,0,.5); font-size: 13px; font-weight: 500; min-width: 240px; }
 .toast-ico { font-size: 14px; }
 
-.login-shell { min-height: 100vh; background: var(--ink); display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; }
-.login-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 50% 50% at 30% 20%, rgba(212,168,67,.07) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 75% 75%, rgba(77,157,224,.05) 0%, transparent 60%); }
-.login-card { position: relative; z-index: 1; background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 44px 40px; width: 100%; max-width: 400px; box-shadow: 0 40px 80px rgba(0,0,0,.6); animation: cardUp .4s cubic-bezier(.4,0,.2,1); }
-@keyframes cardUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.login-shell { min-height: 100vh; background: var(--ink); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.login-card { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 44px 40px; width: 100%; max-width: 400px; box-shadow: 0 40px 80px rgba(0,0,0,.6); }
 .login-emblem { width: 52px; height: 52px; border-radius: var(--r-lg); background: var(--gold-dim); border: 1px solid rgba(212,168,67,.3); display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 16px; }
 .login-title { font-family: var(--font-display); font-size: 26px; font-weight: 500; text-align: center; margin-bottom: 4px; }
 .login-sub { font-size: 12px; color: var(--text3); text-align: center; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 36px; }
@@ -225,55 +190,34 @@ body { background: var(--ink); font-family: var(--font-body); color: var(--text)
 .login-err { color: var(--rose); font-size: 12px; text-align: center; margin-bottom: 12px; }
 .login-footer { margin-top: 24px; text-align: center; font-size: 11px; color: var(--text3); }
 
-/* -- RESPONSIVE -- */
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: repeat(3, 1fr); }
-  .ifa-content { padding: 16px; }
-  .ifa-topbar { padding: 0 16px; }
   .ifa-content { padding: 16px; }
   .ifa-topbar { padding: 0 16px; }
 }
 
 @media (max-width: 640px) {
-  .ifa-sidebar {
-    position: fixed; top: 0; left: 0; bottom: 0;
-    width: 280px; transform: translateX(-100%); z-index: 50;
-  }
+  .ifa-sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; transform: translateX(-100%); z-index: 50; }
   .ifa-sidebar.mobile-open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,.5); }
   .sidebar-overlay.visible { display: block; }
   .hamburger-btn { display: flex; }
-
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .stat-card:last-child { grid-column: span 2; }
   .stat-value { font-size: 26px; }
-
   .topbar-right .btn-outline { display: none; }
   .ifa-topbar { padding: 0 12px; height: 54px; }
   .topbar-title { font-size: 17px; }
-
   .filters-bar { gap: 8px; }
   .search-wrap { max-width: 100%; min-width: 0; }
   .filter-chips { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
-  .filter-chips::-webkit-scrollbar { height: 0; }
-
   .table-body { max-height: 38vh; }
   .table-row { padding: 12px 14px; }
-
-  .detail-panel {
-    position: fixed; inset: 0; width: 100%; height: 100%;
-    z-index: 100; border-left: none;
-    animation: mobilePanel .25s cubic-bezier(.4,0,.2,1);
-  }
-  @keyframes mobilePanel { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
+  .detail-panel { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 100; border-left: none; }
   .analytics-grid { grid-template-columns: 1fr; }
-
   .bottom-nav { display: flex; }
   .ifa-content { padding: 10px; padding-bottom: 70px; }
-
   .toast-tray { bottom: 80px; right: 12px; left: 12px; }
   .toast-item { min-width: auto; }
-
   .login-card { padding: 32px 24px; }
 }
 `;
@@ -315,8 +259,9 @@ function useToast() {
   }, []);
   return { list, show };
 }
+
 function ToastTray({ list }) {
-  const icons = { success: "?", error: "?", info: "?" };
+  const icons = { success: "✓", error: "✕", info: "i" };
   const cols  = { success: "var(--teal)", error: "var(--rose)", info: "var(--blue)" };
   return (
     <div className="toast-tray">
@@ -348,16 +293,15 @@ function LoginPage({ onLogin }) {
     <>
       <style>{GLOBAL_CSS}</style>
       <div className="login-shell">
-        <div className="login-bg" />
         <div className="login-card">
-          <div className="login-emblem">??</div>
+          <div className="login-emblem">&#127891;</div>
           <h1 className="login-title">Admin Portal</h1>
           <p className="login-sub">International French Academy · Kigali</p>
           <div className="login-label">Password</div>
           <input type="password" className="login-input" autoFocus value={pw} onChange={e => setPw(e.target.value)} onKeyDown={e => e.key === "Enter" && submit()} placeholder="Enter admin password" />
           {err && <p className="login-err">{err}</p>}
           <button className="btn btn-gold" style={{width:"100%",justifyContent:"center",padding:"12px",fontSize:"14px"}} onClick={submit} disabled={loading}>
-            {loading ? "Verifying…" : "Enter Dashboard ?"}
+            {loading ? "Verifying..." : "Enter Dashboard"}
           </button>
           <p className="login-footer">International French Academy · Rwanda</p>
         </div>
@@ -385,8 +329,8 @@ function DonutChart({ stats }) {
           <circle key={a.key} cx={cx} cy={cy} r={r} fill="none" stroke={a.color} strokeWidth={sw}
             strokeDasharray={`${a.dash} ${circ-a.dash}`} strokeDashoffset={circ/4-a.off}/>
         ))}
-        <text x={cx} y={cy-5} textAnchor="middle" fill="var(--text)" fontSize={22} fontFamily="'Playfair Display',Georgia,serif" fontWeight="500">{stats.total||0}</text>
-        <text x={cx} y={cy+9} textAnchor="middle" fill="var(--text3)" fontSize={9} fontFamily="'Sora',sans-serif" letterSpacing="1.5">TOTAL</text>
+        <text x={cx} y={cy-5} textAnchor="middle" fill="var(--text)" fontSize={22} fontFamily="Playfair Display,Georgia,serif" fontWeight="500">{stats.total||0}</text>
+        <text x={cx} y={cy+9} textAnchor="middle" fill="var(--text3)" fontSize={9} fontFamily="Sora,sans-serif" letterSpacing="1.5">TOTAL</text>
       </svg>
       <div className="donut-legend">
         {segs.map(s => (
@@ -451,7 +395,7 @@ function AnalyticsPage({ enrollments, stats }) {
 function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
   const [tab, setTab] = useState("info");
   const [notes, setNotes] = useState(e.notes||"");
-  const [subj, setSubj] = useState("Regarding your enrollment — IFA Kigali");
+  const [subj, setSubj] = useState("Regarding your enrollment - IFA Kigali");
   const [body, setBody] = useState(`Dear ${e.firstName},\n\nThank you for your interest in the International French Academy.\n\n`);
   const [sending, setSending] = useState(false);
 
@@ -490,7 +434,7 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
               <div style={{marginTop:6}}><StatusPill status={e.status}/></div>
             </div>
           </div>
-          <button className="close-btn" onClick={onClose}>×</button>
+          <button className="close-btn" onClick={onClose}>x</button>
         </div>
       </div>
       <div className="panel-tabs">
@@ -502,10 +446,10 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
         {tab==="info" && (
           <div>
             {[
-              {ico:"??",lbl:"Full Name",val:<>{e.firstName} {e.lastName}</>},
-              {ico:"??",lbl:"Email",val:<a href={`mailto:${e.email}`} className="info-link">{e.email}</a>},
-              {ico:"??",lbl:"Phone / WhatsApp",val:<a href={`https://wa.me/${(e.phone||"").replace(/\D/g,"")}`} target="_blank" className="info-link">{e.phone}</a>},
-              {ico:"??",lbl:"Certification Goal",val:<span style={{color:"var(--gold)",fontWeight:600}}>{e.certificationGoal}</span>},
+              {ico:"*",lbl:"Full Name",val:<>{e.firstName} {e.lastName}</>},
+              {ico:"@",lbl:"Email",val:<a href={`mailto:${e.email}`} className="info-link">{e.email}</a>},
+              {ico:"T",lbl:"Phone",val:<a href={`https://wa.me/${(e.phone||"").replace(/\D/g,"")}`} target="_blank" className="info-link">{e.phone}</a>},
+              {ico:"G",lbl:"Certification Goal",val:<span style={{color:"var(--gold)",fontWeight:600}}>{e.certificationGoal}</span>},
             ].map((r,i)=>(
               <div key={i} className="info-block">
                 <span className="info-ico">{r.ico}</span>
@@ -514,7 +458,7 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
             ))}
             {e.message&&(
               <div className="info-block">
-                <span className="info-ico">??</span>
+                <span className="info-ico">M</span>
                 <div><div className="info-lbl">Message</div><div className="info-val" style={{color:"var(--text2)",lineHeight:1.6}}>{e.message}</div></div>
               </div>
             )}
@@ -527,7 +471,7 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
               {Object.entries(S).map(([k,v])=>(
                 <button key={k} className="status-opt" onClick={()=>setStatus(k)}
                   style={{background: e.status===k ? v.bg : "transparent", color: e.status===k ? v.color : "var(--text2)", borderColor: e.status===k ? v.color+"60" : "var(--border)", fontWeight: e.status===k ? 600 : 400}}>
-                  {e.status===k ? "? " : "? "}{v.label}
+                  {v.label}
                 </button>
               ))}
             </div>
@@ -539,30 +483,29 @@ function DetailPanel({ e, onClose, onUpdate, onDelete, toast }) {
         )}
         {tab==="notes" && (
           <div>
-            <div className="sec-label" style={{marginBottom:6}}>Internal Notes</div>
-            <p style={{fontSize:12,color:"var(--text3)",marginBottom:10,lineHeight:1.5}}>Private notes, only visible to admin.</p>
-            <textarea className="panel-textarea" style={{height:100}} value={notes} onChange={ev=>setNotes(ev.target.value)} placeholder="Add notes about this student…"/>
+            <div className="sec-label">Internal Notes</div>
+            <textarea className="panel-textarea" style={{height:100}} value={notes} onChange={ev=>setNotes(ev.target.value)} placeholder="Add notes about this student..."/>
             <button className="btn btn-gold btn-sm" style={{marginTop:8}} onClick={saveNotes}>Save Notes</button>
             {e.notes&&<div style={{marginTop:14,padding:"10px 12px",background:"var(--ink3)",borderRadius:"var(--r-md)",fontSize:13,color:"var(--text2)",lineHeight:1.6,borderLeft:"2px solid var(--gold)"}}>{e.notes}</div>}
           </div>
         )}
         {tab==="email" && (
           <div>
-            <div className="sec-label" style={{marginBottom:6}}>Send Email</div>
+            <div className="sec-label">Send Email</div>
             <p style={{fontSize:12,color:"var(--text3)",marginBottom:12}}>To: <span style={{color:"var(--gold)"}}>{e.email}</span></p>
             <div style={{fontSize:10,color:"var(--text3)",marginBottom:5,textTransform:"uppercase",letterSpacing:"1.5px"}}>Subject</div>
             <input className="panel-input" value={subj} onChange={ev=>setSubj(ev.target.value)}/>
             <div style={{fontSize:10,color:"var(--text3)",marginBottom:5,textTransform:"uppercase",letterSpacing:"1.5px"}}>Message</div>
             <textarea className="panel-textarea" style={{height:130}} value={body} onChange={ev=>setBody(ev.target.value)}/>
-            <button className="btn btn-gold btn-sm" style={{marginTop:10}} onClick={sendEmail} disabled={sending}>{sending ? "Sending…" : "? Send Email"}</button>
+            <button className="btn btn-gold btn-sm" style={{marginTop:10}} onClick={sendEmail} disabled={sending}>{sending ? "Sending..." : "Send Email"}</button>
           </div>
         )}
       </div>
       <div className="panel-footer">
         <a href={`https://wa.me/${(e.phone||"").replace(/\D/g,"")}`} target="_blank" style={{flex:1,textDecoration:"none"}}>
-          <button className="btn btn-outline" style={{width:"100%",justifyContent:"center"}}>?? WhatsApp</button>
+          <button className="btn btn-outline" style={{width:"100%",justifyContent:"center"}}>WhatsApp</button>
         </a>
-        <button className="btn btn-danger btn-sm" onClick={del}>?? Delete</button>
+        <button className="btn btn-danger btn-sm" onClick={del}>Delete</button>
       </div>
     </div>
   );
@@ -627,16 +570,16 @@ export default function AdminDashboard() {
   }[bp];
 
   const navItems = [
-    {id:"enrollments",icon:"??",label:"Enrollments",badge:stats.new||0},
-    {id:"analytics",  icon:"??",label:"Analytics"},
+    {id:"enrollments",icon:"S",label:"Enrollments",badge:stats.new||0},
+    {id:"analytics",  icon:"A",label:"Analytics"},
   ];
 
   const statCards = [
-    {label:"Total",     value:stats.total||0,     color:"var(--text)",  accent:"rgba(212,168,67,.4)", iconBg:"var(--gold-dim)"},
-    {label:"New",       value:stats.new||0,       color:"var(--blue)",  accent:"rgba(77,157,224,.4)", iconBg:"var(--blue-dim)"},
-    {label:"Contacted", value:stats.contacted||0, color:"var(--amber)", accent:"rgba(232,160,48,.4)", iconBg:"var(--amber-dim)"},
-    {label:"Enrolled",  value:stats.enrolled||0,  color:"var(--teal)",  accent:"rgba(62,201,167,.4)", iconBg:"var(--teal-dim)"},
-    {label:"Cancelled", value:stats.cancelled||0, color:"var(--rose)",  accent:"rgba(224,92,122,.4)", iconBg:"var(--rose-dim)"},
+    {label:"Total",     value:stats.total||0,     color:"var(--text)",  accent:"rgba(212,168,67,.4)", iconBg:"var(--gold-dim)", ico:"T"},
+    {label:"New",       value:stats.new||0,       color:"var(--blue)",  accent:"rgba(77,157,224,.4)", iconBg:"var(--blue-dim)", ico:"N"},
+    {label:"Contacted", value:stats.contacted||0, color:"var(--amber)", accent:"rgba(232,160,48,.4)", iconBg:"var(--amber-dim)", ico:"C"},
+    {label:"Enrolled",  value:stats.enrolled||0,  color:"var(--teal)",  accent:"rgba(62,201,167,.4)", iconBg:"var(--teal-dim)", ico:"E"},
+    {label:"Cancelled", value:stats.cancelled||0, color:"var(--rose)",  accent:"rgba(224,92,122,.4)", iconBg:"var(--rose-dim)", ico:"X"},
   ];
 
   return (
@@ -646,7 +589,7 @@ export default function AdminDashboard() {
       <div className="ifa-shell">
         <aside className={`ifa-sidebar${sidebarOpen?" mobile-open":""}`}>
           <div className="sidebar-brand">
-            <div className="brand-emblem">??</div>
+            <div className="brand-emblem">IFA</div>
             <div className="brand-name">International<br/>French Academy</div>
             <div className="brand-tagline">Kigali · Rwanda</div>
           </div>
@@ -661,10 +604,10 @@ export default function AdminDashboard() {
             ))}
             <div className="nav-section-label">Actions</div>
             <button className="nav-item" onClick={()=>{exportCSV(enrollments);toast("CSV exported","success");}}>
-              <span className="nav-icon">?</span><span className="nav-label">Export CSV</span>
+              <span className="nav-icon">D</span><span className="nav-label">Export CSV</span>
             </button>
             <button className="nav-item" onClick={fetchData}>
-              <span className="nav-icon">?</span><span className="nav-label">Refresh Data</span>
+              <span className="nav-icon">R</span><span className="nav-label">Refresh Data</span>
             </button>
           </nav>
           <div className="sidebar-footer">
@@ -672,19 +615,19 @@ export default function AdminDashboard() {
               <div className="user-avatar">A</div>
               <div><div className="user-name">Admin</div><div className="user-role">Academy Portal</div></div>
             </div>
-            <button className="logout-btn" onClick={logout}><span>?</span><span>Sign Out</span></button>
+            <button className="logout-btn" onClick={logout}><span>Sign Out</span></button>
           </div>
         </aside>
 
         <div className="ifa-main">
           <header className="ifa-topbar">
             <div className="topbar-left">
-              <button className="hamburger-btn" onClick={()=>setSidebarOpen(o=>!o)}>?</button>
+              <button className="hamburger-btn" onClick={()=>setSidebarOpen(o=>!o)}>&#9776;</button>
               <h1 className="topbar-title">{page==="enrollments"?"Enrollments":"Analytics"}</h1>
             </div>
             <div className="topbar-right">
-              <button className="btn btn-outline btn-sm" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}>? Export</button>
-              <button className="btn btn-gold btn-sm" onClick={fetchData}>? Refresh</button>
+              <button className="btn btn-outline btn-sm" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}>Export</button>
+              <button className="btn btn-gold btn-sm" onClick={fetchData}>Refresh</button>
             </div>
           </header>
 
@@ -693,9 +636,9 @@ export default function AdminDashboard() {
               <>
                 <div className="stats-grid">
                   {statCards.map((s,i)=>(
-                    <div key={i} className="stat-card" style={{"--accent-glow":s.accent, borderColor: i===0?"var(--border)":s.color+"25"}}>
+                    <div key={i} className="stat-card" style={{borderColor: i===0?"var(--border)":s.color+"25"}}>
                       <div className="stat-top">
-                        <div className="stat-icon-wrap" style={{background:s.iconBg}}>{["??","??","??","?","?"][i]}</div>
+                        <div className="stat-icon-wrap" style={{background:s.iconBg}}>{s.ico}</div>
                       </div>
                       <div className="stat-value" style={{color:s.color}}>{s.value}</div>
                       <div className="stat-label">{s.label}</div>
@@ -709,7 +652,7 @@ export default function AdminDashboard() {
                 <div className="filters-bar">
                   <div className="search-wrap">
                     <span className="search-icon">?</span>
-                    <input className="search-input" placeholder="Search name, email, phone…" value={search} onChange={e=>setSearch(e.target.value)}/>
+                    <input className="search-input" placeholder="Search name, email, phone..." value={search} onChange={e=>setSearch(e.target.value)}/>
                   </div>
                   <div className="filter-chips">
                     {["all","new","contacted","enrolled","cancelled"].map(f=>(
@@ -728,9 +671,9 @@ export default function AdminDashboard() {
                   </div>
                   <div className="table-body">
                     {loading?(
-                      <div className="empty-state"><div className="empty-icon">?</div><p className="empty-text">Loading…</p></div>
+                      <div className="empty-state"><div className="empty-icon">...</div><p className="empty-text">Loading...</p></div>
                     ):enrollments.length===0?(
-                      <div className="empty-state"><div className="empty-icon">??</div><p className="empty-text">No enrollments found</p><p className="empty-sub">Try adjusting your search or filter</p></div>
+                      <div className="empty-state"><div className="empty-icon">-</div><p className="empty-text">No enrollments found</p><p className="empty-sub">Try adjusting your search or filter</p></div>
                     ):enrollments.map(row=>(
                       <div key={row._id} className={`table-row${selected?._id===row._id?" row-selected":""}`} style={{"--cols":colsDef}} onClick={()=>setSelected(selected?._id===row._id?null:row)}>
                         <div>
@@ -741,7 +684,7 @@ export default function AdminDashboard() {
                         <div><StatusPill status={row.status}/></div>
                         {bp==="desktop"&&<div className="date-text">{fmtDate(row.createdAt)}</div>}
                         <div style={{display:"flex",justifyContent:"center"}}>
-                          <button className="delete-ico" onClick={ev=>{ev.stopPropagation();if(!confirm("Delete?"))return;fetch("/api/admin/enrollments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:row._id})}).then(()=>{handleDelete(row._id);toast("Deleted","error");});}}>??</button>
+                          <button className="delete-ico" onClick={ev=>{ev.stopPropagation();if(!confirm("Delete?"))return;fetch("/api/admin/enrollments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:row._id})}).then(()=>{handleDelete(row._id);toast("Deleted","error");});}}>X</button>
                         </div>
                       </div>
                     ))}
@@ -753,13 +696,13 @@ export default function AdminDashboard() {
           </main>
 
           <nav className="bottom-nav">
-            {[{id:"enrollments",icon:"??",label:"Students"},{id:"analytics",icon:"??",label:"Analytics"}].map(n=>(
+            {[{id:"enrollments",label:"Students"},{id:"analytics",label:"Analytics"}].map(n=>(
               <button key={n.id} className={`bn-item${page===n.id?" bn-active":""}`} onClick={()=>setPage(n.id)}>
-                <span className="bn-icon">{n.icon}</span><span className="bn-lbl">{n.label}</span>
+                <span className="bn-icon">{n.id==="enrollments"?"S":"A"}</span><span className="bn-lbl">{n.label}</span>
               </button>
             ))}
-            <button className="bn-item" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}><span className="bn-icon">?</span><span className="bn-lbl">Export</span></button>
-            <button className="bn-item" onClick={logout}><span className="bn-icon">?</span><span className="bn-lbl">Logout</span></button>
+            <button className="bn-item" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}><span className="bn-icon">D</span><span className="bn-lbl">Export</span></button>
+            <button className="bn-item" onClick={logout}><span className="bn-icon">Q</span><span className="bn-lbl">Logout</span></button>
           </nav>
         </div>
 
@@ -771,4 +714,3 @@ export default function AdminDashboard() {
     </>
   );
 }
-
