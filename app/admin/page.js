@@ -579,20 +579,20 @@ function AnalyticsPage({enrollments,stats}) {
 }
 
 function PaymentsPage({enrollments,toast}) {
-  const [payments,setPayments] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("ifa_payments")||"[]"); } catch { return []; }
-  });
+  const [payments,setPayments] = useState([]);
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""});
-  const save = (p) => { localStorage.setItem("ifa_payments",JSON.stringify(p)); setPayments(p); };
-  const addPayment = () => {
+  const fetchPayments = async () => { try { const r = await fetch("/api/admin/payments"); const d = await r.json(); setPayments(d.payments||[]); } catch {} };
+useEffect(()=>{ fetchPayments(); },[]);
+  const addPayment = async () => {
     if(!form.studentId||!form.amount) return;
     const student = enrollments.find(e=>e._id===form.studentId);
-    const p = [...payments,{id:Date.now(),studentName:`${student?.firstName||""} ${student?.lastName||""}`,studentId:form.studentId,...form,amount:Number(form.amount)}];
-    save(p); setShowModal(false); toast("Payment recorded!","success");
-    setForm({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""});
+    const body = {...form,amount:Number(form.amount),studentName:`${student?.firstName||""} ${student?.lastName||""}`};
+    const r = await fetch("/api/admin/payments",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const d = await r.json();
+    if(d.success){ fetchPayments(); setShowModal(false); toast("Payment recorded!","success"); setForm({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""}); }
   };
-  const delPayment = (id) => { if(!confirm("Delete payment?"))return; save(payments.filter(p=>p.id!==id)); toast("Deleted","error"); };
+  const delPayment = async (id) => { if(!confirm("Delete payment?"))return; await fetch("/api/admin/payments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchPayments(); toast("Deleted","error"); };
   const totalPaid = payments.filter(p=>p.status==="paid").reduce((a,p)=>a+p.amount,0);
   const totalPending = payments.filter(p=>p.status==="pending").reduce((a,p)=>a+p.amount,0);
   const totalPartial = payments.filter(p=>p.status==="partial").reduce((a,p)=>a+p.amount,0);
@@ -622,14 +622,14 @@ function PaymentsPage({enrollments,toast}) {
         {payments.length===0?(
           <div className="empty"><div className="empty-ico">💳</div><p className="empty-txt">No payments recorded</p><p className="empty-sub">Add your first payment record</p></div>
         ):payments.map(p=>(
-          <div key={p.id} className="pay-row" style={{cursor:"default"}}>
+          <div key={p._id} className="pay-row" style={{cursor:"default"}}>
             <div style={{fontWeight:500}}>{p.studentName}</div>
             <div style={{color:"var(--gold)",fontWeight:600}}>{p.amount.toLocaleString()} RWF</div>
             <div style={{fontSize:12,color:"var(--text2)"}}>{p.method}</div>
             <div><Pill status={p.status} map={PAY_STATUS}/></div>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <span style={{fontSize:11,color:"var(--text3)"}}>{p.date}</span>
-              <button className="del-ico" style={{opacity:1}} onClick={()=>delPayment(p.id)}>✕</button>
+              <button className="del-ico" style={{opacity:1}} onClick={()=>delPayment(p._id)}>✕</button>
             </div>
           </div>
         ))}
