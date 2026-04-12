@@ -24,8 +24,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-
-/* SHELL */
 .shell{display:flex;height:100vh;overflow:hidden;}
 .sidebar{width:252px;flex-shrink:0;background:var(--ink2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;transition:transform .3s;overflow:hidden;position:relative;z-index:50;}
 .sb-brand{padding:20px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:12px;}
@@ -49,8 +47,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .logout-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r-md);border:none;background:transparent;color:var(--text3);font-size:12px;font-family:var(--font-b);cursor:pointer;width:100%;transition:all .15s;}
 .logout-btn:hover{color:var(--rose);background:var(--rose-dim);}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:49;backdrop-filter:blur(2px);}
-
-/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh;overflow:hidden;}
 .topbar{height:58px;background:var(--ink2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;}
 .tb-left{display:flex;align-items:center;gap:10px;min-width:0;}
@@ -58,8 +54,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .hbg:hover{border-color:var(--gold);color:var(--gold);}
 .tb-title{font-family:var(--font-d);font-size:19px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .tb-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r-md);border:none;font-size:13px;font-weight:500;font-family:var(--font-b);cursor:pointer;transition:all .15s;white-space:nowrap;}
 .btn-gold{background:var(--gold);color:var(--ink);}
 .btn-gold:hover{background:var(--gold-lt);transform:translateY(-1px);box-shadow:0 4px 20px rgba(212,168,67,.25);}
@@ -74,16 +68,10 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .btn-sm{padding:6px 12px;font-size:12px;}
 .btn-xs{padding:4px 8px;font-size:11px;}
 .btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* CONTENT */
 .content{flex:1;overflow-y:auto;padding:22px;}
-
-/* CARDS */
 .card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;}
 .card-title{font-family:var(--font-d);font-size:16px;font-weight:500;margin-bottom:4px;}
 .card-sub{font-size:12px;color:var(--text3);}
-
-/* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
 .stat-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;transition:transform .2s,box-shadow .2s;cursor:default;}
 .stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
@@ -93,8 +81,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;}
 .stat-bar{height:2px;background:var(--border);border-radius:1px;margin-top:12px;}
 .stat-bar-fill{height:100%;border-radius:1px;transition:width .8s;}
-
-/* FILTERS */
 .filters{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
 .search-wrap{position:relative;flex:1;min-width:180px;max-width:320px;}
 .search-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none;}
@@ -104,8 +90,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .chips{display:flex;gap:5px;flex-wrap:wrap;}
 .chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11px;font-weight:500;font-family:var(--font-b);cursor:pointer;transition:all .15s;text-transform:capitalize;}
 .chip.on{border-color:var(--gold)!important;background:var(--gold-dim)!important;color:var(--gold)!important;}
-
-/* TABLE */
 .tbl-wrap{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;}
 .tbl-head{display:grid;grid-template-columns:var(--cols);padding:9px 16px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
 .tbl-body{max-height:50vh;overflow-y:auto;}
@@ -119,18 +103,12 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .del-ico{width:24px;height:24px;border-radius:var(--r-sm);border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .12s;opacity:0;}
 .tbl-row:hover .del-ico{opacity:1;}
 .del-ico:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-dim);}
-
-/* STATUS PILL */
 .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:600;}
 .dot{width:5px;height:5px;border-radius:50%;}
-
-/* EMPTY */
 .empty{padding:50px 20px;text-align:center;}
 .empty-ico{font-size:32px;margin-bottom:8px;}
 .empty-txt{font-size:13px;color:var(--text2);}
 .empty-sub{font-size:11px;color:var(--text3);margin-top:3px;}
-
-/* DETAIL PANEL */
 .panel{width:340px;flex-shrink:0;background:var(--ink2);border-left:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow:hidden;}
 .panel-top{padding:18px 20px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;}
@@ -158,16 +136,12 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .p-input{width:100%;padding:8px 11px;background:var(--ink3);border:1px solid var(--border);border-radius:var(--r-md);color:var(--text);font-size:13px;font-family:var(--font-b);outline:none;transition:border-color .15s;margin-bottom:7px;}
 .p-input:focus{border-color:var(--gold);}
 .p-select{width:100%;padding:8px 11px;background:var(--ink3);border:1px solid var(--border);border-radius:var(--r-md);color:var(--text);font-size:13px;font-family:var(--font-b);outline:none;margin-bottom:7px;}
-
-/* BOTTOM NAV */
 .bnav{display:none;border-top:1px solid var(--border);background:var(--ink2);padding:4px 0 6px;flex-shrink:0;justify-content:space-around;}
 .bn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 10px;cursor:pointer;border:none;background:transparent;font-family:var(--font-b);}
 .bn-ico{font-size:17px;}
 .bn-lbl{font-size:9px;color:var(--text3);}
 .bn.on .bn-lbl{color:var(--gold);}
 .bn.on .bn-ico{filter:sepia(1) saturate(3) hue-rotate(5deg);}
-
-/* ANALYTICS */
 .a-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
 .chart-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;}
 .chart-title{font-family:var(--font-d);font-size:16px;margin-bottom:2px;}
@@ -188,8 +162,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .cert-track{flex:1;height:4px;background:var(--border);border-radius:2px;}
 .cert-fill{height:100%;border-radius:2px;background:var(--gold);transition:width .7s;}
 .cert-cnt{font-size:11px;font-weight:600;color:var(--gold);width:18px;text-align:right;}
-
-/* PAYMENTS */
 .pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
 .pay-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 100px;gap:12px;padding:12px 16px;align-items:center;border-bottom:1px solid rgba(36,54,80,.5);font-size:13px;}
 .pay-head{background:var(--ink3);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
@@ -200,8 +172,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .form-input{padding:9px 12px;background:var(--ink3);border:1px solid var(--border);border-radius:var(--r-md);color:var(--text);font-size:13px;font-family:var(--font-b);outline:none;transition:border-color .15s;}
 .form-input:focus{border-color:var(--gold);}
 .form-select{padding:9px 12px;background:var(--ink3);border:1px solid var(--border);border-radius:var(--r-md);color:var(--text);font-size:13px;font-family:var(--font-b);outline:none;}
-
-/* SCHEDULE */
 .sched-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;}
 .class-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;transition:all .2s;}
 .class-card:hover{border-color:rgba(212,168,67,.3);transform:translateY(-2px);}
@@ -209,44 +179,27 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .class-name{font-family:var(--font-d);font-size:16px;margin-bottom:6px;}
 .class-info{display:flex;gap:12px;flex-wrap:wrap;}
 .class-tag{font-size:11px;color:var(--text2);background:var(--ink3);padding:3px 8px;border-radius:var(--r-sm);border:1px solid var(--border);}
-
-/* MESSAGES */
 .msg-templates{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
 .msg-tmpl{background:var(--ink3);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;cursor:pointer;transition:all .15s;}
 .msg-tmpl:hover{border-color:var(--gold);background:var(--gold-glow);}
 .msg-tmpl-title{font-size:13px;font-weight:500;margin-bottom:4px;}
 .msg-tmpl-sub{font-size:11px;color:var(--text3);}
 .msg-compose{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;}
-
-/* STAFF */
 .staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .staff-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;text-align:center;transition:all .2s;}
 .staff-card:hover{border-color:rgba(212,168,67,.3);transform:translateY(-2px);}
 .staff-av{width:56px;height:56px;border-radius:50%;background:var(--gold-dim);border:2px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:22px;color:var(--gold);margin:0 auto 12px;}
 .staff-name{font-family:var(--font-d);font-size:15px;font-weight:500;margin-bottom:3px;}
 .staff-role{font-size:11px;color:var(--text3);margin-bottom:10px;line-height:1.4;}
-
-/* CERTIFICATIONS */
 .cert-track-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;}
 .cert-prog-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;}
-.cert-prog-name{font-size:13px;font-weight:500;margin-bottom:2px;}
-.cert-prog-student{font-size:11px;color:var(--text3);margin-bottom:10px;}
-.cert-prog-bar{height:6px;background:var(--border);border-radius:3px;margin-bottom:6px;}
-.cert-prog-fill{height:100%;border-radius:3px;transition:width .7s;}
-.cert-prog-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);}
-
-/* SETTINGS */
 .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .settings-section{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;}
 .settings-title{font-family:var(--font-d);font-size:16px;margin-bottom:4px;}
 .settings-sub{font-size:12px;color:var(--text3);margin-bottom:16px;}
-
-/* TOAST */
 .toast-tray{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
 .toast{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r-md);background:var(--ink3);border:1px solid var(--border2);box-shadow:0 8px 32px rgba(0,0,0,.5);font-size:13px;font-weight:500;min-width:220px;}
 .toast-ico{font-size:13px;}
-
-/* LOGIN */
 .login-shell{min-height:100vh;background:var(--ink);display:flex;align-items:center;justify-content:center;padding:20px;}
 .login-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-xl);padding:40px;width:100%;max-width:380px;box-shadow:0 40px 80px rgba(0,0,0,.6);}
 .login-emblem{width:50px;height:50px;border-radius:var(--r-lg);background:var(--gold-dim);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px;}
@@ -257,15 +210,11 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .login-in:focus{border-color:var(--gold);}
 .login-err{color:var(--rose);font-size:12px;text-align:center;margin-bottom:10px;}
 .login-foot{margin-top:20px;text-align:center;font-size:11px;color:var(--text3);}
-
-/* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
 .modal{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-xl);padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;}
 .modal-title{font-family:var(--font-d);font-size:20px;margin-bottom:4px;}
 .modal-sub{font-size:12px;color:var(--text3);margin-bottom:20px;}
 .modal-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;}
-
-/* RESPONSIVE */
 @media(max-width:900px){
   .stats-grid{grid-template-columns:repeat(3,1fr);}
   .content{padding:14px;}
@@ -275,7 +224,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
   .sched-grid{grid-template-columns:1fr;}
   .msg-templates{grid-template-columns:1fr 1fr;}
   .staff-grid{grid-template-columns:repeat(2,1fr);}
-  .cert-track-grid{grid-template-columns:1fr;}
   .settings-grid{grid-template-columns:1fr;}
 }
 @media(max-width:640px){
@@ -312,17 +260,14 @@ const S = {
   enrolled:  { color:"#3ec9a7", bg:"rgba(62,201,167,.12)",  label:"Enrolled" },
   cancelled: { color:"#e05c7a", bg:"rgba(224,92,122,.12)",  label:"Cancelled" },
 };
-
 const PAY_STATUS = {
   paid:    { color:"#3ec9a7", bg:"rgba(62,201,167,.12)",   label:"Paid" },
   pending: { color:"#e8a030", bg:"rgba(232,160,48,.12)",   label:"Pending" },
   partial: { color:"#a78bfa", bg:"rgba(167,139,250,.12)",  label:"Partial" },
   waived:  { color:"#607080", bg:"rgba(96,112,128,.12)",   label:"Waived" },
 };
-
 const fmtDate = d => new Date(d).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
 const initials = (f="",l="") => `${f[0]||""}${l[0]||""}`.toUpperCase();
-
 const exportCSV = rows => {
   const H = ["First Name","Last Name","Email","Phone","Certification","Status","Date","Notes"];
   const R = rows.map(e=>[e.firstName,e.lastName,e.email,e.phone,e.certificationGoal,e.status,fmtDate(e.createdAt),(e.notes||"").replace(/,/g,";")]);
@@ -336,7 +281,6 @@ function Pill({status, map=S}) {
   const s = map[status] || map[Object.keys(map)[0]];
   return <span className="pill" style={{background:s.bg,color:s.color}}><span className="dot" style={{background:s.color}}/>{s.label}</span>;
 }
-
 function useToast() {
   const [list,setList] = useState([]);
   const show = useCallback((msg,type="success")=>{
@@ -346,7 +290,6 @@ function useToast() {
   },[]);
   return {list,show};
 }
-
 function ToastTray({list}) {
   const ico = {success:"✓",error:"✕",info:"ℹ"};
   const col = {success:"var(--teal)",error:"var(--rose)",info:"var(--blue)"};
@@ -381,6 +324,168 @@ function LoginPage({onLogin}) {
         <p className="login-foot">International French Academy · Rwanda</p>
       </div>
     </div></>
+  );
+}
+
+// ═══════════════════════════════════════════
+// 🏠 HOME DASHBOARD — NEW!
+// ═══════════════════════════════════════════
+function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
+  const recentEnrollments = [...enrollments]
+    .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5);
+
+  const totalRevenue = payments.filter(p=>p.status==="paid").reduce((a,p)=>a+p.amount,0);
+  const pendingRevenue = payments.filter(p=>p.status==="pending").reduce((a,p)=>a+p.amount,0);
+  const passRate = tracking.length > 0
+    ? Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100) : 0;
+
+  const today = new Date();
+  const dayName = today.toLocaleDateString("en-US",{weekday:"long"});
+
+  const allClasses = [
+    {id:1,name:"TCF Canada Preparation",time:"8H00–10H00",teacher:"Banda Clément",room:"Room A",days:["Monday","Wednesday","Friday"]},
+    {id:2,name:"DELF A1–A2 Beginners",time:"18H00–20H00",teacher:"KWIBUKA Erick",room:"Room B",days:["Tuesday","Thursday"]},
+    {id:3,name:"TEF Québec Intensive",time:"9H00–12H00",teacher:"Banda Clément",room:"Main Hall",days:["Monday","Tuesday","Wednesday","Thursday","Friday"]},
+    {id:4,name:"DALF C1/C2 Advanced",time:"15H00–18H00",teacher:"KWIBUKA Erick",room:"Room A",days:["Saturday","Sunday"]},
+    {id:5,name:"General French Beginners",time:"18H00–20H00",teacher:"Ingabire Germaine",room:"Room C",days:["Monday","Wednesday"]},
+    {id:6,name:"DILF Weekend",time:"9H00–12H00",teacher:"Ingabire Germaine",room:"Room B",days:["Saturday"]},
+  ];
+  const todayClasses = allClasses.filter(c=>c.days.includes(dayName));
+  const pendingPayments = payments.filter(p=>p.status==="pending");
+
+  return (
+    <div>
+      {/* Welcome Banner */}
+      <div style={{background:"linear-gradient(135deg,var(--ink3) 0%,var(--ink4) 100%)",border:"1px solid var(--border)",borderLeft:"3px solid var(--gold)",borderRadius:"var(--r-lg)",padding:"18px 22px",marginBottom:20,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
+        <div>
+          <div style={{fontFamily:"var(--font-d)",fontSize:20,marginBottom:3}}>
+            Good {today.getHours()<12?"Morning":today.getHours()<17?"Afternoon":"Evening"}, Admin 👋
+          </div>
+          <div style={{fontSize:12,color:"var(--text3)"}}>
+            {today.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})} · International French Academy
+          </div>
+        </div>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+          <button className="btn btn-gold btn-sm" onClick={()=>onNavigate("enrollments")}>View Enrollments</button>
+          <button className="btn btn-outline btn-sm" onClick={()=>onNavigate("messages")}>Send Message</button>
+        </div>
+      </div>
+
+      {/* 4 Stat Cards */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
+        {[
+          {label:"Total Students",value:stats.total||0,color:"var(--gold)",ico:"👥",sub:`${stats.new||0} new this week`,page:"enrollments"},
+          {label:"Revenue Collected",value:`${totalRevenue.toLocaleString()} RWF`,color:"var(--teal)",ico:"💰",sub:`${pendingRevenue.toLocaleString()} RWF pending`,page:"payments"},
+          {label:"Enrolled",value:stats.enrolled||0,color:"var(--blue)",ico:"✅",sub:"Active students",page:"enrollments"},
+          {label:"Pass Rate",value:`${passRate}%`,color:"var(--purple)",ico:"🏆",sub:`${tracking.length} exam results`,page:"certifications"},
+        ].map((s,i)=>(
+          <div key={i} className="stat-card" style={{borderColor:s.color+"30",cursor:"pointer"}} onClick={()=>onNavigate(s.page)}>
+            <div className="stat-top">
+              <div className="stat-ico" style={{fontSize:18}}>{s.ico}</div>
+            </div>
+            <div style={{fontFamily:"var(--font-d)",fontSize:26,color:s.color,marginBottom:2}}>{s.value}</div>
+            <div className="stat-lbl">{s.label}</div>
+            <div style={{fontSize:10,color:"var(--text3)",marginTop:4}}>{s.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Middle Row */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
+        {/* Recent Enrollments */}
+        <div className="card">
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+            <div><div className="card-title">Recent Enrollments</div><div className="card-sub">Latest students who signed up</div></div>
+            <button className="btn btn-outline btn-xs" onClick={()=>onNavigate("enrollments")}>View All</button>
+          </div>
+          {recentEnrollments.length===0?(
+            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">📭</div><p className="empty-txt">No enrollments yet</p></div>
+          ):recentEnrollments.map((e,i)=>(
+            <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 0",borderBottom:i<recentEnrollments.length-1?"1px solid rgba(36,54,80,.5)":"none"}}>
+              <div style={{width:34,height:34,borderRadius:"var(--r-sm)",background:"var(--gold-dim)",border:"1px solid rgba(212,168,67,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"var(--font-d)",fontSize:13,color:"var(--gold)",flexShrink:0}}>
+                {initials(e.firstName,e.lastName)}
+              </div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:13,fontWeight:500}}>{e.firstName} {e.lastName}</div>
+                <div style={{fontSize:11,color:"var(--text3)"}}>{e.certificationGoal}</div>
+              </div>
+              <Pill status={e.status}/>
+            </div>
+          ))}
+        </div>
+
+        {/* Today's Classes */}
+        <div className="card">
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+            <div><div className="card-title">Today's Classes</div><div className="card-sub">{dayName} schedule</div></div>
+            <button className="btn btn-outline btn-xs" onClick={()=>onNavigate("schedule")}>View All</button>
+          </div>
+          {todayClasses.length===0?(
+            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">🎉</div><p className="empty-txt">No classes today!</p><p className="empty-sub">Enjoy your day off</p></div>
+          ):todayClasses.map((c,i)=>(
+            <div key={i} style={{padding:"10px 12px",background:"var(--ink3)",borderRadius:"var(--r-md)",border:"1px solid var(--border)",marginBottom:i<todayClasses.length-1?8:0}}>
+              <div style={{fontWeight:500,fontSize:13,marginBottom:4}}>{c.name}</div>
+              <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+                <span style={{fontSize:10,color:"var(--gold)"}}>🕐 {c.time}</span>
+                <span style={{fontSize:10,color:"var(--text3)"}}>👨‍🏫 {c.teacher}</span>
+                <span style={{fontSize:10,color:"var(--text3)"}}>📍 {c.room}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Row */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+        {/* Pending Payments */}
+        <div className="card">
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+            <div><div className="card-title">Pending Payments</div><div className="card-sub">Outstanding balances</div></div>
+            <button className="btn btn-outline btn-xs" onClick={()=>onNavigate("payments")}>View All</button>
+          </div>
+          {pendingPayments.length===0?(
+            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">✅</div><p className="empty-txt">All payments up to date!</p></div>
+          ):pendingPayments.map((p,i)=>(
+            <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"9px 0",borderBottom:i<pendingPayments.length-1?"1px solid rgba(36,54,80,.5)":"none"}}>
+              <div>
+                <div style={{fontSize:13,fontWeight:500}}>{p.studentName}</div>
+                <div style={{fontSize:11,color:"var(--text3)"}}>{p.method}</div>
+              </div>
+              <div style={{textAlign:"right"}}>
+                <div style={{fontSize:13,fontWeight:600,color:"var(--amber)"}}>{p.amount.toLocaleString()} RWF</div>
+                <Pill status={p.status} map={PAY_STATUS}/>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Enrollment Overview */}
+        <div className="card">
+          <div style={{marginBottom:14}}><div className="card-title">Enrollment Overview</div><div className="card-sub">Current status breakdown</div></div>
+          {[
+            {label:"New",value:stats.new||0,color:"var(--blue)"},
+            {label:"Contacted",value:stats.contacted||0,color:"var(--amber)"},
+            {label:"Enrolled",value:stats.enrolled||0,color:"var(--teal)"},
+            {label:"Cancelled",value:stats.cancelled||0,color:"var(--rose)"},
+          ].map((s,i)=>(
+            <div key={i} style={{marginBottom:12}}>
+              <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                <span style={{fontSize:12,color:"var(--text2)"}}>{s.label}</span>
+                <span style={{fontSize:12,fontWeight:600,color:s.color}}>{s.value}</span>
+              </div>
+              <div style={{height:5,background:"var(--border)",borderRadius:3}}>
+                <div style={{height:"100%",borderRadius:3,background:s.color,width:`${((s.value/(stats.total||1))*100)}%`,transition:"width .7s"}}/>
+              </div>
+            </div>
+          ))}
+          <div style={{marginTop:16,padding:"10px 12px",background:"var(--ink3)",borderRadius:"var(--r-md)",display:"flex",justifyContent:"space-between"}}>
+            <span style={{fontSize:12,color:"var(--text3)"}}>Total Students</span>
+            <span style={{fontSize:14,fontWeight:600,color:"var(--gold)",fontFamily:"var(--font-d)"}}>{stats.total||0}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -479,7 +584,6 @@ function PaymentsPage({enrollments,toast}) {
   });
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""});
-
   const save = (p) => { localStorage.setItem("ifa_payments",JSON.stringify(p)); setPayments(p); };
   const addPayment = () => {
     if(!form.studentId||!form.amount) return;
@@ -489,11 +593,9 @@ function PaymentsPage({enrollments,toast}) {
     setForm({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""});
   };
   const delPayment = (id) => { if(!confirm("Delete payment?"))return; save(payments.filter(p=>p.id!==id)); toast("Deleted","error"); };
-
   const totalPaid = payments.filter(p=>p.status==="paid").reduce((a,p)=>a+p.amount,0);
   const totalPending = payments.filter(p=>p.status==="pending").reduce((a,p)=>a+p.amount,0);
   const totalPartial = payments.filter(p=>p.status==="partial").reduce((a,p)=>a+p.amount,0);
-
   return (
     <div>
       <div className="pay-grid">
@@ -511,16 +613,12 @@ function PaymentsPage({enrollments,toast}) {
           </div>
         ))}
       </div>
-
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
         <div style={{fontFamily:"var(--font-d)",fontSize:18}}>Payment Records</div>
         <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Payment</button>
       </div>
-
       <div className="tbl-wrap">
-        <div className="pay-row pay-head">
-          <span>Student</span><span>Amount</span><span>Method</span><span>Status</span><span>Date</span>
-        </div>
+        <div className="pay-row pay-head"><span>Student</span><span>Amount</span><span>Method</span><span>Status</span><span>Date</span></div>
         {payments.length===0?(
           <div className="empty"><div className="empty-ico">💳</div><p className="empty-txt">No payments recorded</p><p className="empty-sub">Add your first payment record</p></div>
         ):payments.map(p=>(
@@ -536,7 +634,6 @@ function PaymentsPage({enrollments,toast}) {
           </div>
         ))}
       </div>
-
       {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
@@ -598,14 +695,12 @@ function SchedulePage({toast}) {
   const [classes,setClasses] = useState(defaultClasses);
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({name:"",day:"",time:"",level:"",teacher:"",students:"",room:""});
-
   const addClass = () => {
     if(!form.name||!form.day) return;
     setClasses([...classes,{id:Date.now(),...form,students:Number(form.students)||0}]);
     setShowModal(false); toast("Class added!","success");
     setForm({name:"",day:"",time:"",level:"",teacher:"",students:"",room:""});
   };
-
   return (
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:18}}>
@@ -615,7 +710,6 @@ function SchedulePage({toast}) {
         </div>
         <button className="btn btn-gold" onClick={()=>setShowModal(true)}>+ Add Class</button>
       </div>
-
       <div className="sched-grid">
         {classes.map(c=>(
           <div key={c.id} className="class-card">
@@ -634,7 +728,6 @@ function SchedulePage({toast}) {
           </div>
         ))}
       </div>
-
       {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
@@ -693,7 +786,6 @@ function MessagesPage({enrollments,toast}) {
   const [body,setBody] = useState("");
   const [sending,setSending] = useState(false);
   const [sent,setSent] = useState([]);
-
   const templates = [
     {title:"Welcome Message",sub:"For new enrollments",subject:"Welcome to IFA Kigali! 🎓",body:"Dear Student,\n\nWelcome to the International French Academy! We are thrilled to have you join our community.\n\nYour French learning journey begins now. Please contact us for your class schedule.\n\nBest regards,\nIFA Team"},
     {title:"Class Reminder",sub:"Upcoming class reminder",subject:"Class Reminder — IFA Kigali",body:"Dear Student,\n\nThis is a friendly reminder about your upcoming French class.\n\nPlease arrive on time and bring your study materials.\n\nBest regards,\nIFA Team"},
@@ -702,7 +794,6 @@ function MessagesPage({enrollments,toast}) {
     {title:"Holiday Notice",sub:"Academy closure notice",subject:"Holiday Notice — IFA Kigali",body:"Dear Student,\n\nPlease be informed that the academy will be closed for the upcoming holiday.\n\nClasses will resume on the scheduled date.\n\nBest regards,\nIFA Team"},
     {title:"Congratulations",sub:"For enrolled students",subject:"Congratulations! — IFA Kigali",body:"Dear Student,\n\nCongratulations on your enrollment at the International French Academy!\n\nWe look forward to helping you achieve your French language goals.\n\nBest regards,\nIFA Team"},
   ];
-
   const sendBulk = async () => {
     if(!subject||!body) return;
     setSending(true);
@@ -719,12 +810,10 @@ function MessagesPage({enrollments,toast}) {
     setSent([...sent,{id:Date.now(),to,subject,count:success,date:new Date().toLocaleDateString()}]);
     toast(`Sent to ${success} students!`,"success");
   };
-
   return (
     <div>
       <div style={{fontFamily:"var(--font-d)",fontSize:22,marginBottom:4}}>Bulk Messages</div>
       <div style={{fontSize:12,color:"var(--text3)",marginBottom:20}}>Send emails to all or specific groups of students</div>
-
       <div style={{marginBottom:16}}>
         <div style={{fontSize:11,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"2px",marginBottom:10,fontWeight:600}}>Quick Templates</div>
         <div className="msg-templates">
@@ -736,7 +825,6 @@ function MessagesPage({enrollments,toast}) {
           ))}
         </div>
       </div>
-
       <div className="msg-compose">
         <div style={{fontFamily:"var(--font-d)",fontSize:17,marginBottom:16}}>Compose Message</div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}}>
@@ -759,11 +847,8 @@ function MessagesPage({enrollments,toast}) {
           <label className="form-label">Message</label>
           <textarea className="p-textarea" style={{height:160}} value={body} onChange={e=>setBody(e.target.value)} placeholder="Write your message here... Use 'Dear Student' as greeting."/>
         </div>
-        <button className="btn btn-gold" onClick={sendBulk} disabled={sending||!subject||!body}>
-          {sending?"Sending...":"Send Message →"}
-        </button>
+        <button className="btn btn-gold" onClick={sendBulk} disabled={sending||!subject||!body}>{sending?"Sending...":"Send Message →"}</button>
       </div>
-
       {sent.length>0&&(
         <div style={{marginTop:20}}>
           <div style={{fontSize:11,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"2px",marginBottom:10,fontWeight:600}}>Sent History</div>
@@ -792,7 +877,6 @@ function StaffPage({toast}) {
     {name:"Iragi Michaël",role:"Cooperation Attaché & Legal Advisor",email:"michael@ifa.rw",phone:"+250785302957",status:"active",classes:0},
     {name:"Joas Irahoza",role:"Multi-skilled Agent",email:"joas@ifa.rw",phone:"+250785302957",status:"active",classes:0},
   ];
-
   return (
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
@@ -800,9 +884,7 @@ function StaffPage({toast}) {
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Staff Management</div>
           <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Academy team members and roles</div>
         </div>
-        <div style={{display:"flex",gap:8}}>
-          <div style={{background:"var(--teal-dim)",border:"1px solid rgba(62,201,167,.25)",borderRadius:"var(--r-md)",padding:"6px 12px",fontSize:12,color:"var(--teal)",fontWeight:600}}>{staff.length} Active Staff</div>
-        </div>
+        <div style={{background:"var(--teal-dim)",border:"1px solid rgba(62,201,167,.25)",borderRadius:"var(--r-md)",padding:"6px 12px",fontSize:12,color:"var(--teal)",fontWeight:600}}>{staff.length} Active Staff</div>
       </div>
       <div className="staff-grid">
         {staff.map((s,i)=>(
@@ -832,7 +914,6 @@ function CertificationsPage({enrollments,toast}) {
   });
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:""});
-
   const save = t => { localStorage.setItem("ifa_cert_tracking",JSON.stringify(t)); setTracking(t); };
   const addResult = () => {
     if(!form.studentId) return;
@@ -841,9 +922,7 @@ function CertificationsPage({enrollments,toast}) {
     save(t); setShowModal(false); toast("Result recorded!","success");
     setForm({studentId:"",examDate:"",score:"",passed:false,notes:""});
   };
-
   const passRate = tracking.length > 0 ? Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100) : 0;
-
   return (
     <div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>
@@ -861,12 +940,10 @@ function CertificationsPage({enrollments,toast}) {
           </div>
         ))}
       </div>
-
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
         <div style={{fontFamily:"var(--font-d)",fontSize:18}}>Exam Results Tracker</div>
         <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Result</button>
       </div>
-
       <div className="tbl-wrap">
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"9px 16px",background:"var(--ink3)",borderBottom:"1px solid var(--border)",fontSize:10,fontWeight:600,letterSpacing:"1.5px",textTransform:"uppercase",color:"var(--text3)"}}>
           <span>Student</span><span>Certification</span><span>Score</span><span>Result</span><span>Date</span>
@@ -883,7 +960,6 @@ function CertificationsPage({enrollments,toast}) {
           </div>
         ))}
       </div>
-
       {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
@@ -931,14 +1007,12 @@ function CertificationsPage({enrollments,toast}) {
 function SettingsPage({toast}) {
   const [pwd,setPwd] = useState({current:"",newPwd:"",confirm:""});
   const [info,setInfo] = useState({name:"International French Academy",email:"frenchacademyinternational@gmail.com",phone:"+250 785 302 957",address:"Norrsken House, Kigali, Rwanda",website:"french-app-new.vercel.app"});
-
   const changePwd = async () => {
     if(pwd.newPwd!==pwd.confirm){toast("Passwords don't match","error");return;}
     if(pwd.newPwd.length<8){toast("Password too short","error");return;}
     toast("Password change requires backend update — contact your developer","info");
     setPwd({current:"",newPwd:"",confirm:""});
   };
-
   return (
     <div>
       <div style={{fontFamily:"var(--font-d)",fontSize:22,marginBottom:4}}>Settings</div>
@@ -947,13 +1021,7 @@ function SettingsPage({toast}) {
         <div className="settings-section">
           <div className="settings-title">Academy Information</div>
           <div className="settings-sub">Basic information about your academy</div>
-          {[
-            {label:"Academy Name",key:"name"},
-            {label:"Email",key:"email"},
-            {label:"Phone",key:"phone"},
-            {label:"Address",key:"address"},
-            {label:"Website",key:"website"},
-          ].map(f=>(
+          {[{label:"Academy Name",key:"name"},{label:"Email",key:"email"},{label:"Phone",key:"phone"},{label:"Address",key:"address"},{label:"Website",key:"website"}].map(f=>(
             <div key={f.key} className="form-group" style={{marginBottom:12}}>
               <label className="form-label">{f.label}</label>
               <input className="form-input" value={info[f.key]} onChange={e=>setInfo({...info,[f.key]:e.target.value})}/>
@@ -961,15 +1029,10 @@ function SettingsPage({toast}) {
           ))}
           <button className="btn btn-gold btn-sm" onClick={()=>toast("Info saved!","success")}>Save Changes</button>
         </div>
-
         <div className="settings-section">
           <div className="settings-title">Change Password</div>
           <div className="settings-sub">Update your admin portal password</div>
-          {[
-            {label:"Current Password",key:"current",value:pwd.current},
-            {label:"New Password",key:"newPwd",value:pwd.newPwd},
-            {label:"Confirm Password",key:"confirm",value:pwd.confirm},
-          ].map(f=>(
+          {[{label:"Current Password",key:"current",value:pwd.current},{label:"New Password",key:"newPwd",value:pwd.newPwd},{label:"Confirm Password",key:"confirm",value:pwd.confirm}].map(f=>(
             <div key={f.key} className="form-group" style={{marginBottom:12}}>
               <label className="form-label">{f.label}</label>
               <input className="form-input" type="password" value={f.value} onChange={e=>setPwd({...pwd,[f.key]:e.target.value})}/>
@@ -977,7 +1040,6 @@ function SettingsPage({toast}) {
           ))}
           <button className="btn btn-gold btn-sm" onClick={changePwd}>Update Password</button>
         </div>
-
         <div className="settings-section">
           <div className="settings-title">Quick Links</div>
           <div className="settings-sub">Important links for your academy</div>
@@ -997,7 +1059,6 @@ function SettingsPage({toast}) {
             </a>
           ))}
         </div>
-
         <div className="settings-section">
           <div className="settings-title">System Info</div>
           <div className="settings-sub">Current system status and info</div>
@@ -1025,7 +1086,6 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
   const [subj,setSubj] = useState("Regarding your enrollment — IFA Kigali");
   const [body,setBody] = useState(`Dear ${e.firstName},\n\nThank you for your interest in the International French Academy.\n\n`);
   const [sending,setSending] = useState(false);
-
   const setStatus = async status => {
     await fetch("/api/admin/enrollments",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:e._id,status})});
     onUpdate({...e,status}); toast("Status updated","success");
@@ -1048,7 +1108,6 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
     await fetch("/api/admin/enrollments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:e._id})});
     toast("Deleted","error"); onDelete(e._id);
   };
-
   return (
     <div className="panel">
       <div className="panel-top">
@@ -1091,9 +1150,7 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
             <div className="sec-lbl">Update Status</div>
             <div className="st-grid">
               {Object.entries(S).map(([k,v])=>(
-                <button key={k} className="st-opt" onClick={()=>setStatus(k)} style={{background:e.status===k?v.bg:"transparent",color:e.status===k?v.color:"var(--text2)",borderColor:e.status===k?v.color+"60":"var(--border)",fontWeight:e.status===k?600:400}}>
-                  {v.label}
-                </button>
+                <button key={k} className="st-opt" onClick={()=>setStatus(k)} style={{background:e.status===k?v.bg:"transparent",color:e.status===k?v.color:"var(--text2)",borderColor:e.status===k?v.color+"60":"var(--border)",fontWeight:e.status===k?600:400}}>{v.label}</button>
               ))}
             </div>
             <div style={{padding:"10px 12px",background:"var(--ink3)",borderRadius:"var(--r-md)",border:"1px solid var(--border)"}}>
@@ -1143,7 +1200,7 @@ function useBreakpoint() {
 
 export default function AdminDashboard() {
   const [authed,setAuthed] = useState(false);
-  const [page,setPage] = useState("enrollments");
+  const [page,setPage] = useState("home"); // ← CHANGED to "home"
   const [enrollments,setEnrollments] = useState([]);
   const [stats,setStats] = useState({});
   const [loading,setLoading] = useState(false);
@@ -1153,6 +1210,9 @@ export default function AdminDashboard() {
   const [sidebarOpen,setSidebarOpen] = useState(false);
   const {list:toasts,show:toast} = useToast();
   const bp = useBreakpoint();
+
+  const payments = (() => { try { return JSON.parse(localStorage.getItem("ifa_payments")||"[]"); } catch { return []; } })();
+  const tracking = (() => { try { return JSON.parse(localStorage.getItem("ifa_cert_tracking")||"[]"); } catch { return []; } })();
 
   const fetchData = useCallback(async()=>{
     setLoading(true);
@@ -1183,17 +1243,23 @@ export default function AdminDashboard() {
   }[bp];
 
   const navItems = [
-    {id:"enrollments", ico:"👥", label:"Enrollments",  badge:stats.new||0},
-    {id:"analytics",   ico:"📊", label:"Analytics"},
-    {id:"payments",    ico:"💰", label:"Payments"},
-    {id:"schedule",    ico:"📅", label:"Schedule"},
-    {id:"messages",    ico:"📧", label:"Messages"},
-    {id:"staff",       ico:"👨‍🏫", label:"Staff"},
-    {id:"certifications",ico:"🏆",label:"Certifications"},
-    {id:"settings",    ico:"⚙️", label:"Settings"},
+    {id:"home",          ico:"🏠", label:"Dashboard"},           // ← NEW
+    {id:"enrollments",   ico:"👥", label:"Enrollments", badge:stats.new||0},
+    {id:"analytics",     ico:"📊", label:"Analytics"},
+    {id:"payments",      ico:"💰", label:"Payments"},
+    {id:"schedule",      ico:"📅", label:"Schedule"},
+    {id:"messages",      ico:"📧", label:"Messages"},
+    {id:"staff",         ico:"👨‍🏫", label:"Staff"},
+    {id:"certifications",ico:"🏆", label:"Certifications"},
+    {id:"settings",      ico:"⚙️", label:"Settings"},
   ];
 
-  const pageTitles = {enrollments:"Enrollments",analytics:"Analytics",payments:"Payments",schedule:"Schedule",messages:"Messages",staff:"Staff",certifications:"Certifications",settings:"Settings"};
+  const pageTitles = {
+    home:"Dashboard",                                              // ← NEW
+    enrollments:"Enrollments",analytics:"Analytics",payments:"Payments",
+    schedule:"Schedule",messages:"Messages",staff:"Staff",
+    certifications:"Certifications",settings:"Settings"
+  };
 
   const statCards = [
     {label:"Total",     value:stats.total||0,    color:"var(--text)",  iconBg:"var(--gold-dim)",  ico:"👥"},
@@ -1204,10 +1270,10 @@ export default function AdminDashboard() {
   ];
 
   const mobileNavItems = [
+    {id:"home",       ico:"🏠",label:"Home"},
     {id:"enrollments",ico:"👥",label:"Students"},
     {id:"analytics",  ico:"📊",label:"Analytics"},
     {id:"payments",   ico:"💰",label:"Payments"},
-    {id:"messages",   ico:"📧",label:"Messages"},
     {id:"settings",   ico:"⚙️",label:"Settings"},
   ];
 
@@ -1224,8 +1290,14 @@ export default function AdminDashboard() {
           </div>
         </div>
         <nav className="sb-nav">
+          <div className="sb-section">Overview</div>
+          {navItems.slice(0,1).map(n=>(
+            <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
+              <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
+            </button>
+          ))}
           <div className="sb-section">Management</div>
-          {navItems.slice(0,2).map(n=>(
+          {navItems.slice(1,3).map(n=>(
             <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
               <span className="nav-ico">{n.ico}</span>
               <span className="nav-lbl">{n.label}</span>
@@ -1233,19 +1305,19 @@ export default function AdminDashboard() {
             </button>
           ))}
           <div className="sb-section">Finance</div>
-          {navItems.slice(2,3).map(n=>(
+          {navItems.slice(3,4).map(n=>(
             <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
               <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
             </button>
           ))}
           <div className="sb-section">Academy</div>
-          {navItems.slice(3,7).map(n=>(
+          {navItems.slice(4,8).map(n=>(
             <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
               <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
             </button>
           ))}
           <div className="sb-section">System</div>
-          {navItems.slice(7).map(n=>(
+          {navItems.slice(8).map(n=>(
             <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
               <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
             </button>
@@ -1275,18 +1347,18 @@ export default function AdminDashboard() {
           </div>
           <div className="tb-right">
             {page==="enrollments"&&<><button className="btn btn-outline btn-sm" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}>📥 Export</button><button className="btn btn-gold btn-sm" onClick={fetchData}>🔄 Refresh</button></>}
+            {page==="home"&&<button className="btn btn-gold btn-sm" onClick={fetchData}>🔄 Refresh</button>}
           </div>
         </header>
 
         <main className="content">
+          {page==="home"&&<HomeDashboard enrollments={enrollments} stats={stats} payments={payments} tracking={tracking} onNavigate={setPage}/>}
           {page==="enrollments"&&(
             <>
               <div className="stats-grid">
                 {statCards.map((s,i)=>(
                   <div key={i} className="stat-card" style={{borderColor:i===0?"var(--border)":s.color+"25"}}>
-                    <div className="stat-top">
-                      <div className="stat-ico" style={{background:s.iconBg}}>{s.ico}</div>
-                    </div>
+                    <div className="stat-top"><div className="stat-ico" style={{background:s.iconBg}}>{s.ico}</div></div>
                     <div className="stat-val" style={{color:s.color}}>{s.value}</div>
                     <div className="stat-lbl">{s.label}</div>
                     <div className="stat-bar"><div className="stat-bar-fill" style={{width:stats.total?`${(s.value/stats.total)*100}%`:"0%",background:s.color}}/></div>
