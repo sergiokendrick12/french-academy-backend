@@ -909,18 +909,18 @@ function StaffPage({toast}) {
 
 function CertificationsPage({enrollments,toast}) {
   const enrolled = enrollments.filter(e=>e.status==="enrolled");
-  const [tracking,setTracking] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("ifa_cert_tracking")||"[]"); } catch { return []; }
-  });
+  const [tracking,setTracking] = useState([]);
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:""});
-  const save = t => { localStorage.setItem("ifa_cert_tracking",JSON.stringify(t)); setTracking(t); };
-  const addResult = () => {
+  const fetchTracking = async () => { try { const r = await fetch("/api/admin/certifications"); const d = await r.json(); setTracking(d.certifications||[]); } catch {} };
+useEffect(()=>{ fetchTracking(); },[]);
+  const addResult = async () => {
     if(!form.studentId) return;
     const student = enrollments.find(e=>e._id===form.studentId);
-    const t = [...tracking,{id:Date.now(),studentName:`${student?.firstName||""} ${student?.lastName||""}`,cert:student?.certificationGoal||"",...form}];
-    save(t); setShowModal(false); toast("Result recorded!","success");
-    setForm({studentId:"",examDate:"",score:"",passed:false,notes:""});
+    const body = {...form, studentName:`${student?.firstName||""} ${student?.lastName||""}`, cert:student?.certificationGoal||""};
+    const r = await fetch("/api/admin/certifications",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const d = await r.json();
+    if(d.success){ fetchTracking(); setShowModal(false); toast("Result recorded!","success"); setForm({studentId:"",examDate:"",score:"",passed:false,notes:""}); }
   };
   const passRate = tracking.length > 0 ? Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100) : 0;
   return (
@@ -951,7 +951,7 @@ function CertificationsPage({enrollments,toast}) {
         {tracking.length===0?(
           <div className="empty"><div className="empty-ico">📝</div><p className="empty-txt">No exam results yet</p><p className="empty-sub">Add exam results for enrolled students</p></div>
         ):tracking.map(t=>(
-          <div key={t.id} style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"12px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",fontSize:13,alignItems:"center"}}>
+          <div key={t._id} style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"12px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",fontSize:13,alignItems:"center"}}>
             <span style={{fontWeight:500}}>{t.studentName}</span>
             <span style={{fontSize:12,color:"var(--gold)"}}>{t.cert}</span>
             <span style={{fontWeight:600}}>{t.score||"—"}</span>
