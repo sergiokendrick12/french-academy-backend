@@ -163,9 +163,8 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .cert-fill{height:100%;border-radius:2px;background:var(--gold);transition:width .7s;}
 .cert-cnt{font-size:11px;font-weight:600;color:var(--gold);width:18px;text-align:right;}
 .pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
-.pay-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 100px;gap:12px;padding:12px 16px;align-items:center;border-bottom:1px solid rgba(36,54,80,.5);font-size:13px;}
+.pay-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 120px;gap:12px;padding:12px 16px;align-items:center;border-bottom:1px solid rgba(36,54,80,.5);font-size:13px;}
 .pay-head{background:var(--ink3);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
-.pay-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:600;}
 .pay-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
 .form-group{display:flex;flex-direction:column;gap:5px;}
 .form-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;}
@@ -191,8 +190,6 @@ body{background:var(--ink);font-family:var(--font-b);color:var(--text);font-size
 .staff-av{width:56px;height:56px;border-radius:50%;background:var(--gold-dim);border:2px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:22px;color:var(--gold);margin:0 auto 12px;}
 .staff-name{font-family:var(--font-d);font-size:15px;font-weight:500;margin-bottom:3px;}
 .staff-role{font-size:11px;color:var(--text3);margin-bottom:10px;line-height:1.4;}
-.cert-track-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;}
-.cert-prog-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;}
 .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .settings-section{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;}
 .settings-title{font-family:var(--font-d);font-size:16px;margin-bottom:4px;}
@@ -281,6 +278,7 @@ function Pill({status, map=S}) {
   const s = map[status] || map[Object.keys(map)[0]];
   return <span className="pill" style={{background:s.bg,color:s.color}}><span className="dot" style={{background:s.color}}/>{s.label}</span>;
 }
+
 function useNotifications(enrollments) {
   const [read,setRead] = useState(()=>{ try { return JSON.parse(localStorage.getItem("ifa_notif_read")||"[]"); } catch { return []; } });
   const notifications = [...enrollments].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,10).map(e=>({id:e._id,message:`New enrollment: ${e.firstName} ${e.lastName}`,sub:e.certificationGoal,time:fmtDate(e.createdAt),type:"enrollment"}));
@@ -298,6 +296,7 @@ function useToast() {
   },[]);
   return {list,show};
 }
+
 function ToastTray({list}) {
   const ico = {success:"✓",error:"✕",info:"ℹ"};
   const col = {success:"var(--teal)",error:"var(--rose)",info:"var(--blue)"};
@@ -336,7 +335,7 @@ function LoginPage({onLogin}) {
 }
 
 // ═══════════════════════════════════════════
-// 🏠 HOME DASHBOARD — NEW!
+// 🏠 HOME DASHBOARD
 // ═══════════════════════════════════════════
 function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
   const recentEnrollments = [...enrollments]
@@ -364,7 +363,6 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
 
   return (
     <div>
-      {/* Welcome Banner */}
       <div style={{background:"linear-gradient(135deg,var(--ink3) 0%,var(--ink4) 100%)",border:"1px solid var(--border)",borderLeft:"3px solid var(--gold)",borderRadius:"var(--r-lg)",padding:"18px 22px",marginBottom:20,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
         <div>
           <div style={{fontFamily:"var(--font-d)",fontSize:20,marginBottom:3}}>
@@ -376,11 +374,10 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
         </div>
         <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
           <button className="btn btn-gold btn-sm" onClick={()=>onNavigate("enrollments")}>View Enrollments</button>
-          <button className="btn btn-outline btn-sm" onClick={()=>onNavigate("messages")}>Send Message</button>
+          <button className="btn btn-outline btn-sm" onClick={()=>onNavigate("bulk-email")}>Send Message</button>
         </div>
       </div>
 
-      {/* 4 Stat Cards */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
         {[
           {label:"Total Students",value:stats.total||0,color:"var(--gold)",ico:"👥",sub:`${stats.new||0} new this week`,page:"enrollments"},
@@ -399,9 +396,7 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
         ))}
       </div>
 
-      {/* Middle Row */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
-        {/* Recent Enrollments */}
         <div className="card">
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
             <div><div className="card-title">Recent Enrollments</div><div className="card-sub">Latest students who signed up</div></div>
@@ -423,7 +418,6 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
           ))}
         </div>
 
-        {/* Today's Classes */}
         <div className="card">
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
             <div><div className="card-title">Today's Classes</div><div className="card-sub">{dayName} schedule</div></div>
@@ -444,9 +438,7 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
         </div>
       </div>
 
-      {/* Bottom Row */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
-        {/* Pending Payments */}
         <div className="card">
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
             <div><div className="card-title">Pending Payments</div><div className="card-sub">Outstanding balances</div></div>
@@ -468,7 +460,6 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
           ))}
         </div>
 
-        {/* Enrollment Overview */}
         <div className="card">
           <div style={{marginBottom:14}}><div className="card-title">Enrollment Overview</div><div className="card-sub">Current status breakdown</div></div>
           {[
@@ -650,8 +641,12 @@ function PaymentsPage({enrollments,toast}) {
   const [payments,setPayments] = useState([]);
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""});
-  const fetchPayments = async () => { try { const r = await fetch("/api/admin/payments"); const d = await r.json(); setPayments(d.payments||[]); } catch {} };
-useEffect(()=>{ fetchPayments(); },[]);
+
+  const fetchPayments = async () => {
+    try { const r = await fetch("/api/admin/payments"); const d = await r.json(); setPayments(d.payments||[]); } catch {}
+  };
+  useEffect(()=>{ fetchPayments(); },[]);
+
   const addPayment = async () => {
     if(!form.studentId||!form.amount) return;
     const student = enrollments.find(e=>e._id===form.studentId);
@@ -660,86 +655,19 @@ useEffect(()=>{ fetchPayments(); },[]);
     const d = await r.json();
     if(d.success){ fetchPayments(); setShowModal(false); toast("Payment recorded!","success"); setForm({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""}); }
   };
+
   const printReceipt = (p) => {
     const win = window.open("","_blank","width=800,height=600");
-    win.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Receipt — ${p.studentName}</title>
-        <style>
-          * { margin:0; padding:0; box-sizing:border-box; }
-          body { font-family: 'Segoe UI', Arial, sans-serif; background:#fff; color:#1a1a2e; padding:40px; }
-          .receipt { max-width:600px; margin:0 auto; border:2px solid #1a2e47; border-radius:12px; overflow:hidden; }
-          .header { background:linear-gradient(135deg,#0d1b2a,#1a2e47); padding:28px 32px; text-align:center; }
-          .logo-circle { width:64px; height:64px; border-radius:50%; background:rgba(201,168,76,0.15); border:2px solid #c9a84c; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:28px; }
-          .academy-name { color:#fff; font-size:20px; font-weight:700; letter-spacing:0.5px; }
-          .academy-sub { color:rgba(255,255,255,0.5); font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
-          .receipt-badge { display:inline-block; background:rgba(201,168,76,0.15); border:1px solid #c9a84c; color:#c9a84c; padding:4px 16px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-top:12px; }
-          .body { padding:32px; }
-          .receipt-num { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; padding-bottom:16px; border-bottom:1px dashed #e0d8cc; }
-          .receipt-num span { font-size:12px; color:#6b7a8d; }
-          .receipt-num strong { font-size:14px; color:#1a1a2e; }
-          .amount-box { background:linear-gradient(135deg,#0d1b2a,#1a2e47); border-radius:10px; padding:20px 24px; text-align:center; margin-bottom:24px; }
-          .amount-label { color:rgba(255,255,255,0.5); font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
-          .amount-value { color:#c9a84c; font-size:36px; font-weight:900; letter-spacing:-1px; }
-          .amount-currency { color:rgba(255,255,255,0.6); font-size:14px; margin-left:4px; }
-          .details { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
-          .detail-item { background:#f8f4ee; border-radius:8px; padding:12px 16px; }
-          .detail-label { font-size:10px; color:#6b7a8d; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px; }
-          .detail-value { font-size:14px; font-weight:600; color:#1a1a2e; }
-          .status-paid { display:inline-flex; align-items:center; gap:6px; background:#e8f5e9; color:#2e7d32; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700; }
-          .footer { background:#f8f4ee; padding:20px 32px; text-align:center; border-top:1px solid #ede8df; }
-          .footer p { font-size:11px; color:#6b7a8d; line-height:1.8; }
-          .footer strong { color:#1a1a2e; }
-          .tricolor { height:4px; display:flex; }
-          .tc1{flex:1;background:#002395;} .tc2{flex:1;background:#fff;border-top:1px solid #ddd;} .tc3{flex:1;background:#ED2939;}
-          @media print { body{padding:0;} .no-print{display:none;} }
-        </style>
-      </head>
-      <body>
-        <div class="receipt">
-          <div class="tricolor"><div class="tc1"></div><div class="tc2"></div><div class="tc3"></div></div>
-          <div class="header">
-            <div class="logo-circle">🎓</div>
-            <div class="academy-name">International French Academy</div>
-            <div class="academy-sub">Kigali · Rwanda · Official Receipt</div>
-            <div class="receipt-badge">✓ Payment Receipt</div>
-          </div>
-          <div class="body">
-            <div class="receipt-num">
-              <div><span>Receipt No.</span><br/><strong>#IFA-${Date.now().toString().slice(-6)}</strong></div>
-              <div style="text-align:right"><span>Date Issued</span><br/><strong>${new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}</strong></div>
-            </div>
-            <div class="amount-box">
-              <div class="amount-label">Amount Paid</div>
-              <div><span class="amount-value">${p.amount.toLocaleString()}</span><span class="amount-currency">RWF</span></div>
-            </div>
-            <div class="details">
-              <div class="detail-item"><div class="detail-label">Student Name</div><div class="detail-value">${p.studentName}</div></div>
-              <div class="detail-item"><div class="detail-label">Payment Status</div><div class="detail-value"><span class="status-paid">● ${p.status.toUpperCase()}</span></div></div>
-              <div class="detail-item"><div class="detail-label">Payment Method</div><div class="detail-value">${p.method}</div></div>
-              <div class="detail-item"><div class="detail-label">Payment Date</div><div class="detail-value">${p.date}</div></div>
-              ${p.note?`<div class="detail-item" style="grid-column:span 2"><div class="detail-label">Note</div><div class="detail-value">${p.note}</div></div>`:""}
-            </div>
-          </div>
-          <div class="footer">
-            <p><strong>International French Academy</strong><br/>
-            📍 Norrsken House, Kigali · 📍 Sainte Famille, Kigali<br/>
-            📧 frenchacademyinternational@gmail.com · 📞 +250 785 302 957<br/>
-            <em>Thank you for your payment. This is an official receipt.</em></p>
-          </div>
-        </div>
-        <div class="no-print" style="text-align:center;margin-top:24px;">
-          <button onclick="window.print()" style="background:#c9a84c;color:#1a1a2e;border:none;padding:12px 32px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;">🖨️ Print / Save as PDF</button>
-        </div>
-      </body>
-      </html>
-    `);
+    win.document.write(`<!DOCTYPE html><html><head><title>Receipt — ${p.studentName}</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#1a1a2e;padding:40px;}.receipt{max-width:600px;margin:0 auto;border:2px solid #1a2e47;border-radius:12px;overflow:hidden;}.header{background:linear-gradient(135deg,#0d1b2a,#1a2e47);padding:28px 32px;text-align:center;}.academy-name{color:#fff;font-size:20px;font-weight:700;}.receipt-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid #c9a84c;color:#c9a84c;padding:4px 16px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:12px;}.body{padding:32px;}.amount-box{background:linear-gradient(135deg,#0d1b2a,#1a2e47);border-radius:10px;padding:20px 24px;text-align:center;margin-bottom:24px;}.amount-value{color:#c9a84c;font-size:36px;font-weight:900;}.details{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}.detail-item{background:#f8f4ee;border-radius:8px;padding:12px 16px;}.detail-label{font-size:10px;color:#6b7a8d;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}.detail-value{font-size:14px;font-weight:600;color:#1a1a2e;}.footer{background:#f8f4ee;padding:20px 32px;text-align:center;border-top:1px solid #ede8df;}.footer p{font-size:11px;color:#6b7a8d;line-height:1.8;}@media print{.no-print{display:none;}}</style></head><body><div class="receipt"><div class="header"><div class="academy-name">International French Academy</div><div class="receipt-badge">✓ Payment Receipt</div></div><div class="body"><div class="amount-box"><div style="color:rgba(255,255,255,0.5);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Amount Paid</div><div class="amount-value">${p.amount.toLocaleString()} RWF</div></div><div class="details"><div class="detail-item"><div class="detail-label">Student Name</div><div class="detail-value">${p.studentName}</div></div><div class="detail-item"><div class="detail-label">Status</div><div class="detail-value">${p.status.toUpperCase()}</div></div><div class="detail-item"><div class="detail-label">Method</div><div class="detail-value">${p.method}</div></div><div class="detail-item"><div class="detail-label">Date</div><div class="detail-value">${p.date}</div></div>${p.note?`<div class="detail-item" style="grid-column:span 2"><div class="detail-label">Note</div><div class="detail-value">${p.note}</div></div>`:""}</div></div><div class="footer"><p><strong>International French Academy</strong><br/>📍 Norrsken House · 📍 Sainte Famille, Kigali<br/>📧 frenchacademyinternational@gmail.com · 📞 +250 785 302 957</p></div></div><div class="no-print" style="text-align:center;margin-top:24px;"><button onclick="window.print()" style="background:#c9a84c;color:#1a1a2e;border:none;padding:12px 32px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;">🖨️ Print / Save as PDF</button></div></body></html>`);
     win.document.close();
   };
 
-  const delPayment = async (id) => { if(!confirm("Delete payment?"))return; await fetch("/api/admin/payments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchPayments(); toast("Deleted","error"); };
+  const delPayment = async (id) => {
+    if(!confirm("Delete payment?"))return;
+    await fetch("/api/admin/payments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
+    fetchPayments(); toast("Deleted","error");
+  };
+
   const [paySearch,setPaySearch] = useState("");
   const [payFilter,setPayFilter] = useState("all");
   const filtered = payments.filter(p=>{
@@ -750,6 +678,7 @@ useEffect(()=>{ fetchPayments(); },[]);
   const totalPaid = payments.filter(p=>p.status==="paid").reduce((a,p)=>a+p.amount,0);
   const totalPending = payments.filter(p=>p.status==="pending").reduce((a,p)=>a+p.amount,0);
   const totalPartial = payments.filter(p=>p.status==="partial").reduce((a,p)=>a+p.amount,0);
+
   return (
     <div>
       <div className="pay-grid">
@@ -859,11 +788,7 @@ function SchedulePage({toast}) {
   useEffect(()=>{ fetchClasses(); },[]);
 
   const fetchClasses = async () => {
-    try {
-      const r = await fetch("/api/admin/schedule");
-      const d = await r.json();
-      setClasses(d.classes||[]);
-    } catch {}
+    try { const r = await fetch("/api/admin/schedule"); const d = await r.json(); setClasses(d.classes||[]); } catch {}
   };
 
   const addClass = async () => {
@@ -872,6 +797,7 @@ function SchedulePage({toast}) {
     const d = await r.json();
     if(d.success){ fetchClasses(); setShowModal(false); toast("Class added!","success"); setForm({name:"",day:"",time:"",level:"",teacher:"",students:"",room:""}); }
   };
+
   return (
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:18}}>
@@ -883,7 +809,7 @@ function SchedulePage({toast}) {
       </div>
       <div className="sched-grid">
         {classes.map(c=>(
-          <div key={c.id} className="class-card">
+          <div key={c._id} className="class-card">
             <div className="class-day">{c.day}</div>
             <div className="class-name">{c.name}</div>
             <div className="class-info">
@@ -951,7 +877,116 @@ function SchedulePage({toast}) {
   );
 }
 
-function MessagesPage({enrollments,toast}) {
+// ═══════════════════════════════════════════
+// 📧 MESSAGES INBOX (from enrollment form)
+// ═══════════════════════════════════════════
+function MessagesPage({enrollments, toast}) {
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [read, setRead] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("ifa_read_msgs")||"[]"); } catch { return []; }
+  });
+
+  const messages = enrollments
+    .filter(e => e.message && e.message.trim() !== "")
+    .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  const markRead = (id) => {
+    const updated = [...new Set([...read, id])];
+    setRead(updated);
+    try { localStorage.setItem("ifa_read_msgs", JSON.stringify(updated)); } catch {}
+  };
+
+  const markAllRead = () => {
+    const ids = messages.map(m => m._id);
+    const updated = [...new Set([...read, ...ids])];
+    setRead(updated);
+    try { localStorage.setItem("ifa_read_msgs", JSON.stringify(updated)); } catch {}
+    toast("All marked as read ✓", "success");
+  };
+
+  const filtered = messages.filter(m => {
+    const isRead = read.includes(m._id);
+    if(filter === "unread" && isRead) return false;
+    if(filter === "read" && !isRead) return false;
+    if(search && !`${m.firstName} ${m.lastName} ${m.message}`.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+
+  const unreadCount = messages.filter(m => !read.includes(m._id)).length;
+  const STATUS_COLORS = {
+    new:       {color:"#4d9de0", bg:"rgba(77,157,224,.12)"},
+    contacted: {color:"#e8a030", bg:"rgba(232,160,48,.12)"},
+    enrolled:  {color:"#3ec9a7", bg:"rgba(62,201,167,.12)"},
+    cancelled: {color:"#e05c7a", bg:"rgba(224,92,122,.12)"},
+  };
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
+        <div>
+          <div style={{fontFamily:"var(--font-d)",fontSize:22,display:"flex",alignItems:"center",gap:10}}>
+            Messages
+            {unreadCount>0&&<span style={{background:"var(--rose)",color:"#fff",borderRadius:20,padding:"2px 10px",fontSize:12,fontWeight:700}}>{unreadCount} new</span>}
+          </div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Student messages from enrollment form</div>
+        </div>
+        {unreadCount>0&&<button className="btn btn-outline btn-sm" onClick={markAllRead}>✓ Mark all as read</button>}
+      </div>
+      <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
+        <input className="form-input" placeholder="🔍 Search messages..." value={search} onChange={e=>setSearch(e.target.value)} style={{flex:1,minWidth:200,maxWidth:320}}/>
+        <div style={{display:"flex",gap:0,background:"var(--ink3)",borderRadius:"var(--r-md)",padding:4,border:"1px solid var(--border)"}}>
+          {[{id:"all",label:"All"},{id:"unread",label:"Unread"},{id:"read",label:"Read"}].map(f=>(
+            <button key={f.id} onClick={()=>setFilter(f.id)} style={{padding:"6px 16px",borderRadius:"var(--r-sm)",border:"none",fontFamily:"var(--font-b)",fontSize:12,fontWeight:500,cursor:"pointer",background:filter===f.id?"var(--gold)":"transparent",color:filter===f.id?"var(--ink)":"var(--text2)",transition:"all .15s"}}>
+              {f.label}{f.id==="unread"&&unreadCount>0?` (${unreadCount})`:""}
+            </button>
+          ))}
+        </div>
+      </div>
+      {filtered.length===0?(
+        <div className="card"><div className="empty"><div className="empty-ico">💬</div><p className="empty-txt">{messages.length===0?"No messages yet":"No messages match your filter"}</p></div></div>
+      ):filtered.map((m,i)=>{
+        const isRead = read.includes(m._id);
+        const sc = STATUS_COLORS[m.status]||STATUS_COLORS.new;
+        return (
+          <div key={i} onClick={()=>markRead(m._id)} style={{background:"var(--ink2)",border:`1px solid ${isRead?"var(--border)":"rgba(201,168,67,0.35)"}`,borderRadius:"var(--r-lg)",padding:"16px 20px",marginBottom:10,cursor:"pointer",transition:"all .2s",position:"relative"}}>
+            {!isRead&&<div style={{position:"absolute",top:16,right:16,width:8,height:8,borderRadius:"50%",background:"var(--gold)"}}/>}
+            <div style={{display:"flex",alignItems:"flex-start",gap:14,flexWrap:"wrap"}}>
+              <div style={{width:42,height:42,borderRadius:"50%",background:"rgba(201,168,67,0.1)",border:"1.5px solid rgba(201,168,67,0.25)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"var(--font-d)",fontSize:16,color:"var(--gold)",flexShrink:0}}>
+                {m.firstName?.[0]}{m.lastName?.[0]}
+              </div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}}>
+                  <span style={{fontWeight:600,fontSize:14}}>{m.firstName} {m.lastName}</span>
+                  <span style={{background:sc.bg,color:sc.color,padding:"1px 8px",borderRadius:10,fontSize:10,fontWeight:700,textTransform:"uppercase"}}>{m.status}</span>
+                  {!isRead&&<span style={{background:"rgba(201,168,67,0.12)",color:"var(--gold)",padding:"1px 8px",borderRadius:10,fontSize:10,fontWeight:700}}>NEW</span>}
+                </div>
+                <div style={{fontSize:13,color:"var(--text2)",lineHeight:1.6,marginBottom:8,fontStyle:"italic"}}>"{m.message}"</div>
+                <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+                  <span style={{fontSize:11,color:"var(--text3)"}}>🎯 {m.certificationGoal}</span>
+                  <span style={{fontSize:11,color:"var(--text3)"}}>📅 {new Date(m.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}</span>
+                </div>
+                <div style={{display:"flex",gap:8,marginTop:10,flexWrap:"wrap"}}>
+                  <a href={`https://wa.me/${(m.phone||"").replace(/\D/g,"")}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+                    <button className="btn btn-teal btn-xs">💬 WhatsApp</button>
+                  </a>
+                  <a href={`mailto:${m.email}?subject=Re: Your enrollment at IFA&body=Dear ${m.firstName},%0D%0A%0D%0A`} style={{textDecoration:"none"}}>
+                    <button className="btn btn-outline btn-xs">📧 Reply by Email</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════
+// 📧 BULK EMAIL PAGE
+// ═══════════════════════════════════════════
+function BulkEmailPage({enrollments,toast}) {
   const [to,setTo] = useState("all");
   const [subject,setSubject] = useState("");
   const [body,setBody] = useState("");
@@ -1003,7 +1038,7 @@ function MessagesPage({enrollments,toast}) {
             <label className="form-label">Send To</label>
             <select className="form-select" value={to} onChange={e=>setTo(e.target.value)}>
               <option value="all">All Students ({enrollments.length})</option>
-              <option value="new">New Students ({enrollments.filter(e=>e.status==="new").length})</option>
+              <option value="new">New ({enrollments.filter(e=>e.status==="new").length})</option>
               <option value="contacted">Contacted ({enrollments.filter(e=>e.status==="contacted").length})</option>
               <option value="enrolled">Enrolled ({enrollments.filter(e=>e.status==="enrolled").length})</option>
               <option value="cancelled">Cancelled ({enrollments.filter(e=>e.status==="cancelled").length})</option>
@@ -1016,7 +1051,7 @@ function MessagesPage({enrollments,toast}) {
         </div>
         <div className="form-group" style={{marginBottom:14}}>
           <label className="form-label">Message</label>
-          <textarea className="p-textarea" style={{height:160}} value={body} onChange={e=>setBody(e.target.value)} placeholder="Write your message here... Use 'Dear Student' as greeting."/>
+          <textarea className="p-textarea" style={{height:160}} value={body} onChange={e=>setBody(e.target.value)} placeholder="Write your message here..."/>
         </div>
         <button className="btn btn-gold" onClick={sendBulk} disabled={sending||!subject||!body}>{sending?"Sending...":"Send Message →"}</button>
       </div>
@@ -1047,11 +1082,7 @@ function StaffPage({toast}) {
   useEffect(()=>{ fetchStaff(); },[]);
 
   const fetchStaff = async () => {
-    try {
-      const r = await fetch("/api/admin/staff");
-      const d = await r.json();
-      setStaff(d.staff||[]);
-    } catch {}
+    try { const r = await fetch("/api/admin/staff"); const d = await r.json(); setStaff(d.staff||[]); } catch {}
   };
 
   const addStaff = async () => {
@@ -1066,6 +1097,7 @@ function StaffPage({toast}) {
     await fetch("/api/admin/staff",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
     fetchStaff(); toast("Staff member removed","error");
   };
+
   return (
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
@@ -1074,9 +1106,9 @@ function StaffPage({toast}) {
           <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Academy team members and roles</div>
         </div>
         <div style={{display:"flex",gap:8,alignItems:"center"}}>
-        <div style={{background:"var(--teal-dim)",border:"1px solid rgba(62,201,167,.25)",borderRadius:"var(--r-md)",padding:"6px 12px",fontSize:12,color:"var(--teal)",fontWeight:600}}>{staff.length} Active Staff</div>
-        <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Staff</button>
-      </div>
+          <div style={{background:"var(--teal-dim)",border:"1px solid rgba(62,201,167,.25)",borderRadius:"var(--r-md)",padding:"6px 12px",fontSize:12,color:"var(--teal)",fontWeight:600}}>{staff.length} Active Staff</div>
+          <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Staff</button>
+        </div>
       </div>
       <div className="staff-grid">
         {staff.map((s,i)=>(
@@ -1139,8 +1171,12 @@ function CertificationsPage({enrollments,toast}) {
   const [tracking,setTracking] = useState([]);
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:""});
-  const fetchTracking = async () => { try { const r = await fetch("/api/admin/certifications"); const d = await r.json(); setTracking(d.certifications||[]); } catch {} };
-useEffect(()=>{ fetchTracking(); },[]);
+
+  const fetchTracking = async () => {
+    try { const r = await fetch("/api/admin/certifications"); const d = await r.json(); setTracking(d.certifications||[]); } catch {}
+  };
+  useEffect(()=>{ fetchTracking(); },[]);
+
   const addResult = async () => {
     if(!form.studentId) return;
     const student = enrollments.find(e=>e._id===form.studentId);
@@ -1149,7 +1185,9 @@ useEffect(()=>{ fetchTracking(); },[]);
     const d = await r.json();
     if(d.success){ fetchTracking(); setShowModal(false); toast("Result recorded!","success"); setForm({studentId:"",examDate:"",score:"",passed:false,notes:""}); }
   };
+
   const passRate = tracking.length > 0 ? Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100) : 0;
+
   return (
     <div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>
@@ -1240,11 +1278,7 @@ function AnnouncementsPage({toast}) {
   useEffect(() => { fetchAnnouncements(); }, []);
 
   const fetchAnnouncements = async () => {
-    try {
-      const r = await fetch("/api/admin/announcements");
-      const d = await r.json();
-      setAnnouncements(d.announcements||[]);
-    } catch {}
+    try { const r = await fetch("/api/admin/announcements"); const d = await r.json(); setAnnouncements(d.announcements||[]); } catch {}
   };
 
   const save = async () => {
@@ -1261,17 +1295,11 @@ function AnnouncementsPage({toast}) {
 
   const del = async (id) => {
     if(!confirm("Delete this announcement?")) return;
-    try {
-      await fetch("/api/admin/announcements",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
-      toast("Deleted","success"); fetchAnnouncements();
-    } catch {}
+    try { await fetch("/api/admin/announcements",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); toast("Deleted","success"); fetchAnnouncements(); } catch {}
   };
 
   const toggle = async (id, active) => {
-    try {
-      await fetch("/api/admin/announcements",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,active:!active})});
-      fetchAnnouncements();
-    } catch {}
+    try { await fetch("/api/admin/announcements",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,active:!active})}); fetchAnnouncements(); } catch {}
   };
 
   const TYPE_COLORS = {
@@ -1289,11 +1317,8 @@ function AnnouncementsPage({toast}) {
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Announcements</div>
           <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Post updates visible to students and staff</div>
         </div>
-        <button className="btn btn-gold btn-sm" onClick={()=>setShowForm(v=>!v)}>
-          {showForm ? "✕ Cancel" : "📢 New Announcement"}
-        </button>
+        <button className="btn btn-gold btn-sm" onClick={()=>setShowForm(v=>!v)}>{showForm ? "✕ Cancel" : "📢 New Announcement"}</button>
       </div>
-
       {showForm&&(
         <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"20px",marginBottom:20}}>
           <div style={{fontFamily:"var(--font-d)",fontSize:16,marginBottom:16}}>New Announcement</div>
@@ -1327,19 +1352,12 @@ function AnnouncementsPage({toast}) {
           <button className="btn btn-gold" onClick={save} disabled={saving}>{saving?"Posting...":"📢 Post Announcement"}</button>
         </div>
       )}
-
       {announcements.length===0?(
-        <div className="card">
-          <div className="empty">
-            <div className="empty-ico">📢</div>
-            <p className="empty-txt">No announcements yet</p>
-            <p className="empty-sub">Click "New Announcement" to post one</p>
-          </div>
-        </div>
+        <div className="card"><div className="empty"><div className="empty-ico">📢</div><p className="empty-txt">No announcements yet</p><p className="empty-sub">Click "New Announcement" to post one</p></div></div>
       ):announcements.map((a,i)=>{
         const t = TYPE_COLORS[a.type]||TYPE_COLORS.info;
         return (
-          <div key={i} style={{background:"var(--ink2)",border:`1px solid ${a.active?t.color+"40":"var(--border)"}`,borderRadius:"var(--r-lg)",padding:"16px 20px",marginBottom:12,opacity:a.active?1:0.5,transition:"all .2s"}}>
+          <div key={i} style={{background:"var(--ink2)",border:`1px solid ${a.active?t.color+"40":"var(--border)"}`,borderRadius:"var(--r-lg)",padding:"16px 20px",marginBottom:12,opacity:a.active?1:0.5}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:12,flexWrap:"wrap"}}>
               <div style={{flex:1}}>
                 <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6,flexWrap:"wrap"}}>
@@ -1352,10 +1370,8 @@ function AnnouncementsPage({toast}) {
                 <div style={{fontSize:11,color:"var(--text3)",marginTop:8}}>📅 {new Date(a.createdAt).toLocaleString()}</div>
               </div>
               <div style={{display:"flex",gap:6,flexShrink:0}}>
-                <button className="btn btn-outline btn-xs" onClick={()=>toggle(a._id,a.active)} title={a.active?"Hide":"Show"}>
-                  {a.active?"🔇 Hide":"👁 Show"}
-                </button>
-                <button className="del-ico" onClick={()=>del(a._id)}>✕</button>
+                <button className="btn btn-outline btn-xs" onClick={()=>toggle(a._id,a.active)}>{a.active?"🔇 Hide":"👁 Show"}</button>
+                <button className="del-ico" style={{opacity:1}} onClick={()=>del(a._id)}>✕</button>
               </div>
             </div>
           </div>
@@ -1398,7 +1414,6 @@ function AttendancePage({enrollments, toast}) {
       if(existing) {
         setRecords(existing.records);
       } else {
-        // Build fresh list
         if(tab==="student") {
           setRecords(enrollments.filter(e=>e.status==="enrolled").map(e=>({
             personId: e._id, personName:`${e.firstName} ${e.lastName}`, status:"present", note:""
@@ -1436,11 +1451,8 @@ function AttendancePage({enrollments, toast}) {
         body: JSON.stringify({ type:tab, classId, className, date, records })
       });
       const d = await r.json();
-      if(d.success) {
-        toast(d.updated ? "Attendance updated! ✓" : "Attendance saved! ✓","success");
-      } else {
-        toast(d.error||"Error saving","error");
-      }
+      if(d.success) { toast(d.updated ? "Attendance updated! ✓" : "Attendance saved! ✓","success"); }
+      else { toast(d.error||"Error saving","error"); }
     } catch { toast("Error saving attendance","error"); }
     finally { setSaving(false); }
   };
@@ -1451,23 +1463,10 @@ function AttendancePage({enrollments, toast}) {
       const d = await r.json();
       const rows = d.attendance||[];
       if(rows.length===0){ toast("No attendance data to export","error"); return; }
-      const lines = [];
-      lines.push(["Date","Class/Type","Person","Status","Note","Marked At"].join(","));
-      rows.forEach(h=>{
-        h.records.forEach(rec=>{
-          lines.push([
-            h.date,
-            `"${h.className}"`,
-            `"${rec.personName}"`,
-            rec.status,
-            `"${rec.note||""}"`,
-            new Date(h.markedAt||h.createdAt).toLocaleString()
-          ].join(","));
-        });
-      });
-      const csv = lines.join("\n");
-      const url = URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
-      Object.assign(document.createElement("a"),{href:url,download:`ifa_attendance_${tab}_${new Date().toISOString().split("T")[0]}.csv`}).click();
+      const lines = [["Date","Class/Type","Person","Status","Note"].join(",")];
+      rows.forEach(h=>{ h.records.forEach(rec=>{ lines.push([h.date,`"${h.className}"`,`"${rec.personName}"`,rec.status,`"${rec.note||""}"`].join(",")); }); });
+      const url = URL.createObjectURL(new Blob([lines.join("\n")],{type:"text/csv"}));
+      Object.assign(document.createElement("a"),{href:url,download:`ifa_attendance_${tab}.csv`}).click();
       URL.revokeObjectURL(url);
       toast("Attendance exported!","success");
     } catch { toast("Export failed","error"); }
@@ -1479,11 +1478,10 @@ function AttendancePage({enrollments, toast}) {
 
   return (
     <div>
-      {/* Header */}
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
         <div>
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Attendance Tracker</div>
-          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Professional anti-cheat attendance system · Locks after 24h</div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Mark and track attendance · Locks after 24h</div>
         </div>
         <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
           <button className="btn btn-outline btn-sm" onClick={loadHistory}>📋 View History</button>
@@ -1491,8 +1489,6 @@ function AttendancePage({enrollments, toast}) {
           <button className="btn btn-gold btn-sm" onClick={saveAttendance} disabled={saving}>{saving?"Saving...":"💾 Save Attendance"}</button>
         </div>
       </div>
-
-      {/* Tab Switch */}
       <div style={{display:"flex",gap:0,marginBottom:20,background:"var(--ink3)",borderRadius:"var(--r-md)",padding:4,width:"fit-content",border:"1px solid var(--border)"}}>
         {[{id:"student",ico:"👨‍🎓",label:"Students"},{id:"staff",ico:"👨‍💼",label:"Staff"}].map(t=>(
           <button key={t.id} onClick={()=>{setTab(t.id);setRecords([]);setViewHistory(false);}} style={{padding:"7px 20px",borderRadius:"var(--r-sm)",border:"none",fontFamily:"var(--font-b)",fontSize:13,fontWeight:500,cursor:"pointer",background:tab===t.id?"var(--gold)":"transparent",color:tab===t.id?"var(--ink)":"var(--text2)",transition:"all .15s"}}>
@@ -1500,8 +1496,6 @@ function AttendancePage({enrollments, toast}) {
           </button>
         ))}
       </div>
-
-      {/* Controls */}
       <div style={{display:"grid",gridTemplateColumns:tab==="student"?"1fr 1fr":"1fr",gap:12,marginBottom:16}}>
         <div className="form-group">
           <label className="form-label">📅 Date {date===today&&<span style={{color:"var(--teal)",marginLeft:6}}>● Today</span>}</label>
@@ -1517,8 +1511,6 @@ function AttendancePage({enrollments, toast}) {
           </div>
         )}
       </div>
-
-      {/* Summary Cards */}
       {records.length>0&&(
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,marginBottom:16}}>
           {[
@@ -1534,28 +1526,18 @@ function AttendancePage({enrollments, toast}) {
           ))}
         </div>
       )}
-
-      {/* Anti-cheat warning */}
       <div style={{background:"rgba(212,168,67,0.06)",border:"1px solid rgba(212,168,67,0.2)",borderRadius:"var(--r-md)",padding:"10px 14px",marginBottom:16,display:"flex",alignItems:"center",gap:10}}>
         <span style={{fontSize:16}}>🔒</span>
-        <span style={{fontSize:12,color:"var(--text2)"}}>Attendance is <strong style={{color:"var(--gold)"}}>locked after 24 hours</strong> and cannot be edited. Future dates are blocked. All records are timestamped.</span>
+        <span style={{fontSize:12,color:"var(--text2)"}}>Attendance is <strong style={{color:"var(--gold)"}}>locked after 24 hours</strong> and cannot be edited. Future dates are blocked.</span>
       </div>
-
-      {/* Attendance List */}
       {!viewHistory&&(
         <>
           {records.length===0?(
-            <div className="card">
-              <div className="empty">
-                <div className="empty-ico">{tab==="student"?"📚":"👨‍💼"}</div>
-                <p className="empty-txt">{tab==="student"?"Select a class to mark attendance":"Loading staff..."}</p>
-                {tab==="staff"&&staff.length===0&&<p className="empty-sub">No staff found. Add staff first.</p>}
-              </div>
-            </div>
+            <div className="card"><div className="empty"><div className="empty-ico">{tab==="student"?"📚":"👨‍💼"}</div><p className="empty-txt">{tab==="student"?"Select a class to mark attendance":"Loading staff..."}</p></div></div>
           ):(
             <div className="tbl-wrap">
               <div style={{display:"grid",gridTemplateColumns:"1fr 260px 1fr",padding:"9px 16px",background:"var(--ink3)",borderBottom:"1px solid var(--border)",fontSize:10,fontWeight:600,letterSpacing:"1.5px",textTransform:"uppercase",color:"var(--text3)"}}>
-                <span>Name</span><span>Status</span><span>Note (optional)</span>
+                <span>Name</span><span>Status</span><span>Note</span>
               </div>
               {records.map((rec,i)=>(
                 <div key={i} style={{display:"grid",gridTemplateColumns:"1fr 260px 1fr",padding:"10px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",alignItems:"center",background:rec.status==="absent"?"rgba(224,92,122,0.04)":rec.status==="late"?"rgba(232,160,48,0.04)":"transparent"}}>
@@ -1578,51 +1560,6 @@ function AttendancePage({enrollments, toast}) {
           )}
         </>
       )}
-
-      {/* Summary Report */}
-      {viewHistory&&history.length>0&&(
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
-          <div className="card">
-            <div className="card-title" style={{marginBottom:12}}>📊 Attendance Summary</div>
-            {(() => {
-              const personMap = {};
-              history.forEach(h=>{
-                h.records.forEach(r=>{
-                  if(!personMap[r.personName]) personMap[r.personName]={present:0,absent:0,late:0,total:0};
-                  personMap[r.personName][r.status]++;
-                  personMap[r.personName].total++;
-                });
-              });
-              return Object.entries(personMap).sort((a,b)=>b[1].present-a[1].present).slice(0,6).map(([name,s],i)=>(
-                <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:"1px solid rgba(36,54,80,.5)"}}>
-                  <div style={{flex:1,fontSize:12,fontWeight:500}}>{name}</div>
-                  <span style={{fontSize:10,background:"var(--teal-dim)",color:"var(--teal)",padding:"2px 6px",borderRadius:8,fontWeight:600}}>✓{s.present}</span>
-                  <span style={{fontSize:10,background:"var(--rose-dim)",color:"var(--rose)",padding:"2px 6px",borderRadius:8,fontWeight:600}}>✕{s.absent}</span>
-                  <span style={{fontSize:10,background:"var(--amber-dim)",color:"var(--amber)",padding:"2px 6px",borderRadius:8,fontWeight:600}}>⏰{s.late}</span>
-                  <span style={{fontSize:10,color:"var(--text3)",minWidth:28,textAlign:"right"}}>{Math.round((s.present/s.total)*100)}%</span>
-                </div>
-              ));
-            })()}
-          </div>
-          <div className="card">
-            <div className="card-title" style={{marginBottom:12}}>📅 Sessions Overview</div>
-            {[
-              {label:"Total Sessions",value:history.length,color:"var(--gold)"},
-              {label:"Total Records",value:history.reduce((a,h)=>a+h.records.length,0),color:"var(--blue)"},
-              {label:"Present Records",value:history.reduce((a,h)=>a+h.records.filter(r=>r.status==="present").length,0),color:"var(--teal)"},
-              {label:"Absent Records",value:history.reduce((a,h)=>a+h.records.filter(r=>r.status==="absent").length,0),color:"var(--rose)"},
-              {label:"Late Records",value:history.reduce((a,h)=>a+h.records.filter(r=>r.status==="late").length,0),color:"var(--amber)"},
-            ].map((s,i)=>(
-              <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid rgba(36,54,80,.5)"}}>
-                <span style={{fontSize:12,color:"var(--text2)"}}>{s.label}</span>
-                <span style={{fontSize:13,fontWeight:600,color:s.color}}>{s.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* History View */}
       {viewHistory&&(
         <div>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
@@ -1741,6 +1678,7 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
   const [subj,setSubj] = useState("Regarding your enrollment — IFA Kigali");
   const [body,setBody] = useState(`Dear ${e.firstName},\n\nThank you for your interest in the International French Academy.\n\n`);
   const [sending,setSending] = useState(false);
+
   const setStatus = async status => {
     await fetch("/api/admin/enrollments",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:e._id,status})});
     onUpdate({...e,status}); toast("Status updated","success");
@@ -1762,117 +1700,9 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
     const win = window.open("","_blank","width=900,height=600");
     const enrollDate = new Date(student.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
     const idNum = `IFA-${new Date(student.createdAt).getFullYear()}-${student._id.slice(-5).toUpperCase()}`;
-    win.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>ID Card — ${student.firstName} ${student.lastName}</title>
-        <style>
-          *{margin:0;padding:0;box-sizing:border-box;}
-          body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:30px;}
-          .card-wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}
-          .card{width:340px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-          /* FRONT */
-          .front{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e47 60%,#0d1b2a 100%);padding:0;}
-          .card-top{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
-          .tricolor{height:4px;display:flex;margin-bottom:14px;}
-          .tc1{flex:1;background:#002395;}.tc2{flex:1;background:#fff;}.tc3{flex:1;background:#ED2939;}
-          .academy-row{display:flex;align-items:center;gap:10px;}
-          .logo-c{width:38px;height:38px;border-radius:50%;background:rgba(201,168,67,0.15);border:1.5px solid #c9a843;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-          .academy-name{color:#fff;font-size:11px;font-weight:700;line-height:1.3;}
-          .academy-sub{color:rgba(255,255,255,0.4);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;}
-          .card-type{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.3);color:#c9a843;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:8px;}
-          .card-body{padding:18px 20px;}
-          .photo-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
-          .photo{width:72px;height:80px;border-radius:8px;background:rgba(255,255,255,0.06);border:2px solid rgba(201,168,67,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
-          .student-info{flex:1;}
-          .student-name{font-size:17px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px;font-family:'Segoe UI',serif;}
-          .cert-badge{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.25);color:#c9a843;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px;}
-          .info-row{display:flex;gap:6px;align-items:center;margin-bottom:4px;}
-          .info-ico{font-size:9px;width:12px;}
-          .info-txt{font-size:10px;color:rgba(255,255,255,0.5);}
-          .info-val{font-size:10px;color:rgba(255,255,255,0.8);font-weight:500;}
-          .card-footer{background:rgba(0,0,0,0.3);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}
-          .id-num{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;}
-          .status-dot{display:flex;align-items:center;gap:5px;font-size:9px;color:#3ec9a7;font-weight:600;}
-          .dot{width:5px;height:5px;border-radius:50%;background:#3ec9a7;}
-          /* BACK */
-          .back{background:linear-gradient(160deg,#1a2e47 0%,#0d1b2a 100%);padding:0;}
-          .back-top{background:linear-gradient(90deg,#c9a843,#e8c068);padding:12px 20px;text-align:center;}
-          .back-top p{font-size:10px;font-weight:700;color:#0d1b2a;letter-spacing:1px;text-transform:uppercase;}
-          .back-body{padding:18px 20px;}
-          .rule-item{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start;}
-          .rule-num{width:18px;height:18px;border-radius:50%;background:rgba(201,168,67,0.15);border:1px solid rgba(201,168,67,0.3);color:#c9a843;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-          .rule-txt{font-size:10px;color:rgba(255,255,255,0.55);line-height:1.5;}
-          .back-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;}
-          .back-footer p{font-size:9px;color:rgba(255,255,255,0.3);line-height:1.8;}
-          .qr-placeholder{width:56px;height:56px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 10px;}
-          .print-btn{margin-top:28px;background:#c9a843;color:#0d1b2a;border:none;padding:12px 36px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.5px;}
-          @media print{body{background:#fff;padding:0;}  .no-print{display:none;} .card-wrap{gap:10px;} }
-        </style>
-      </head>
-      <body>
-        <div class="card-wrap">
-          <!-- FRONT -->
-          <div class="card front">
-            <div class="card-top">
-              <div class="tricolor"><div class="tc1"></div><div class="tc2"></div><div class="tc3"></div></div>
-              <div class="academy-row">
-                <div class="logo-c">🎓</div>
-                <div>
-                  <div class="academy-name">International French Academy</div>
-                  <div class="academy-sub">Kigali · Rwanda</div>
-                </div>
-              </div>
-              <div class="card-type">🪪 Student ID Card</div>
-            </div>
-            <div class="card-body">
-              <div class="photo-row">
-                <div class="photo">👤</div>
-                <div class="student-info">
-                  <div class="student-name">${student.firstName}<br/>${student.lastName}</div>
-                  <div class="cert-badge">🎯 ${student.certificationGoal}</div>
-                  <div class="info-row"><span class="info-ico">📧</span><span class="info-val">${student.email}</span></div>
-                  <div class="info-row"><span class="info-ico">📞</span><span class="info-val">${student.phone}</span></div>
-                </div>
-              </div>
-              <div class="info-row"><span class="info-ico">📅</span><span class="info-txt">Enrolled:</span>&nbsp;<span class="info-val">${enrollDate}</span></div>
-              <div class="info-row" style="margin-top:4px"><span class="info-ico">🆔</span><span class="info-txt">ID:</span>&nbsp;<span class="info-val">${idNum}</span></div>
-            </div>
-            <div class="card-footer">
-              <span class="id-num">${idNum}</span>
-              <span class="status-dot"><span class="dot"></span>ACTIVE</span>
-            </div>
-          </div>
-          <!-- BACK -->
-          <div class="card back">
-            <div class="back-top"><p>International French Academy — Student Rules</p></div>
-            <div class="back-body">
-              <div class="qr-placeholder">🇫🇷</div>
-              ${[
-                "Attend all scheduled classes on time.",
-                "Respect teachers, staff and fellow students.",
-                "Complete all assignments and practice exercises.",
-                "This card must be presented upon request.",
-                "Loss of card must be reported immediately.",
-              ].map((r,i)=>`<div class="rule-item"><div class="rule-num">${i+1}</div><div class="rule-txt">${r}</div></div>`).join("")}
-            </div>
-            <div class="back-footer">
-              <p><strong style="color:rgba(255,255,255,0.6)">International French Academy</strong><br/>
-              📍 Norrsken House · 📍 Sainte Famille, Kigali<br/>
-              📞 +250 785 302 957</p>
-            </div>
-          </div>
-        </div>
-        <div class="no-print" style="text-align:center;margin-top:24px;">
-          <button class="print-btn" onclick="window.print()">🖨️ Print ID Card</button>
-        </div>
-      </body>
-      </html>
-    `);
+    win.document.write(`<!DOCTYPE html><html><head><title>ID Card — ${student.firstName} ${student.lastName}</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:30px;}.card-wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}.card{width:340px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);}.front{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e47 60%,#0d1b2a 100%);}.card-top{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}.tricolor{height:4px;display:flex;margin-bottom:14px;}.tc1{flex:1;background:#002395;}.tc2{flex:1;background:#fff;}.tc3{flex:1;background:#ED2939;}.academy-row{display:flex;align-items:center;gap:10px;}.logo-c{width:38px;height:38px;border-radius:50%;background:rgba(201,168,67,0.15);border:1.5px solid #c9a843;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}.academy-name{color:#fff;font-size:11px;font-weight:700;line-height:1.3;}.academy-sub{color:rgba(255,255,255,0.4);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;}.card-type{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.3);color:#c9a843;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:8px;}.card-body{padding:18px 20px;}.photo-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}.photo{width:72px;height:80px;border-radius:8px;background:rgba(255,255,255,0.06);border:2px solid rgba(201,168,67,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}.student-name{font-size:17px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px;}.cert-badge{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.25);color:#c9a843;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px;}.info-txt{font-size:10px;color:rgba(255,255,255,0.5);}.info-val{font-size:10px;color:rgba(255,255,255,0.8);font-weight:500;}.card-footer{background:rgba(0,0,0,0.3);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}.id-num{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;}.status-dot{display:flex;align-items:center;gap:5px;font-size:9px;color:#3ec9a7;font-weight:600;}.dot{width:5px;height:5px;border-radius:50%;background:#3ec9a7;}.print-btn{margin-top:28px;background:#c9a843;color:#0d1b2a;border:none;padding:12px 36px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;}@media print{body{background:#fff;padding:0;}.no-print{display:none;}}</style></head><body><div class="card-wrap"><div class="card front"><div class="card-top"><div class="tricolor"><div class="tc1"></div><div class="tc2"></div><div class="tc3"></div></div><div class="academy-row"><div class="logo-c">🎓</div><div><div class="academy-name">International French Academy</div><div class="academy-sub">Kigali · Rwanda</div></div></div><div class="card-type">🪪 Student ID Card</div></div><div class="card-body"><div class="photo-row"><div class="photo">👤</div><div><div class="student-name">${student.firstName} ${student.lastName}</div><div class="cert-badge">🎯 ${student.certificationGoal}</div><div><span class="info-txt">📧 </span><span class="info-val">${student.email}</span></div><div style="margin-top:4px"><span class="info-txt">📞 </span><span class="info-val">${student.phone}</span></div></div></div><div><span class="info-txt">📅 Enrolled: </span><span class="info-val">${enrollDate}</span></div><div style="margin-top:4px"><span class="info-txt">🆔 </span><span class="info-val">${idNum}</span></div></div><div class="card-footer"><span class="id-num">${idNum}</span><span class="status-dot"><span class="dot"></span>ACTIVE</span></div></div></div><div class="no-print" style="text-align:center;margin-top:24px;"><button class="print-btn" onclick="window.print()">🖨️ Print ID Card</button></div></body></html>`);
     win.document.close();
   };
-
   const del = async () => {
     if(!confirm(`Delete ${e.firstName} ${e.lastName}?`))return;
     await fetch("/api/admin/enrollments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:e._id})});
@@ -1971,9 +1801,11 @@ function useBreakpoint() {
 
 export default function AdminDashboard() {
   const [authed,setAuthed] = useState(false);
-  const [page,setPage] = useState("home"); // ← CHANGED to "home"
+  const [page,setPage] = useState("home");
   const [enrollments,setEnrollments] = useState([]);
   const [stats,setStats] = useState({});
+  const [payments,setPayments] = useState([]);
+  const [tracking,setTracking] = useState([]);
   const [loading,setLoading] = useState(false);
   const [filter,setFilter] = useState("all");
   const [search,setSearch] = useState("");
@@ -1984,9 +1816,6 @@ export default function AdminDashboard() {
   const [showNotif,setShowNotif] = useState(false);
   const bp = useBreakpoint();
 
-  const payments = (() => { try { return JSON.parse(localStorage.getItem("ifa_payments")||"[]"); } catch { return []; } })();
-  const tracking = (() => { try { return JSON.parse(localStorage.getItem("ifa_cert_tracking")||"[]"); } catch { return []; } })();
-
   const fetchData = useCallback(async()=>{
     setLoading(true);
     const p = new URLSearchParams();
@@ -1996,10 +1825,19 @@ export default function AdminDashboard() {
       const r = await fetch(`/api/admin/enrollments?${p}`);
       if(r.status===401){setAuthed(false);return;}
       const d = await r.json();
-      setEnrollments(d.enrollments||[]);setStats(d.stats||{});
+      setEnrollments(d.enrollments||[]);
+      setStats(d.stats||{});
     } catch{}
     finally{setLoading(false);}
   },[filter,search]);
+
+  // Fetch payments and tracking for home dashboard
+  useEffect(()=>{
+    if(authed){
+      fetch("/api/admin/payments").then(r=>r.json()).then(d=>setPayments(d.payments||[])).catch(()=>{});
+      fetch("/api/admin/certifications").then(r=>r.json()).then(d=>setTracking(d.certifications||[])).catch(()=>{});
+    }
+  },[authed]);
 
   useEffect(()=>{if(authed)fetchData();},[authed,fetchData]);
 
@@ -2016,24 +1854,24 @@ export default function AdminDashboard() {
   }[bp];
 
   const navItems = [
-    {id:"home",          ico:"🏠", label:"Dashboard"},           // ← NEW
-    {id:"enrollments",   ico:"👥", label:"Enrollments", badge:stats.new||0},
-    {id:"analytics",     ico:"📊", label:"Analytics"},
-    {id:"payments",      ico:"💰", label:"Payments"},
-    {id:"schedule",      ico:"📅", label:"Schedule"},
-    {id:"messages",      ico:"📧", label:"Messages"},
-    {id:"staff",         ico:"👨‍🏫", label:"Staff"},
-    {id:"certifications",ico:"🏆", label:"Certifications"},
-    {id:"attendance",    ico:"📋", label:"Attendance"},
-    {id:"announcements", ico:"📢", label:"Announcements"},
-    {id:"settings",      ico:"⚙️", label:"Settings"},
+    {id:"home",           ico:"🏠", label:"Dashboard",     section:"overview"},
+    {id:"enrollments",    ico:"👥", label:"Enrollments",   section:"management", badge:stats.new||0},
+    {id:"analytics",      ico:"📊", label:"Analytics",     section:"management"},
+    {id:"payments",       ico:"💰", label:"Payments",      section:"finance"},
+    {id:"schedule",       ico:"📅", label:"Schedule",      section:"academy"},
+    {id:"messages",       ico:"💬", label:"Messages",      section:"academy"},
+    {id:"bulk-email",     ico:"📧", label:"Bulk Email",    section:"academy"},
+    {id:"staff",          ico:"👨‍🏫", label:"Staff",         section:"academy"},
+    {id:"certifications", ico:"🏆", label:"Certifications",section:"academy"},
+    {id:"attendance",     ico:"📋", label:"Attendance",    section:"academy"},
+    {id:"announcements",  ico:"📢", label:"Announcements", section:"system"},
+    {id:"settings",       ico:"⚙️", label:"Settings",      section:"system"},
   ];
 
   const pageTitles = {
-    home:"Dashboard",                                              // ← NEW
-    enrollments:"Enrollments",analytics:"Analytics",payments:"Payments",
-    schedule:"Schedule",messages:"Messages",staff:"Staff",
-    certifications:"Certifications",attendance:"Attendance",settings:"Settings"
+    home:"Dashboard",enrollments:"Enrollments",analytics:"Analytics",payments:"Payments",
+    schedule:"Schedule",messages:"Messages","bulk-email":"Bulk Email",staff:"Staff",
+    certifications:"Certifications",attendance:"Attendance",announcements:"Announcements",settings:"Settings"
   };
 
   const statCards = [
@@ -2052,6 +1890,9 @@ export default function AdminDashboard() {
     {id:"settings",   ico:"⚙️",label:"Settings"},
   ];
 
+  const sections = ["overview","management","finance","academy","system"];
+  const sectionLabels = {overview:"Overview",management:"Management",finance:"Finance",academy:"Academy",system:"System"};
+
   return (
     <><style>{CSS}</style>
     <div className={`overlay${sidebarOpen?" show":""}`} onClick={()=>setSidebarOpen(false)}/>
@@ -2065,38 +1906,22 @@ export default function AdminDashboard() {
           </div>
         </div>
         <nav className="sb-nav">
-          <div className="sb-section">Overview</div>
-          {navItems.slice(0,1).map(n=>(
-            <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
-              <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
-            </button>
-          ))}
-          <div className="sb-section">Management</div>
-          {navItems.slice(1,3).map(n=>(
-            <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
-              <span className="nav-ico">{n.ico}</span>
-              <span className="nav-lbl">{n.label}</span>
-              {n.badge>0&&<span className="nav-badge">{n.badge}</span>}
-            </button>
-          ))}
-          <div className="sb-section">Finance</div>
-          {navItems.slice(3,4).map(n=>(
-            <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
-              <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
-            </button>
-          ))}
-          <div className="sb-section">Academy</div>
-          {navItems.slice(4,8).map(n=>(
-            <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
-              <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
-            </button>
-          ))}
-          <div className="sb-section">System</div>
-          {navItems.slice(8).map(n=>(
-            <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
-              <span className="nav-ico">{n.ico}</span><span className="nav-lbl">{n.label}</span>
-            </button>
-          ))}
+          {sections.map(sec=>{
+            const items = navItems.filter(n=>n.section===sec);
+            if(!items.length) return null;
+            return (
+              <div key={sec}>
+                <div className="sb-section">{sectionLabels[sec]}</div>
+                {items.map(n=>(
+                  <button key={n.id} className={`nav-btn${page===n.id?" on":""}`} onClick={()=>{setPage(n.id);setSidebarOpen(false);}}>
+                    <span className="nav-ico">{n.ico}</span>
+                    <span className="nav-lbl">{n.label}</span>
+                    {n.badge>0&&<span className="nav-badge">{n.badge}</span>}
+                  </button>
+                ))}
+              </div>
+            );
+          })}
           <div className="sb-section">Actions</div>
           <button className="nav-btn" onClick={()=>{exportCSV(enrollments);toast("CSV exported","success");}}>
             <span className="nav-ico">📥</span><span className="nav-lbl">Export CSV</span>
@@ -2118,7 +1943,7 @@ export default function AdminDashboard() {
         <header className="topbar">
           <div className="tb-left">
             <button className="hbg" onClick={()=>setSidebarOpen(o=>!o)}>☰</button>
-            <h1 className="tb-title">{pageTitles[page]}</h1>
+            <h1 className="tb-title">{pageTitles[page]||page}</h1>
           </div>
           <div className="tb-right">
             {page==="enrollments"&&<><button className="btn btn-outline btn-sm" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}>📥 Export</button><button className="btn btn-gold btn-sm" onClick={fetchData}>🔄 Refresh</button></>}
@@ -2210,6 +2035,7 @@ export default function AdminDashboard() {
           {page==="payments"&&<PaymentsPage enrollments={enrollments} toast={toast}/>}
           {page==="schedule"&&<SchedulePage toast={toast}/>}
           {page==="messages"&&<MessagesPage enrollments={enrollments} toast={toast}/>}
+          {page==="bulk-email"&&<BulkEmailPage enrollments={enrollments} toast={toast}/>}
           {page==="staff"&&<StaffPage toast={toast}/>}
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
           {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}
