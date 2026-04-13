@@ -593,6 +593,13 @@ useEffect(()=>{ fetchPayments(); },[]);
     if(d.success){ fetchPayments(); setShowModal(false); toast("Payment recorded!","success"); setForm({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""}); }
   };
   const delPayment = async (id) => { if(!confirm("Delete payment?"))return; await fetch("/api/admin/payments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchPayments(); toast("Deleted","error"); };
+  const [paySearch,setPaySearch] = useState("");
+  const [payFilter,setPayFilter] = useState("all");
+  const filtered = payments.filter(p=>{
+    const matchSearch = p.studentName?.toLowerCase().includes(paySearch.toLowerCase());
+    const matchFilter = payFilter==="all" || p.status===payFilter;
+    return matchSearch && matchFilter;
+  });
   const totalPaid = payments.filter(p=>p.status==="paid").reduce((a,p)=>a+p.amount,0);
   const totalPending = payments.filter(p=>p.status==="pending").reduce((a,p)=>a+p.amount,0);
   const totalPartial = payments.filter(p=>p.status==="partial").reduce((a,p)=>a+p.amount,0);
@@ -613,15 +620,26 @@ useEffect(()=>{ fetchPayments(); },[]);
           </div>
         ))}
       </div>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,flexWrap:"wrap",gap:10}}>
         <div style={{fontFamily:"var(--font-d)",fontSize:18}}>Payment Records</div>
-        <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Payment</button>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
+          <div className="search-wrap" style={{minWidth:180}}>
+            <span className="search-ico">🔍</span>
+            <input className="search-in" placeholder="Search student..." value={paySearch} onChange={e=>setPaySearch(e.target.value)}/>
+          </div>
+          <div className="chips">
+            {["all","paid","pending","partial"].map(f=>(
+              <button key={f} className={`chip${payFilter===f?" on":""}`} onClick={()=>setPayFilter(f)}>{f}</button>
+            ))}
+          </div>
+          <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Payment</button>
+        </div>
       </div>
       <div className="tbl-wrap">
         <div className="pay-row pay-head"><span>Student</span><span>Amount</span><span>Method</span><span>Status</span><span>Date</span></div>
         {payments.length===0?(
           <div className="empty"><div className="empty-ico">💳</div><p className="empty-txt">No payments recorded</p><p className="empty-sub">Add your first payment record</p></div>
-        ):payments.map(p=>(
+        ):filtered.map(p=>(
           <div key={p._id} className="pay-row" style={{cursor:"default"}}>
             <div style={{fontWeight:500}}>{p.studentName}</div>
             <div style={{color:"var(--gold)",fontWeight:600}}>{p.amount.toLocaleString()} RWF</div>
