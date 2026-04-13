@@ -660,6 +660,85 @@ useEffect(()=>{ fetchPayments(); },[]);
     const d = await r.json();
     if(d.success){ fetchPayments(); setShowModal(false); toast("Payment recorded!","success"); setForm({studentId:"",amount:"",method:"Mobile Money",status:"paid",date:new Date().toISOString().split("T")[0],note:""}); }
   };
+  const printReceipt = (p) => {
+    const win = window.open("","_blank","width=800,height=600");
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Receipt — ${p.studentName}</title>
+        <style>
+          * { margin:0; padding:0; box-sizing:border-box; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; background:#fff; color:#1a1a2e; padding:40px; }
+          .receipt { max-width:600px; margin:0 auto; border:2px solid #1a2e47; border-radius:12px; overflow:hidden; }
+          .header { background:linear-gradient(135deg,#0d1b2a,#1a2e47); padding:28px 32px; text-align:center; }
+          .logo-circle { width:64px; height:64px; border-radius:50%; background:rgba(201,168,76,0.15); border:2px solid #c9a84c; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:28px; }
+          .academy-name { color:#fff; font-size:20px; font-weight:700; letter-spacing:0.5px; }
+          .academy-sub { color:rgba(255,255,255,0.5); font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
+          .receipt-badge { display:inline-block; background:rgba(201,168,76,0.15); border:1px solid #c9a84c; color:#c9a84c; padding:4px 16px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-top:12px; }
+          .body { padding:32px; }
+          .receipt-num { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; padding-bottom:16px; border-bottom:1px dashed #e0d8cc; }
+          .receipt-num span { font-size:12px; color:#6b7a8d; }
+          .receipt-num strong { font-size:14px; color:#1a1a2e; }
+          .amount-box { background:linear-gradient(135deg,#0d1b2a,#1a2e47); border-radius:10px; padding:20px 24px; text-align:center; margin-bottom:24px; }
+          .amount-label { color:rgba(255,255,255,0.5); font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+          .amount-value { color:#c9a84c; font-size:36px; font-weight:900; letter-spacing:-1px; }
+          .amount-currency { color:rgba(255,255,255,0.6); font-size:14px; margin-left:4px; }
+          .details { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+          .detail-item { background:#f8f4ee; border-radius:8px; padding:12px 16px; }
+          .detail-label { font-size:10px; color:#6b7a8d; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px; }
+          .detail-value { font-size:14px; font-weight:600; color:#1a1a2e; }
+          .status-paid { display:inline-flex; align-items:center; gap:6px; background:#e8f5e9; color:#2e7d32; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700; }
+          .footer { background:#f8f4ee; padding:20px 32px; text-align:center; border-top:1px solid #ede8df; }
+          .footer p { font-size:11px; color:#6b7a8d; line-height:1.8; }
+          .footer strong { color:#1a1a2e; }
+          .tricolor { height:4px; display:flex; }
+          .tc1{flex:1;background:#002395;} .tc2{flex:1;background:#fff;border-top:1px solid #ddd;} .tc3{flex:1;background:#ED2939;}
+          @media print { body{padding:0;} .no-print{display:none;} }
+        </style>
+      </head>
+      <body>
+        <div class="receipt">
+          <div class="tricolor"><div class="tc1"></div><div class="tc2"></div><div class="tc3"></div></div>
+          <div class="header">
+            <div class="logo-circle">🎓</div>
+            <div class="academy-name">International French Academy</div>
+            <div class="academy-sub">Kigali · Rwanda · Official Receipt</div>
+            <div class="receipt-badge">✓ Payment Receipt</div>
+          </div>
+          <div class="body">
+            <div class="receipt-num">
+              <div><span>Receipt No.</span><br/><strong>#IFA-${Date.now().toString().slice(-6)}</strong></div>
+              <div style="text-align:right"><span>Date Issued</span><br/><strong>${new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}</strong></div>
+            </div>
+            <div class="amount-box">
+              <div class="amount-label">Amount Paid</div>
+              <div><span class="amount-value">${p.amount.toLocaleString()}</span><span class="amount-currency">RWF</span></div>
+            </div>
+            <div class="details">
+              <div class="detail-item"><div class="detail-label">Student Name</div><div class="detail-value">${p.studentName}</div></div>
+              <div class="detail-item"><div class="detail-label">Payment Status</div><div class="detail-value"><span class="status-paid">● ${p.status.toUpperCase()}</span></div></div>
+              <div class="detail-item"><div class="detail-label">Payment Method</div><div class="detail-value">${p.method}</div></div>
+              <div class="detail-item"><div class="detail-label">Payment Date</div><div class="detail-value">${p.date}</div></div>
+              ${p.note?`<div class="detail-item" style="grid-column:span 2"><div class="detail-label">Note</div><div class="detail-value">${p.note}</div></div>`:""}
+            </div>
+          </div>
+          <div class="footer">
+            <p><strong>International French Academy</strong><br/>
+            📍 Norrsken House, Kigali · 📍 Sainte Famille, Kigali<br/>
+            📧 frenchacademyinternational@gmail.com · 📞 +250 785 302 957<br/>
+            <em>Thank you for your payment. This is an official receipt.</em></p>
+          </div>
+        </div>
+        <div class="no-print" style="text-align:center;margin-top:24px;">
+          <button onclick="window.print()" style="background:#c9a84c;color:#1a1a2e;border:none;padding:12px 32px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;">🖨️ Print / Save as PDF</button>
+        </div>
+      </body>
+      </html>
+    `);
+    win.document.close();
+  };
+
   const delPayment = async (id) => { if(!confirm("Delete payment?"))return; await fetch("/api/admin/payments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchPayments(); toast("Deleted","error"); };
   const [paySearch,setPaySearch] = useState("");
   const [payFilter,setPayFilter] = useState("all");
@@ -713,9 +792,12 @@ useEffect(()=>{ fetchPayments(); },[]);
             <div style={{color:"var(--gold)",fontWeight:600}}>{p.amount.toLocaleString()} RWF</div>
             <div style={{fontSize:12,color:"var(--text2)"}}>{p.method}</div>
             <div><Pill status={p.status} map={PAY_STATUS}/></div>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:4}}>
               <span style={{fontSize:11,color:"var(--text3)"}}>{p.date}</span>
-              <button className="del-ico" style={{opacity:1}} onClick={()=>delPayment(p._id)}>✕</button>
+              <div style={{display:"flex",gap:4}}>
+                <button className="btn btn-outline btn-xs" onClick={()=>printReceipt(p)} title="Print Receipt">🧾</button>
+                <button className="del-ico" style={{opacity:1}} onClick={()=>delPayment(p._id)}>✕</button>
+              </div>
             </div>
           </div>
         ))}
