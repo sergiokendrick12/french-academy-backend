@@ -684,22 +684,25 @@ useEffect(()=>{ fetchPayments(); },[]);
 }
 
 function SchedulePage({toast}) {
-  const defaultClasses = [
-    {id:1,name:"TCF Canada Preparation",day:"Mon, Wed, Fri",time:"8H00 – 10H00",level:"B1–B2",teacher:"Banda Clément",students:12,room:"Room A"},
-    {id:2,name:"DELF A1–A2 Beginners",day:"Tue, Thu",time:"18H00 – 20H00",level:"A1–A2",teacher:"KWIBUKA Erick",students:8,room:"Room B"},
-    {id:3,name:"TEF Québec Intensive",day:"Mon – Fri",time:"9H00 – 12H00",level:"B2–C1",teacher:"Banda Clément",students:15,room:"Main Hall"},
-    {id:4,name:"DALF C1/C2 Advanced",day:"Sat, Sun",time:"15H00 – 18H00",level:"C1–C2",teacher:"KWIBUKA Erick",students:6,room:"Room A"},
-    {id:5,name:"General French Beginners",day:"Mon, Wed",time:"18H00 – 20H00",level:"A1",teacher:"Ingabire Germaine",students:20,room:"Room C"},
-    {id:6,name:"DILF Weekend",day:"Sat",time:"9H00 – 12H00",level:"A1.1",teacher:"Ingabire Germaine",students:10,room:"Room B"},
-  ];
-  const [classes,setClasses] = useState(defaultClasses);
+  const [classes,setClasses] = useState([]);
   const [showModal,setShowModal] = useState(false);
   const [form,setForm] = useState({name:"",day:"",time:"",level:"",teacher:"",students:"",room:""});
-  const addClass = () => {
+
+  useEffect(()=>{ fetchClasses(); },[]);
+
+  const fetchClasses = async () => {
+    try {
+      const r = await fetch("/api/admin/schedule");
+      const d = await r.json();
+      setClasses(d.classes||[]);
+    } catch {}
+  };
+
+  const addClass = async () => {
     if(!form.name||!form.day) return;
-    setClasses([...classes,{id:Date.now(),...form,students:Number(form.students)||0}]);
-    setShowModal(false); toast("Class added!","success");
-    setForm({name:"",day:"",time:"",level:"",teacher:"",students:"",room:""});
+    const r = await fetch("/api/admin/schedule",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...form,students:Number(form.students)||0})});
+    const d = await r.json();
+    if(d.success){ fetchClasses(); setShowModal(false); toast("Class added!","success"); setForm({name:"",day:"",time:"",level:"",teacher:"",students:"",room:""}); }
   };
   return (
     <div>
@@ -723,7 +726,7 @@ function SchedulePage({toast}) {
               <span className="class-tag">📍 {c.room}</span>
             </div>
             <div style={{marginTop:12,display:"flex",gap:6}}>
-              <button className="btn btn-outline btn-xs" onClick={()=>{setClasses(classes.filter(x=>x.id!==c.id));toast("Class removed","error");}}>Remove</button>
+              <button className="btn btn-outline btn-xs" onClick={async()=>{await fetch("/api/admin/schedule",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:c._id})});fetchClasses();toast("Class removed","error");}}>Remove</button>
             </div>
           </div>
         ))}
