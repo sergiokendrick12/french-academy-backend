@@ -1149,6 +1149,228 @@ useEffect(()=>{ fetchTracking(); },[]);
   );
 }
 
+function AttendancePage({enrollments, toast}) {
+  const [tab, setTab] = useState("student");
+  const [classes, setClasses] = useState([]);
+  const [staff, setStaff] = useState([]);
+  const [selectedClass, setSelectedClass] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [records, setRecords] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [viewHistory, setViewHistory] = useState(false);
+  const today = new Date().toISOString().split("T")[0];
+
+  useEffect(() => { fetchClasses(); fetchStaff(); }, []);
+  useEffect(() => { if(tab==="student" && selectedClass) loadAttendance(); }, [selectedClass, date, tab]);
+  useEffect(() => { if(tab==="staff") loadAttendance(); }, [date, tab]);
+
+  const fetchClasses = async () => {
+    try { const r = await fetch("/api/admin/schedule"); const d = await r.json(); setClasses(d.classes||[]); } catch {}
+  };
+  const fetchStaff = async () => {
+    try { const r = await fetch("/api/admin/staff"); const d = await r.json(); setStaff(d.staff||[]); } catch {}
+  };
+
+  const loadAttendance = async () => {
+    const classId = tab==="staff" ? "staff" : selectedClass;
+    if(!classId) return;
+    try {
+      const r = await fetch(`/api/admin/attendance?type=${tab}&classId=${classId}&date=${date}`);
+      const d = await r.json();
+      const existing = d.attendance?.[0];
+      if(existing) {
+        setRecords(existing.records);
+      } else {
+        // Build fresh list
+        if(tab==="student") {
+          setRecords(enrollments.filter(e=>e.status==="enrolled").map(e=>({
+            personId: e._id, personName:`${e.firstName} ${e.lastName}`, status:"present", note:""
+          })));
+        } else {
+          setRecords(staff.map(s=>({ personId:s._id, personName:s.name, status:"present", note:"" })));
+        }
+      }
+    } catch {}
+  };
+
+  const loadHistory = async () => {
+    try {
+      const r = await fetch(`/api/admin/attendance?type=${tab}`);
+      const d = await r.json();
+      setHistory(d.attendance||[]);
+      setViewHistory(true);
+    } catch {}
+  };
+
+  const setStatus = (idx, status) => {
+    setRecords(r => r.map((rec,i) => i===idx ? {...rec, status} : rec));
+  };
+
+  const saveAttendance = async () => {
+    if(date > today) { toast("Cannot mark future attendance!","error"); return; }
+    if(tab==="student" && !selectedClass) { toast("Please select a class","error"); return; }
+    if(records.length===0) { toast("No people to mark","error"); return; }
+    setSaving(true);
+    try {
+      const classId = tab==="staff" ? "staff" : selectedClass;
+      const className = tab==="staff" ? "Staff Attendance" : classes.find(c=>c._id===selectedClass)?.name||"";
+      const r = await fetch("/api/admin/attendance", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ type:tab, classId, className, date, records })
+      });
+      const d = await r.json();
+      if(d.success) {
+        toast(d.updated ? "Attendance updated! ✓" : "Attendance saved! ✓","success");
+      } else {
+        toast(d.error||"Error saving","error");
+      }
+    } catch { toast("Error saving attendance","error"); }
+    finally { setSaving(false); }
+  };
+
+  const presentCount = records.filter(r=>r.status==="present").length;
+  const absentCount = records.filter(r=>r.status==="absent").length;
+  const lateCount = records.filter(r=>r.status==="late").length;
+
+  return (
+    <div>
+      {/* Header */}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
+        <div>
+          <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Attendance Tracker</div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Professional anti-cheat attendance system · Locks after 24h</div>
+        </div>
+        <div style={{display:"flex",gap:8}}>
+          <button className="btn btn-outline btn-sm" onClick={loadHistory}>📋 View History</button>
+          <button className="btn btn-gold btn-sm" onClick={saveAttendance} disabled={saving}>{saving?"Saving...":"💾 Save Attendance"}</button>
+        </div>
+      </div>
+
+      {/* Tab Switch */}
+      <div style={{display:"flex",gap:0,marginBottom:20,background:"var(--ink3)",borderRadius:"var(--r-md)",padding:4,width:"fit-content",border:"1px solid var(--border)"}}>
+        {[{id:"student",ico:"👨‍🎓",label:"Students"},{id:"staff",ico:"👨‍💼",label:"Staff"}].map(t=>(
+          <button key={t.id} onClick={()=>{setTab(t.id);setRecords([]);setViewHistory(false);}} style={{padding:"7px 20px",borderRadius:"var(--r-sm)",border:"none",fontFamily:"var(--font-b)",fontSize:13,fontWeight:500,cursor:"pointer",background:tab===t.id?"var(--gold)":"transparent",color:tab===t.id?"var(--ink)":"var(--text2)",transition:"all .15s"}}>
+            {t.ico} {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Controls */}
+      <div style={{display:"grid",gridTemplateColumns:tab==="student"?"1fr 1fr":"1fr",gap:12,marginBottom:16}}>
+        <div className="form-group">
+          <label className="form-label">📅 Date {date===today&&<span style={{color:"var(--teal)",marginLeft:6}}>● Today</span>}</label>
+          <input className="form-input" type="date" value={date} max={today} onChange={e=>setDate(e.target.value)}/>
+        </div>
+        {tab==="student"&&(
+          <div className="form-group">
+            <label className="form-label">🏫 Class</label>
+            <select className="form-select" value={selectedClass} onChange={e=>setSelectedClass(e.target.value)}>
+              <option value="">Select class...</option>
+              {classes.map(c=><option key={c._id} value={c._id}>{c.name}</option>)}
+            </select>
+          </div>
+        )}
+      </div>
+
+      {/* Summary Cards */}
+      {records.length>0&&(
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,marginBottom:16}}>
+          {[
+            {label:"Total",value:records.length,color:"var(--text2)",bg:"var(--ink3)"},
+            {label:"Present",value:presentCount,color:"var(--teal)",bg:"var(--teal-dim)"},
+            {label:"Absent",value:absentCount,color:"var(--rose)",bg:"var(--rose-dim)"},
+            {label:"Late",value:lateCount,color:"var(--amber)",bg:"var(--amber-dim)"},
+          ].map((s,i)=>(
+            <div key={i} style={{background:s.bg,border:`1px solid ${s.color}30`,borderRadius:"var(--r-md)",padding:"12px 16px",textAlign:"center"}}>
+              <div style={{fontFamily:"var(--font-d)",fontSize:26,color:s.color}}>{s.value}</div>
+              <div style={{fontSize:10,color:s.color,textTransform:"uppercase",letterSpacing:"1.5px",marginTop:2}}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Anti-cheat warning */}
+      <div style={{background:"rgba(212,168,67,0.06)",border:"1px solid rgba(212,168,67,0.2)",borderRadius:"var(--r-md)",padding:"10px 14px",marginBottom:16,display:"flex",alignItems:"center",gap:10}}>
+        <span style={{fontSize:16}}>🔒</span>
+        <span style={{fontSize:12,color:"var(--text2)"}}>Attendance is <strong style={{color:"var(--gold)"}}>locked after 24 hours</strong> and cannot be edited. Future dates are blocked. All records are timestamped.</span>
+      </div>
+
+      {/* Attendance List */}
+      {!viewHistory&&(
+        <>
+          {records.length===0?(
+            <div className="card">
+              <div className="empty">
+                <div className="empty-ico">{tab==="student"?"📚":"👨‍💼"}</div>
+                <p className="empty-txt">{tab==="student"?"Select a class to mark attendance":"Loading staff..."}</p>
+                {tab==="staff"&&staff.length===0&&<p className="empty-sub">No staff found. Add staff first.</p>}
+              </div>
+            </div>
+          ):(
+            <div className="tbl-wrap">
+              <div style={{display:"grid",gridTemplateColumns:"1fr 260px 1fr",padding:"9px 16px",background:"var(--ink3)",borderBottom:"1px solid var(--border)",fontSize:10,fontWeight:600,letterSpacing:"1.5px",textTransform:"uppercase",color:"var(--text3)"}}>
+                <span>Name</span><span>Status</span><span>Note (optional)</span>
+              </div>
+              {records.map((rec,i)=>(
+                <div key={i} style={{display:"grid",gridTemplateColumns:"1fr 260px 1fr",padding:"10px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",alignItems:"center",background:rec.status==="absent"?"rgba(224,92,122,0.04)":rec.status==="late"?"rgba(232,160,48,0.04)":"transparent"}}>
+                  <div style={{fontWeight:500,fontSize:13}}>{rec.personName}</div>
+                  <div style={{display:"flex",gap:6}}>
+                    {[
+                      {s:"present",label:"✓ Present",color:"var(--teal)",bg:"var(--teal-dim)"},
+                      {s:"absent", label:"✕ Absent", color:"var(--rose)",bg:"var(--rose-dim)"},
+                      {s:"late",   label:"⏰ Late",   color:"var(--amber)",bg:"var(--amber-dim)"},
+                    ].map(opt=>(
+                      <button key={opt.s} onClick={()=>setStatus(i,opt.s)} style={{padding:"4px 10px",borderRadius:"var(--r-sm)",border:`1px solid ${rec.status===opt.s?opt.color:"var(--border)"}`,background:rec.status===opt.s?opt.bg:"transparent",color:rec.status===opt.s?opt.color:"var(--text3)",fontSize:11,fontWeight:rec.status===opt.s?600:400,cursor:"pointer",fontFamily:"var(--font-b)",transition:"all .12s"}}>
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                  <input style={{background:"transparent",border:"none",borderBottom:"1px solid var(--border)",color:"var(--text2)",fontSize:12,padding:"4px 0",fontFamily:"var(--font-b)",outline:"none",width:"100%"}} placeholder="Add note..." value={rec.note||""} onChange={e=>setRecords(r=>r.map((x,j)=>j===i?{...x,note:e.target.value}:x))}/>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* History View */}
+      {viewHistory&&(
+        <div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+            <div style={{fontFamily:"var(--font-d)",fontSize:18}}>Attendance History</div>
+            <button className="btn btn-outline btn-sm" onClick={()=>setViewHistory(false)}>← Back to Mark</button>
+          </div>
+          {history.length===0?(
+            <div className="card"><div className="empty"><div className="empty-ico">📋</div><p className="empty-txt">No attendance records yet</p></div></div>
+          ):history.map((h,i)=>(
+            <div key={i} style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"14px 18px",marginBottom:10}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10,flexWrap:"wrap",gap:8}}>
+                <div>
+                  <div style={{fontWeight:600,fontSize:14}}>{h.className} <span style={{fontSize:11,color:"var(--text3)",marginLeft:8}}>📅 {h.date}</span></div>
+                  <div style={{fontSize:11,color:"var(--text3)",marginTop:2}}>Marked at {new Date(h.markedAt||h.createdAt).toLocaleString()}{h.isLocked&&<span style={{color:"var(--rose)",marginLeft:8}}>🔒 Locked</span>}</div>
+                </div>
+                <div style={{display:"flex",gap:8}}>
+                  <span style={{fontSize:11,background:"var(--teal-dim)",color:"var(--teal)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>✓ {h.records.filter(r=>r.status==="present").length} Present</span>
+                  <span style={{fontSize:11,background:"var(--rose-dim)",color:"var(--rose)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>✕ {h.records.filter(r=>r.status==="absent").length} Absent</span>
+                  <span style={{fontSize:11,background:"var(--amber-dim)",color:"var(--amber)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>⏰ {h.records.filter(r=>r.status==="late").length} Late</span>
+                </div>
+              </div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                {h.records.map((r,j)=>(
+                  <span key={j} style={{fontSize:11,padding:"2px 8px",borderRadius:10,background:r.status==="present"?"var(--teal-dim)":r.status==="absent"?"var(--rose-dim)":"var(--amber-dim)",color:r.status==="present"?"var(--teal)":r.status==="absent"?"var(--rose)":"var(--amber)",fontWeight:500}}>
+                    {r.personName}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SettingsPage({toast}) {
   const [pwd,setPwd] = useState({current:"",newPwd:"",confirm:""});
   const [info,setInfo] = useState({name:"International French Academy",email:"frenchacademyinternational@gmail.com",phone:"+250 785 302 957",address:"Norrsken House, Kigali, Rwanda",website:"french-app-new.vercel.app"});
@@ -1398,6 +1620,7 @@ export default function AdminDashboard() {
     {id:"messages",      ico:"📧", label:"Messages"},
     {id:"staff",         ico:"👨‍🏫", label:"Staff"},
     {id:"certifications",ico:"🏆", label:"Certifications"},
+    {id:"attendance",    ico:"📋", label:"Attendance"},
     {id:"settings",      ico:"⚙️", label:"Settings"},
   ];
 
@@ -1405,7 +1628,7 @@ export default function AdminDashboard() {
     home:"Dashboard",                                              // ← NEW
     enrollments:"Enrollments",analytics:"Analytics",payments:"Payments",
     schedule:"Schedule",messages:"Messages",staff:"Staff",
-    certifications:"Certifications",settings:"Settings"
+    certifications:"Certifications",attendance:"Attendance",settings:"Settings"
   };
 
   const statCards = [
@@ -1584,6 +1807,7 @@ export default function AdminDashboard() {
           {page==="messages"&&<MessagesPage enrollments={enrollments} toast={toast}/>}
           {page==="staff"&&<StaffPage toast={toast}/>}
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
+          {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}
           {page==="settings"&&<SettingsPage toast={toast}/>}
         </main>
 
