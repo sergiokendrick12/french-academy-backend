@@ -1624,6 +1624,121 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
     } catch { toast("Failed to send","error"); }
     finally { setSending(false); }
   };
+  const printIDCard = (student) => {
+    const win = window.open("","_blank","width=900,height=600");
+    const enrollDate = new Date(student.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
+    const idNum = `IFA-${new Date(student.createdAt).getFullYear()}-${student._id.slice(-5).toUpperCase()}`;
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>ID Card — ${student.firstName} ${student.lastName}</title>
+        <style>
+          *{margin:0;padding:0;box-sizing:border-box;}
+          body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:30px;}
+          .card-wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}
+          .card{width:340px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+          /* FRONT */
+          .front{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e47 60%,#0d1b2a 100%);padding:0;}
+          .card-top{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}
+          .tricolor{height:4px;display:flex;margin-bottom:14px;}
+          .tc1{flex:1;background:#002395;}.tc2{flex:1;background:#fff;}.tc3{flex:1;background:#ED2939;}
+          .academy-row{display:flex;align-items:center;gap:10px;}
+          .logo-c{width:38px;height:38px;border-radius:50%;background:rgba(201,168,67,0.15);border:1.5px solid #c9a843;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+          .academy-name{color:#fff;font-size:11px;font-weight:700;line-height:1.3;}
+          .academy-sub{color:rgba(255,255,255,0.4);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;}
+          .card-type{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.3);color:#c9a843;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:8px;}
+          .card-body{padding:18px 20px;}
+          .photo-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+          .photo{width:72px;height:80px;border-radius:8px;background:rgba(255,255,255,0.06);border:2px solid rgba(201,168,67,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+          .student-info{flex:1;}
+          .student-name{font-size:17px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px;font-family:'Segoe UI',serif;}
+          .cert-badge{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.25);color:#c9a843;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px;}
+          .info-row{display:flex;gap:6px;align-items:center;margin-bottom:4px;}
+          .info-ico{font-size:9px;width:12px;}
+          .info-txt{font-size:10px;color:rgba(255,255,255,0.5);}
+          .info-val{font-size:10px;color:rgba(255,255,255,0.8);font-weight:500;}
+          .card-footer{background:rgba(0,0,0,0.3);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}
+          .id-num{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;}
+          .status-dot{display:flex;align-items:center;gap:5px;font-size:9px;color:#3ec9a7;font-weight:600;}
+          .dot{width:5px;height:5px;border-radius:50%;background:#3ec9a7;}
+          /* BACK */
+          .back{background:linear-gradient(160deg,#1a2e47 0%,#0d1b2a 100%);padding:0;}
+          .back-top{background:linear-gradient(90deg,#c9a843,#e8c068);padding:12px 20px;text-align:center;}
+          .back-top p{font-size:10px;font-weight:700;color:#0d1b2a;letter-spacing:1px;text-transform:uppercase;}
+          .back-body{padding:18px 20px;}
+          .rule-item{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start;}
+          .rule-num{width:18px;height:18px;border-radius:50%;background:rgba(201,168,67,0.15);border:1px solid rgba(201,168,67,0.3);color:#c9a843;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+          .rule-txt{font-size:10px;color:rgba(255,255,255,0.55);line-height:1.5;}
+          .back-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;}
+          .back-footer p{font-size:9px;color:rgba(255,255,255,0.3);line-height:1.8;}
+          .qr-placeholder{width:56px;height:56px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 10px;}
+          .print-btn{margin-top:28px;background:#c9a843;color:#0d1b2a;border:none;padding:12px 36px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.5px;}
+          @media print{body{background:#fff;padding:0;}  .no-print{display:none;} .card-wrap{gap:10px;} }
+        </style>
+      </head>
+      <body>
+        <div class="card-wrap">
+          <!-- FRONT -->
+          <div class="card front">
+            <div class="card-top">
+              <div class="tricolor"><div class="tc1"></div><div class="tc2"></div><div class="tc3"></div></div>
+              <div class="academy-row">
+                <div class="logo-c">🎓</div>
+                <div>
+                  <div class="academy-name">International French Academy</div>
+                  <div class="academy-sub">Kigali · Rwanda</div>
+                </div>
+              </div>
+              <div class="card-type">🪪 Student ID Card</div>
+            </div>
+            <div class="card-body">
+              <div class="photo-row">
+                <div class="photo">👤</div>
+                <div class="student-info">
+                  <div class="student-name">${student.firstName}<br/>${student.lastName}</div>
+                  <div class="cert-badge">🎯 ${student.certificationGoal}</div>
+                  <div class="info-row"><span class="info-ico">📧</span><span class="info-val">${student.email}</span></div>
+                  <div class="info-row"><span class="info-ico">📞</span><span class="info-val">${student.phone}</span></div>
+                </div>
+              </div>
+              <div class="info-row"><span class="info-ico">📅</span><span class="info-txt">Enrolled:</span>&nbsp;<span class="info-val">${enrollDate}</span></div>
+              <div class="info-row" style="margin-top:4px"><span class="info-ico">🆔</span><span class="info-txt">ID:</span>&nbsp;<span class="info-val">${idNum}</span></div>
+            </div>
+            <div class="card-footer">
+              <span class="id-num">${idNum}</span>
+              <span class="status-dot"><span class="dot"></span>ACTIVE</span>
+            </div>
+          </div>
+          <!-- BACK -->
+          <div class="card back">
+            <div class="back-top"><p>International French Academy — Student Rules</p></div>
+            <div class="back-body">
+              <div class="qr-placeholder">🇫🇷</div>
+              ${[
+                "Attend all scheduled classes on time.",
+                "Respect teachers, staff and fellow students.",
+                "Complete all assignments and practice exercises.",
+                "This card must be presented upon request.",
+                "Loss of card must be reported immediately.",
+              ].map((r,i)=>`<div class="rule-item"><div class="rule-num">${i+1}</div><div class="rule-txt">${r}</div></div>`).join("")}
+            </div>
+            <div class="back-footer">
+              <p><strong style="color:rgba(255,255,255,0.6)">International French Academy</strong><br/>
+              📍 Norrsken House · 📍 Sainte Famille, Kigali<br/>
+              📞 +250 785 302 957</p>
+            </div>
+          </div>
+        </div>
+        <div class="no-print" style="text-align:center;margin-top:24px;">
+          <button class="print-btn" onclick="window.print()">🖨️ Print ID Card</button>
+        </div>
+      </body>
+      </html>
+    `);
+    win.document.close();
+  };
+
   const del = async () => {
     if(!confirm(`Delete ${e.firstName} ${e.lastName}?`))return;
     await fetch("/api/admin/enrollments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:e._id})});
@@ -1704,6 +1819,7 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
         <a href={`https://wa.me/${(e.phone||"").replace(/\D/g,"")}`} target="_blank" style={{flex:1,textDecoration:"none"}}>
           <button className="btn btn-teal" style={{width:"100%",justifyContent:"center"}}>💬 WhatsApp</button>
         </a>
+        <button className="btn btn-outline btn-sm" onClick={()=>printIDCard(e)} title="Generate ID Card">🪪</button>
         <button className="btn btn-danger btn-sm" onClick={del}>Delete</button>
       </div>
     </div>
