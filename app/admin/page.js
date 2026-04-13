@@ -1229,6 +1229,34 @@ function AttendancePage({enrollments, toast}) {
     finally { setSaving(false); }
   };
 
+  const exportAttendanceCSV = async () => {
+    try {
+      const r = await fetch(`/api/admin/attendance?type=${tab}`);
+      const d = await r.json();
+      const rows = d.attendance||[];
+      if(rows.length===0){ toast("No attendance data to export","error"); return; }
+      const lines = [];
+      lines.push(["Date","Class/Type","Person","Status","Note","Marked At"].join(","));
+      rows.forEach(h=>{
+        h.records.forEach(rec=>{
+          lines.push([
+            h.date,
+            `"${h.className}"`,
+            `"${rec.personName}"`,
+            rec.status,
+            `"${rec.note||""}"`,
+            new Date(h.markedAt||h.createdAt).toLocaleString()
+          ].join(","));
+        });
+      });
+      const csv = lines.join("\n");
+      const url = URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+      Object.assign(document.createElement("a"),{href:url,download:`ifa_attendance_${tab}_${new Date().toISOString().split("T")[0]}.csv`}).click();
+      URL.revokeObjectURL(url);
+      toast("Attendance exported!","success");
+    } catch { toast("Export failed","error"); }
+  };
+
   const presentCount = records.filter(r=>r.status==="present").length;
   const absentCount = records.filter(r=>r.status==="absent").length;
   const lateCount = records.filter(r=>r.status==="late").length;
@@ -1241,8 +1269,9 @@ function AttendancePage({enrollments, toast}) {
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Attendance Tracker</div>
           <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Professional anti-cheat attendance system · Locks after 24h</div>
         </div>
-        <div style={{display:"flex",gap:8}}>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
           <button className="btn btn-outline btn-sm" onClick={loadHistory}>📋 View History</button>
+          <button className="btn btn-outline btn-sm" onClick={exportAttendanceCSV}>📥 Export CSV</button>
           <button className="btn btn-gold btn-sm" onClick={saveAttendance} disabled={saving}>{saving?"Saving...":"💾 Save Attendance"}</button>
         </div>
       </div>
@@ -1332,6 +1361,49 @@ function AttendancePage({enrollments, toast}) {
             </div>
           )}
         </>
+      )}
+
+      {/* Summary Report */}
+      {viewHistory&&history.length>0&&(
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
+          <div className="card">
+            <div className="card-title" style={{marginBottom:12}}>📊 Attendance Summary</div>
+            {(() => {
+              const personMap = {};
+              history.forEach(h=>{
+                h.records.forEach(r=>{
+                  if(!personMap[r.personName]) personMap[r.personName]={present:0,absent:0,late:0,total:0};
+                  personMap[r.personName][r.status]++;
+                  personMap[r.personName].total++;
+                });
+              });
+              return Object.entries(personMap).sort((a,b)=>b[1].present-a[1].present).slice(0,6).map(([name,s],i)=>(
+                <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:"1px solid rgba(36,54,80,.5)"}}>
+                  <div style={{flex:1,fontSize:12,fontWeight:500}}>{name}</div>
+                  <span style={{fontSize:10,background:"var(--teal-dim)",color:"var(--teal)",padding:"2px 6px",borderRadius:8,fontWeight:600}}>✓{s.present}</span>
+                  <span style={{fontSize:10,background:"var(--rose-dim)",color:"var(--rose)",padding:"2px 6px",borderRadius:8,fontWeight:600}}>✕{s.absent}</span>
+                  <span style={{fontSize:10,background:"var(--amber-dim)",color:"var(--amber)",padding:"2px 6px",borderRadius:8,fontWeight:600}}>⏰{s.late}</span>
+                  <span style={{fontSize:10,color:"var(--text3)",minWidth:28,textAlign:"right"}}>{Math.round((s.present/s.total)*100)}%</span>
+                </div>
+              ));
+            })()}
+          </div>
+          <div className="card">
+            <div className="card-title" style={{marginBottom:12}}>📅 Sessions Overview</div>
+            {[
+              {label:"Total Sessions",value:history.length,color:"var(--gold)"},
+              {label:"Total Records",value:history.reduce((a,h)=>a+h.records.length,0),color:"var(--blue)"},
+              {label:"Present Records",value:history.reduce((a,h)=>a+h.records.filter(r=>r.status==="present").length,0),color:"var(--teal)"},
+              {label:"Absent Records",value:history.reduce((a,h)=>a+h.records.filter(r=>r.status==="absent").length,0),color:"var(--rose)"},
+              {label:"Late Records",value:history.reduce((a,h)=>a+h.records.filter(r=>r.status==="late").length,0),color:"var(--amber)"},
+            ].map((s,i)=>(
+              <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid rgba(36,54,80,.5)"}}>
+                <span style={{fontSize:12,color:"var(--text2)"}}>{s.label}</span>
+                <span style={{fontSize:13,fontWeight:600,color:s.color}}>{s.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
 
       {/* History View */}
