@@ -281,6 +281,14 @@ function Pill({status, map=S}) {
   const s = map[status] || map[Object.keys(map)[0]];
   return <span className="pill" style={{background:s.bg,color:s.color}}><span className="dot" style={{background:s.color}}/>{s.label}</span>;
 }
+function useNotifications(enrollments) {
+  const [read,setRead] = useState(()=>{ try { return JSON.parse(localStorage.getItem("ifa_notif_read")||"[]"); } catch { return []; } });
+  const notifications = [...enrollments].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,10).map(e=>({id:e._id,message:`New enrollment: ${e.firstName} ${e.lastName}`,sub:e.certificationGoal,time:fmtDate(e.createdAt),type:"enrollment"}));
+  const unread = notifications.filter(n=>!read.includes(n.id)).length;
+  const markAllRead = () => { const ids=notifications.map(n=>n.id); localStorage.setItem("ifa_notif_read",JSON.stringify(ids)); setRead(ids); };
+  return {notifications,unread,markAllRead};
+}
+
 function useToast() {
   const [list,setList] = useState([]);
   const show = useCallback((msg,type="success")=>{
@@ -1346,6 +1354,8 @@ export default function AdminDashboard() {
   const [selected,setSelected] = useState(null);
   const [sidebarOpen,setSidebarOpen] = useState(false);
   const {list:toasts,show:toast} = useToast();
+  const {notifications,unread,markAllRead} = useNotifications(enrollments);
+  const [showNotif,setShowNotif] = useState(false);
   const bp = useBreakpoint();
 
   const payments = (() => { try { return JSON.parse(localStorage.getItem("ifa_payments")||"[]"); } catch { return []; } })();
@@ -1485,6 +1495,30 @@ export default function AdminDashboard() {
           <div className="tb-right">
             {page==="enrollments"&&<><button className="btn btn-outline btn-sm" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}>📥 Export</button><button className="btn btn-gold btn-sm" onClick={fetchData}>🔄 Refresh</button></>}
             {page==="home"&&<button className="btn btn-gold btn-sm" onClick={fetchData}>🔄 Refresh</button>}
+            <div style={{position:"relative"}}>
+              <button className="btn btn-outline btn-sm" onClick={()=>{setShowNotif(o=>!o);if(!showNotif)markAllRead();}} style={{position:"relative",padding:"6px 10px"}}>
+                🔔
+                {unread>0&&<span style={{position:"absolute",top:-4,right:-4,background:"var(--rose)",color:"#fff",fontSize:9,fontWeight:700,padding:"1px 5px",borderRadius:10,minWidth:16,textAlign:"center"}}>{unread}</span>}
+              </button>
+              {showNotif&&(
+                <div style={{position:"absolute",right:0,top:"calc(100% + 8px)",width:300,background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",boxShadow:"0 8px 32px rgba(0,0,0,.5)",zIndex:300}}>
+                  <div style={{padding:"12px 16px",borderBottom:"1px solid var(--border)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                    <span style={{fontFamily:"var(--font-d)",fontSize:15}}>Notifications</span>
+                    <button className="btn btn-outline btn-xs" onClick={markAllRead}>Mark all read</button>
+                  </div>
+                  <div style={{maxHeight:320,overflowY:"auto"}}>
+                    {notifications.length===0?(
+                      <div style={{padding:"20px",textAlign:"center",color:"var(--text3)",fontSize:13}}>No notifications yet</div>
+                    ):notifications.map((n,i)=>(
+                      <div key={i} style={{padding:"10px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",cursor:"pointer"}} onClick={()=>{setShowNotif(false);setPage("enrollments");}}>
+                        <div style={{fontSize:13,fontWeight:500,marginBottom:2}}>{n.message}</div>
+                        <div style={{fontSize:11,color:"var(--text3)"}}>{n.sub} · {n.time}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
