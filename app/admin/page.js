@@ -1231,6 +1231,140 @@ useEffect(()=>{ fetchTracking(); },[]);
   );
 }
 
+function AnnouncementsPage({toast}) {
+  const [announcements, setAnnouncements] = useState([]);
+  const [form, setForm] = useState({ title:"", message:"", type:"info", audience:"all" });
+  const [saving, setSaving] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => { fetchAnnouncements(); }, []);
+
+  const fetchAnnouncements = async () => {
+    try {
+      const r = await fetch("/api/admin/announcements");
+      const d = await r.json();
+      setAnnouncements(d.announcements||[]);
+    } catch {}
+  };
+
+  const save = async () => {
+    if(!form.title||!form.message){ toast("Title and message required","error"); return; }
+    setSaving(true);
+    try {
+      const r = await fetch("/api/admin/announcements",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
+      const d = await r.json();
+      if(d.success){ toast("Announcement posted! 📢","success"); setForm({title:"",message:"",type:"info",audience:"all"}); setShowForm(false); fetchAnnouncements(); }
+      else toast(d.error||"Error","error");
+    } catch { toast("Error posting","error"); }
+    finally { setSaving(false); }
+  };
+
+  const del = async (id) => {
+    if(!confirm("Delete this announcement?")) return;
+    try {
+      await fetch("/api/admin/announcements",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
+      toast("Deleted","success"); fetchAnnouncements();
+    } catch {}
+  };
+
+  const toggle = async (id, active) => {
+    try {
+      await fetch("/api/admin/announcements",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,active:!active})});
+      fetchAnnouncements();
+    } catch {}
+  };
+
+  const TYPE_COLORS = {
+    info:    {color:"var(--blue)",  bg:"rgba(77,157,224,.12)",  ico:"ℹ️"},
+    warning: {color:"var(--amber)", bg:"rgba(232,160,48,.12)",  ico:"⚠️"},
+    success: {color:"var(--teal)",  bg:"rgba(62,201,167,.12)",  ico:"✅"},
+    urgent:  {color:"var(--rose)",  bg:"rgba(224,92,122,.12)",  ico:"🚨"},
+  };
+  const AUD_LABELS = { all:"Everyone", students:"Students only", staff:"Staff only" };
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
+        <div>
+          <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Announcements</div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Post updates visible to students and staff</div>
+        </div>
+        <button className="btn btn-gold btn-sm" onClick={()=>setShowForm(v=>!v)}>
+          {showForm ? "✕ Cancel" : "📢 New Announcement"}
+        </button>
+      </div>
+
+      {showForm&&(
+        <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"20px",marginBottom:20}}>
+          <div style={{fontFamily:"var(--font-d)",fontSize:16,marginBottom:16}}>New Announcement</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
+            <div className="form-group" style={{gridColumn:"span 2"}}>
+              <label className="form-label">Title</label>
+              <input className="form-input" placeholder="e.g. Class cancelled tomorrow" value={form.title} onChange={e=>setForm(f=>({...f,title:e.target.value}))}/>
+            </div>
+            <div className="form-group" style={{gridColumn:"span 2"}}>
+              <label className="form-label">Message</label>
+              <textarea className="form-input" rows={3} placeholder="Write your announcement here..." value={form.message} onChange={e=>setForm(f=>({...f,message:e.target.value}))} style={{resize:"vertical"}}/>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Type</label>
+              <select className="form-select" value={form.type} onChange={e=>setForm(f=>({...f,type:e.target.value}))}>
+                <option value="info">ℹ️ Info</option>
+                <option value="success">✅ Success</option>
+                <option value="warning">⚠️ Warning</option>
+                <option value="urgent">🚨 Urgent</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Audience</label>
+              <select className="form-select" value={form.audience} onChange={e=>setForm(f=>({...f,audience:e.target.value}))}>
+                <option value="all">Everyone</option>
+                <option value="students">Students only</option>
+                <option value="staff">Staff only</option>
+              </select>
+            </div>
+          </div>
+          <button className="btn btn-gold" onClick={save} disabled={saving}>{saving?"Posting...":"📢 Post Announcement"}</button>
+        </div>
+      )}
+
+      {announcements.length===0?(
+        <div className="card">
+          <div className="empty">
+            <div className="empty-ico">📢</div>
+            <p className="empty-txt">No announcements yet</p>
+            <p className="empty-sub">Click "New Announcement" to post one</p>
+          </div>
+        </div>
+      ):announcements.map((a,i)=>{
+        const t = TYPE_COLORS[a.type]||TYPE_COLORS.info;
+        return (
+          <div key={i} style={{background:"var(--ink2)",border:`1px solid ${a.active?t.color+"40":"var(--border)"}`,borderRadius:"var(--r-lg)",padding:"16px 20px",marginBottom:12,opacity:a.active?1:0.5,transition:"all .2s"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:12,flexWrap:"wrap"}}>
+              <div style={{flex:1}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6,flexWrap:"wrap"}}>
+                  <span style={{background:t.bg,color:t.color,padding:"2px 10px",borderRadius:20,fontSize:11,fontWeight:700}}>{t.ico} {a.type.toUpperCase()}</span>
+                  <span style={{background:"rgba(255,255,255,0.05)",color:"var(--text3)",padding:"2px 10px",borderRadius:20,fontSize:11}}>👥 {AUD_LABELS[a.audience]}</span>
+                  {!a.active&&<span style={{background:"rgba(255,255,255,0.05)",color:"var(--text3)",padding:"2px 10px",borderRadius:20,fontSize:11}}>🔇 Hidden</span>}
+                </div>
+                <div style={{fontWeight:600,fontSize:15,marginBottom:4}}>{a.title}</div>
+                <div style={{fontSize:13,color:"var(--text2)",lineHeight:1.6}}>{a.message}</div>
+                <div style={{fontSize:11,color:"var(--text3)",marginTop:8}}>📅 {new Date(a.createdAt).toLocaleString()}</div>
+              </div>
+              <div style={{display:"flex",gap:6,flexShrink:0}}>
+                <button className="btn btn-outline btn-xs" onClick={()=>toggle(a._id,a.active)} title={a.active?"Hide":"Show"}>
+                  {a.active?"🔇 Hide":"👁 Show"}
+                </button>
+                <button className="del-ico" onClick={()=>del(a._id)}>✕</button>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function AttendancePage({enrollments, toast}) {
   const [tab, setTab] = useState("student");
   const [classes, setClasses] = useState([]);
@@ -1891,6 +2025,7 @@ export default function AdminDashboard() {
     {id:"staff",         ico:"👨‍🏫", label:"Staff"},
     {id:"certifications",ico:"🏆", label:"Certifications"},
     {id:"attendance",    ico:"📋", label:"Attendance"},
+    {id:"announcements", ico:"📢", label:"Announcements"},
     {id:"settings",      ico:"⚙️", label:"Settings"},
   ];
 
@@ -2078,6 +2213,7 @@ export default function AdminDashboard() {
           {page==="staff"&&<StaffPage toast={toast}/>}
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
           {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}
+          {page==="announcements"&&<AnnouncementsPage toast={toast}/>}
           {page==="settings"&&<SettingsPage toast={toast}/>}
         </main>
 

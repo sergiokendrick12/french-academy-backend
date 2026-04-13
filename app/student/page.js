@@ -117,6 +117,7 @@ function fmtDate(d) { return new Date(d).toLocaleDateString("en-GB",{day:"2-digi
 export default function StudentPortal() {
   const [student, setStudent] = useState(null);
   const [data, setData] = useState(null);
+  const [announcements, setAnnouncements] = useState([]);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -131,6 +132,7 @@ export default function StudentPortal() {
       if(d.success) {
         setStudent(d.student);
         fetchData(d.student._id);
+        fetchAnnouncements();
       } else { setErr(d.error||"Not found"); }
     } catch { setErr("Connection error."); }
     finally { setLoading(false); }
@@ -141,6 +143,14 @@ export default function StudentPortal() {
       const r = await fetch("/api/student/data",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({studentId})});
       const d = await r.json();
       if(d.success) setData(d);
+    } catch {}
+  };
+
+  const fetchAnnouncements = async () => {
+    try {
+      const r = await fetch("/api/admin/announcements");
+      const d = await r.json();
+      setAnnouncements((d.announcements||[]).filter(a=>a.active && (a.audience==="all"||a.audience==="students")));
     } catch {}
   };
 
@@ -192,6 +202,31 @@ export default function StudentPortal() {
         </nav>
 
         <div className="pcontent">
+          {/* Announcements Banner */}
+          {announcements.length>0&&(
+            <div style={{marginBottom:16}}>
+              {announcements.map((a,i)=>{
+                const colors = {
+                  info:    {color:"#4d9de0",bg:"rgba(77,157,224,.1)",  border:"rgba(77,157,224,.3)",  ico:"ℹ️"},
+                  warning: {color:"#e8a030",bg:"rgba(232,160,48,.1)",  border:"rgba(232,160,48,.3)",  ico:"⚠️"},
+                  success: {color:"#3ec9a7",bg:"rgba(62,201,167,.1)",  border:"rgba(62,201,167,.3)",  ico:"✅"},
+                  urgent:  {color:"#e05c7a",bg:"rgba(224,92,122,.1)",  border:"rgba(224,92,122,.3)",  ico:"🚨"},
+                };
+                const c = colors[a.type]||colors.info;
+                return (
+                  <div key={i} style={{background:c.bg,border:`1px solid ${c.border}`,borderRadius:12,padding:"14px 18px",marginBottom:8,display:"flex",gap:12,alignItems:"flex-start"}}>
+                    <span style={{fontSize:18,flexShrink:0}}>{c.ico}</span>
+                    <div style={{flex:1}}>
+                      <div style={{fontWeight:600,fontSize:14,color:c.color,marginBottom:3}}>{a.title}</div>
+                      <div style={{fontSize:13,color:"var(--text2)",lineHeight:1.6}}>{a.message}</div>
+                      <div style={{fontSize:11,color:"var(--text3)",marginTop:4}}>📅 {new Date(a.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
           {/* Welcome Banner */}
           <div className="welcome-banner">
             <div className="welcome-text">
