@@ -514,6 +514,8 @@ function DonutChart({stats}) {
 }
 
 function AnalyticsPage({enrollments,stats}) {
+  const [payments,setPayments] = useState([]);
+  useEffect(()=>{ fetch("/api/admin/payments").then(r=>r.json()).then(d=>setPayments(d.payments||[])); },[]);
   const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const counts=months.map((_,i)=>enrollments.filter(e=>new Date(e.createdAt).getMonth()===i).length);
   const maxC=Math.max(...counts,1);
@@ -523,13 +525,22 @@ function AnalyticsPage({enrollments,stats}) {
   const maxCert=certs[0]?.[1]||1;
   const avgPerMonth = enrollments.length > 0 ? (enrollments.length/12).toFixed(1) : 0;
   const thisMonth = counts[new Date().getMonth()];
+  const totalRevenue = payments.filter(p=>p.status==="paid").reduce((a,p)=>a+p.amount,0);
+  const pendingRevenue = payments.filter(p=>p.status==="pending").reduce((a,p)=>a+p.amount,0);
+  const monthlyRevenue = months.map((_,i)=>payments.filter(p=>p.status==="paid"&&new Date(p.createdAt).getMonth()===i).reduce((a,p)=>a+p.amount,0));
+  const maxRev = Math.max(...monthlyRevenue,1);
+  const methodMap={};
+  payments.forEach(p=>{methodMap[p.method]=(methodMap[p.method]||0)+p.amount;});
+  const methods = Object.entries(methodMap).sort((a,b)=>b[1]-a[1]);
+  const maxMethod = methods[0]?.[1]||1;
   return (
     <div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
         {[
           {label:"Total Students",value:stats.total||0,color:"var(--gold)",ico:"👥"},
           {label:"This Month",value:thisMonth,color:"var(--teal)",ico:"📅"},
           {label:"Avg/Month",value:avgPerMonth,color:"var(--blue)",ico:"📊"},
+          {label:"Total Revenue",value:`${totalRevenue.toLocaleString()} RWF`,color:"var(--purple)",ico:"💰"},
         ].map((s,i)=>(
           <div key={i} className="card" style={{borderColor:s.color+"30"}}>
             <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
@@ -558,6 +569,55 @@ function AnalyticsPage({enrollments,stats}) {
           <div className="chart-title">Status Breakdown</div>
           <div className="chart-sub">Current enrollment statuses</div>
           <DonutChart stats={stats}/>
+        </div>
+      </div>
+      <div className="chart-card" style={{marginBottom:16}}>
+        <div className="chart-title">Monthly Revenue</div>
+        <div className="chart-sub">RWF collected per month</div>
+        <div className="bar-wrap" style={{marginTop:14}}>
+          {months.map((m,i)=>(
+            <div key={m} className="bar-col-w">
+              <span className="bar-v" style={{color:monthlyRevenue[i]?"var(--teal)":"var(--text3)",fontSize:8}}>{monthlyRevenue[i]?`${(monthlyRevenue[i]/1000).toFixed(0)}k`:""}</span>
+              <div className="bar-col" style={{height:`${(monthlyRevenue[i]/maxRev)*100}%`,background:monthlyRevenue[i]?"linear-gradient(to top,var(--teal),#6ee7c7)":"var(--border)"}}/>
+              <span className="bar-l">{m}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="a-grid" style={{marginBottom:16}}>
+        <div className="chart-card">
+          <div className="chart-title">Revenue vs Pending</div>
+          <div className="chart-sub">Collected vs outstanding</div>
+          <div style={{marginTop:14}}>
+            {[{label:"Collected",value:totalRevenue,color:"var(--teal)"},{label:"Pending",value:pendingRevenue,color:"var(--amber)"}].map((s,i)=>(
+              <div key={i} style={{marginBottom:12}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                  <span style={{fontSize:12,color:"var(--text2)"}}>{s.label}</span>
+                  <span style={{fontSize:12,fontWeight:600,color:s.color}}>{s.value.toLocaleString()} RWF</span>
+                </div>
+                <div style={{height:6,background:"var(--border)",borderRadius:3}}>
+                  <div style={{height:"100%",borderRadius:3,background:s.color,width:`${(s.value/Math.max(totalRevenue+pendingRevenue,1))*100}%`,transition:"width .7s"}}/>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="chart-card">
+          <div className="chart-title">Payment Methods</div>
+          <div className="chart-sub">Revenue by payment method</div>
+          <div style={{marginTop:14}}>
+            {methods.length===0?<p style={{color:"var(--text3)",fontSize:13}}>No payment data yet.</p>:methods.map(([method,amount])=>(
+              <div key={method} style={{marginBottom:12}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                  <span style={{fontSize:12,color:"var(--text2)"}}>{method}</span>
+                  <span style={{fontSize:12,fontWeight:600,color:"var(--gold)"}}>{amount.toLocaleString()} RWF</span>
+                </div>
+                <div style={{height:4,background:"var(--border)",borderRadius:2}}>
+                  <div style={{height:"100%",borderRadius:2,background:"var(--gold)",width:`${(amount/maxMethod)*100}%`,transition:"width .7s"}}/>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="chart-card">
