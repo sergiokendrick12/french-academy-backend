@@ -314,7 +314,7 @@ function LoginPage({onLogin}) {
     <><style>{CSS}</style>
     <div className="login-shell">
       <div className="login-card">
-        <div className="login-emblem">🎓</div>
+        <div className="login-emblem" style={{padding:0,overflow:"hidden"}}><img src="/logo.png" alt="IFA Logo" style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"var(--r-lg)"}}/></div>
         <h1 className="login-title">Admin Portal</h1>
         <p className="login-sub">International French Academy · Kigali</p>
         <div className="login-lbl">Password</div>
