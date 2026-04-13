@@ -869,14 +869,32 @@ function MessagesPage({enrollments,toast}) {
 }
 
 function StaffPage({toast}) {
-  const staff = [
-    {name:"KWIBUKA Erick",role:"Certification Manager & Head of Pedagogy",email:"erick@ifa.rw",phone:"+250785302957",status:"active",classes:2},
-    {name:"Banda Clément",role:"Lead Teacher & Sound Technician",email:"clement@ifa.rw",phone:"+250785302957",status:"active",classes:3},
-    {name:"Ingabire Germaine",role:"Secretary General & Communications",email:"germaine@ifa.rw",phone:"+250785302957",status:"active",classes:1},
-    {name:"Kabandana Ghislaine",role:"Reception & Media Library Assistant",email:"ghislaine@ifa.rw",phone:"+250785302957",status:"active",classes:0},
-    {name:"Iragi Michaël",role:"Cooperation Attaché & Legal Advisor",email:"michael@ifa.rw",phone:"+250785302957",status:"active",classes:0},
-    {name:"Joas Irahoza",role:"Multi-skilled Agent",email:"joas@ifa.rw",phone:"+250785302957",status:"active",classes:0},
-  ];
+  const [staff, setStaff] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [form, setForm] = useState({name:"",role:"",email:"",phone:"",classes:0});
+
+  useEffect(()=>{ fetchStaff(); },[]);
+
+  const fetchStaff = async () => {
+    try {
+      const r = await fetch("/api/admin/staff");
+      const d = await r.json();
+      setStaff(d.staff||[]);
+    } catch {}
+  };
+
+  const addStaff = async () => {
+    if(!form.name||!form.role) return;
+    const r = await fetch("/api/admin/staff",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
+    const d = await r.json();
+    if(d.success){ fetchStaff(); setShowModal(false); toast("Staff member added!","success"); setForm({name:"",role:"",email:"",phone:"",classes:0}); }
+  };
+
+  const delStaff = async (id) => {
+    if(!confirm("Remove this staff member?"))return;
+    await fetch("/api/admin/staff",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
+    fetchStaff(); toast("Staff member removed","error");
+  };
   return (
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
@@ -884,7 +902,10 @@ function StaffPage({toast}) {
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Staff Management</div>
           <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Academy team members and roles</div>
         </div>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
         <div style={{background:"var(--teal-dim)",border:"1px solid rgba(62,201,167,.25)",borderRadius:"var(--r-md)",padding:"6px 12px",fontSize:12,color:"var(--teal)",fontWeight:600}}>{staff.length} Active Staff</div>
+        <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Staff</button>
+      </div>
       </div>
       <div className="staff-grid">
         {staff.map((s,i)=>(
@@ -898,11 +919,46 @@ function StaffPage({toast}) {
             </div>
             <div style={{display:"flex",gap:6,justifyContent:"center"}}>
               <a href={`mailto:${s.email}`}><button className="btn btn-outline btn-xs">Email</button></a>
-              <a href={`https://wa.me/${s.phone.replace(/\D/g,"")}`} target="_blank"><button className="btn btn-teal btn-xs">WhatsApp</button></a>
+              <a href={`https://wa.me/${(s.phone||"").replace(/\D/g,"")}`} target="_blank"><button className="btn btn-teal btn-xs">WhatsApp</button></a>
+              <button className="btn btn-danger btn-xs" onClick={()=>delStaff(s._id)}>Remove</button>
             </div>
           </div>
         ))}
       </div>
+      {showModal&&(
+        <div className="modal-bg" onClick={()=>setShowModal(false)}>
+          <div className="modal" onClick={e=>e.stopPropagation()}>
+            <div className="modal-title">Add Staff Member</div>
+            <div className="modal-sub">Add a new member to your team</div>
+            <div className="pay-form">
+              <div className="form-group" style={{gridColumn:"span 2"}}>
+                <label className="form-label">Full Name</label>
+                <input className="form-input" placeholder="e.g. John Doe" value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/>
+              </div>
+              <div className="form-group" style={{gridColumn:"span 2"}}>
+                <label className="form-label">Role</label>
+                <input className="form-input" placeholder="e.g. French Teacher" value={form.role} onChange={e=>setForm({...form,role:e.target.value})}/>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Email</label>
+                <input className="form-input" placeholder="email@ifa.rw" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Phone</label>
+                <input className="form-input" placeholder="+250..." value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}/>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Classes</label>
+                <input className="form-input" type="number" placeholder="0" value={form.classes} onChange={e=>setForm({...form,classes:Number(e.target.value)})}/>
+              </div>
+            </div>
+            <div className="modal-foot">
+              <button className="btn btn-outline" onClick={()=>setShowModal(false)}>Cancel</button>
+              <button className="btn btn-gold" onClick={addStaff}>Add Staff</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
