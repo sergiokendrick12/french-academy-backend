@@ -880,6 +880,134 @@ function SchedulePage({toast}) {
 // ═══════════════════════════════════════════
 // 📧 MESSAGES INBOX (from enrollment form)
 // ═══════════════════════════════════════════
+function BulkEmailPage({enrollments, toast}) {
+  const [form, setForm] = useState({ subject:"", message:"", audience:"all" });
+  const [sending, setSending] = useState(false);
+  const [result, setResult] = useState(null);
+  const [preview, setPreview] = useState(false);
+
+  const audienceCount = {
+    all: enrollments.length,
+    enrolled: enrollments.filter(e=>e.status==="enrolled").length,
+    contacted: enrollments.filter(e=>e.status==="contacted").length,
+    new: enrollments.filter(e=>e.status==="new").length,
+  };
+
+  const send = async () => {
+    if(!form.subject||!form.message){ toast("Subject and message required","error"); return; }
+    if(!confirm(`Send email to ${audienceCount[form.audience]} students?`)) return;
+    setSending(true); setResult(null);
+    try {
+      const r = await fetch("/api/admin/bulk-email",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
+      const d = await r.json();
+      if(d.success){ setResult(d); toast(`✅ Sent to ${d.sent} students!`,"success"); setForm({subject:"",message:"",audience:"all"}); }
+      else toast(d.error||"Error sending","error");
+    } catch { toast("Error sending emails","error"); }
+    finally { setSending(false); }
+  };
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
+        <div>
+          <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Bulk Email</div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Send email to all or selected students at once</div>
+        </div>
+      </div>
+
+      {result&&(
+        <div style={{background:"rgba(62,201,167,0.08)",border:"1px solid rgba(62,201,167,0.25)",borderRadius:"var(--r-lg)",padding:"16px 20px",marginBottom:20,display:"flex",gap:16,flexWrap:"wrap"}}>
+          <div style={{textAlign:"center",flex:1}}>
+            <div style={{fontFamily:"var(--font-d)",fontSize:28,color:"var(--teal)"}}>{result.sent}</div>
+            <div style={{fontSize:11,color:"var(--teal)",textTransform:"uppercase",letterSpacing:"1px"}}>Sent</div>
+          </div>
+          <div style={{textAlign:"center",flex:1}}>
+            <div style={{fontFamily:"var(--font-d)",fontSize:28,color:"var(--rose)"}}>{result.failed}</div>
+            <div style={{fontSize:11,color:"var(--rose)",textTransform:"uppercase",letterSpacing:"1px"}}>Failed</div>
+          </div>
+          <div style={{textAlign:"center",flex:1}}>
+            <div style={{fontFamily:"var(--font-d)",fontSize:28,color:"var(--gold)"}}>{result.total}</div>
+            <div style={{fontSize:11,color:"var(--gold)",textTransform:"uppercase",letterSpacing:"1px"}}>Total</div>
+          </div>
+        </div>
+      )}
+
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20}}>
+        <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"20px"}}>
+          <div style={{fontFamily:"var(--font-d)",fontSize:16,marginBottom:16}}>Compose Email</div>
+
+          <div className="form-group" style={{marginBottom:14}}>
+            <label className="form-label">Audience</label>
+            <select className="form-select" value={form.audience} onChange={e=>setForm(f=>({...f,audience:e.target.value}))}>
+              <option value="all">Everyone ({audienceCount.all} students)</option>
+              <option value="enrolled">Enrolled only ({audienceCount.enrolled} students)</option>
+              <option value="contacted">Contacted only ({audienceCount.contacted} students)</option>
+              <option value="new">New only ({audienceCount.new} students)</option>
+            </select>
+          </div>
+
+          <div className="form-group" style={{marginBottom:14}}>
+            <label className="form-label">Subject</label>
+            <input className="form-input" placeholder="e.g. Important update from IFA" value={form.subject} onChange={e=>setForm(f=>({...f,subject:e.target.value}))}/>
+          </div>
+
+          <div className="form-group" style={{marginBottom:16}}>
+            <label className="form-label">Message</label>
+            <textarea className="form-input" rows={8} placeholder="Write your message here...&#10;&#10;Each student will receive this email personally addressed to them." value={form.message} onChange={e=>setForm(f=>({...f,message:e.target.value}))} style={{resize:"vertical"}}/>
+          </div>
+
+          <div style={{display:"flex",gap:8}}>
+            <button className="btn btn-outline" onClick={()=>setPreview(v=>!v)} style={{flex:1}}>
+              {preview?"✕ Hide Preview":"👁 Preview Email"}
+            </button>
+            <button className="btn btn-gold" onClick={send} disabled={sending} style={{flex:1}}>
+              {sending?`Sending...`:`📧 Send to ${audienceCount[form.audience]} Students`}
+            </button>
+          </div>
+        </div>
+
+        <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"20px"}}>
+          <div style={{fontFamily:"var(--font-d)",fontSize:16,marginBottom:16}}>
+            {preview?"Email Preview":"Recipient List"}
+          </div>
+
+          {preview?(
+            <div style={{background:"#fff",borderRadius:8,padding:20,color:"#1a1a2e"}}>
+              <div style={{background:"#c9a84c",padding:"16px",borderRadius:"8px 8px 0 0",textAlign:"center",marginBottom:16}}>
+                <div style={{fontWeight:700,fontSize:16,color:"#0d1b2a"}}>International French Academy</div>
+                <div style={{fontSize:12,color:"#0d1b2a"}}>Kigali, Rwanda</div>
+              </div>
+              <p style={{fontSize:14,marginBottom:8}}>Dear <strong>Student Name</strong>,</p>
+              <p style={{fontSize:13,color:"#555",lineHeight:1.7,whiteSpace:"pre-wrap",marginBottom:16}}>{form.message||"Your message will appear here..."}</p>
+              <div style={{background:"rgba(201,168,76,0.1)",borderLeft:"3px solid #c9a84c",padding:"12px",borderRadius:4,fontSize:12,color:"#555"}}>
+                <div style={{fontWeight:700,color:"#c9a84c",marginBottom:4}}>International French Academy</div>
+                <div>📧 frenchacademyinternational@gmail.com</div>
+                <div>📱 +250 785 302 957</div>
+                <div>📍 Norrsken House · Sainte Famille, Kigali</div>
+              </div>
+              <p style={{fontSize:12,color:"#888",marginTop:12}}>— The IFA Team 🇫🇷</p>
+            </div>
+          ):(
+            <div style={{maxHeight:400,overflowY:"auto"}}>
+              {enrollments.filter(e=> form.audience==="all" ? true : e.status===form.audience).map((e,i)=>(
+                <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:"1px solid rgba(36,54,80,.5)"}}>
+                  <div style={{width:32,height:32,borderRadius:"50%",background:"rgba(201,168,67,0.1)",border:"1px solid rgba(201,168,67,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"var(--gold)",flexShrink:0}}>
+                    {e.firstName?.[0]}{e.lastName?.[0]}
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:12,fontWeight:500,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{e.firstName} {e.lastName}</div>
+                    <div style={{fontSize:11,color:"var(--text3)",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{e.email}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MessagesPage({enrollments, toast}) {
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -2035,6 +2163,7 @@ export default function AdminDashboard() {
           {page==="payments"&&<PaymentsPage enrollments={enrollments} toast={toast}/>}
           {page==="schedule"&&<SchedulePage toast={toast}/>}
           {page==="messages"&&<MessagesPage enrollments={enrollments} toast={toast}/>}
+          {page==="bulk-email"&&<BulkEmailPage enrollments={enrollments} toast={toast}/>}
           {page==="bulk-email"&&<BulkEmailPage enrollments={enrollments} toast={toast}/>}
           {page==="staff"&&<StaffPage toast={toast}/>}
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
