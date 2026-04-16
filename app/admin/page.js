@@ -1397,6 +1397,148 @@ function CertificationsPage({enrollments,toast}) {
   );
 }
 
+function ProgressPage({enrollments, toast}) {
+  const [progress, setProgress] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [form, setForm] = useState({ level:"A1", note:"" });
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => { fetchProgress(); }, []);
+
+  const fetchProgress = async () => {
+    try {
+      const r = await fetch("/api/admin/progress");
+      const d = await r.json();
+      setProgress(d.progress||[]);
+    } catch {}
+  };
+
+  const getStudentLevel = (studentId) => {
+    const p = progress.find(p => p.studentId === studentId);
+    return p ? p.level : null;
+  };
+
+  const save = async () => {
+    if(!selected){ toast("Select a student first","error"); return; }
+    setSaving(true);
+    try {
+      const r = await fetch("/api/admin/progress",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ studentId:selected._id, studentName:`${selected.firstName} ${selected.lastName}`, level:form.level, note:form.note })
+      });
+      const d = await r.json();
+      if(d.success){ toast("Progress updated! 📊","success"); fetchProgress(); setSelected(null); setForm({level:"A1",note:""}); }
+      else toast(d.error||"Error","error");
+    } catch { toast("Error saving","error"); }
+    finally { setSaving(false); }
+  };
+
+  const LEVELS = ["A1","A2","B1","B2","C1","C2"];
+  const LEVEL_COLORS = {
+    A1:{color:"#4d9de0",bg:"rgba(77,157,224,.12)"},
+    A2:{color:"#3ec9a7",bg:"rgba(62,201,167,.12)"},
+    B1:{color:"#e8a030",bg:"rgba(232,160,48,.12)"},
+    B2:{color:"#a78bfa",bg:"rgba(167,139,250,.12)"},
+    C1:{color:"#e05c7a",bg:"rgba(224,92,122,.12)"},
+    C2:{color:"#c9a843",bg:"rgba(201,168,67,.12)"},
+  };
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
+        <div>
+          <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Student Progress</div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Track French level for each student A1 → C2</div>
+        </div>
+      </div>
+
+      {/* Level Legend */}
+      <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap"}}>
+        {LEVELS.map(l=>{
+          const c = LEVEL_COLORS[l];
+          const count = progress.filter(p=>p.level===l).length;
+          return (
+            <div key={l} style={{background:c.bg,border:`1px solid ${c.color}40`,borderRadius:"var(--r-md)",padding:"8px 16px",textAlign:"center",minWidth:70}}>
+              <div style={{fontFamily:"var(--font-d)",fontSize:20,color:c.color,fontWeight:700}}>{l}</div>
+              <div style={{fontSize:10,color:c.color,marginTop:2}}>{count} student{count!==1?"s":""}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:"1fr 340px",gap:20}}>
+        {/* Student List */}
+        <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",overflow:"hidden"}}>
+          <div style={{padding:"14px 18px",borderBottom:"1px solid var(--border)",fontFamily:"var(--font-d)",fontSize:15}}>
+            All Students — Click to update level
+          </div>
+          {enrollments.length===0?(
+            <div className="empty"><div className="empty-ico">👨‍🎓</div><p className="empty-txt">No students yet</p></div>
+          ):enrollments.map((e,i)=>{
+            const level = getStudentLevel(e._id);
+            const lc = level ? LEVEL_COLORS[level] : null;
+            const isSelected = selected?._id === e._id;
+            return (
+              <div key={i} onClick={()=>{ setSelected(e); setForm({level:level||"A1",note:progress.find(p=>p.studentId===e._id)?.note||""}); }}
+                style={{display:"flex",alignItems:"center",gap:12,padding:"12px 18px",borderBottom:"1px solid rgba(36,54,80,.5)",cursor:"pointer",background:isSelected?"rgba(201,168,67,0.08)":"transparent",transition:"all .15s"}}>
+                <div style={{width:38,height:38,borderRadius:"50%",background:"rgba(201,168,67,0.1)",border:`1.5px solid ${isSelected?"var(--gold)":"rgba(201,168,67,0.2)"}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:"var(--gold)",flexShrink:0}}>
+                  {e.firstName?.[0]}{e.lastName?.[0]}
+                </div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontWeight:500,fontSize:13}}>{e.firstName} {e.lastName}</div>
+                  <div style={{fontSize:11,color:"var(--text3)"}}>🎯 {e.certificationGoal}</div>
+                </div>
+                {level?(
+                  <span style={{background:lc.bg,color:lc.color,padding:"3px 10px",borderRadius:20,fontSize:12,fontWeight:700}}>{level}</span>
+                ):(
+                  <span style={{background:"rgba(255,255,255,0.05)",color:"var(--text3)",padding:"3px 10px",borderRadius:20,fontSize:11}}>Not set</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Update Panel */}
+        <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"20px",height:"fit-content"}}>
+          <div style={{fontFamily:"var(--font-d)",fontSize:15,marginBottom:16}}>
+            {selected ? `Update: ${selected.firstName} ${selected.lastName}` : "Select a student"}
+          </div>
+          {!selected?(
+            <div style={{textAlign:"center",padding:"30px 0",color:"var(--text3)"}}>
+              <div style={{fontSize:32,marginBottom:8}}>👈</div>
+              <p style={{fontSize:13}}>Click any student to update their French level</p>
+            </div>
+          ):(
+            <>
+              <div className="form-group" style={{marginBottom:14}}>
+                <label className="form-label">Current French Level</label>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginTop:6}}>
+                  {LEVELS.map(l=>{
+                    const c = LEVEL_COLORS[l];
+                    const isActive = form.level===l;
+                    return (
+                      <button key={l} onClick={()=>setForm(f=>({...f,level:l}))}
+                        style={{padding:"10px",borderRadius:"var(--r-md)",border:`2px solid ${isActive?c.color:"var(--border)"}`,background:isActive?c.bg:"transparent",color:isActive?c.color:"var(--text2)",fontFamily:"var(--font-d)",fontSize:16,fontWeight:700,cursor:"pointer",transition:"all .15s"}}>
+                        {l}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="form-group" style={{marginBottom:16}}>
+                <label className="form-label">Note (optional)</label>
+                <textarea className="form-input" rows={3} placeholder="e.g. Improving fast, ready for B2 exam..." value={form.note} onChange={e=>setForm(f=>({...f,note:e.target.value}))} style={{resize:"vertical"}}/>
+              </div>
+              <button className="btn btn-gold" style={{width:"100%"}} onClick={save} disabled={saving}>
+                {saving?"Saving...":"💾 Save Progress"}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AnnouncementsPage({toast}) {
   const [announcements, setAnnouncements] = useState([]);
   const [form, setForm] = useState({ title:"", message:"", type:"info", audience:"all" });
@@ -1992,6 +2134,7 @@ export default function AdminDashboard() {
     {id:"staff",          ico:"👨‍🏫", label:"Staff",         section:"academy"},
     {id:"certifications", ico:"🏆", label:"Certifications",section:"academy"},
     {id:"attendance",     ico:"📋", label:"Attendance",    section:"academy"},
+    {id:"progress",       ico:"📊", label:"Progress",      section:"academy"},
     {id:"announcements",  ico:"📢", label:"Announcements", section:"system"},
     {id:"settings",       ico:"⚙️", label:"Settings",      section:"system"},
   ];
@@ -2168,6 +2311,7 @@ export default function AdminDashboard() {
           {page==="staff"&&<StaffPage toast={toast}/>}
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
           {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}
+          {page==="progress"&&<ProgressPage enrollments={enrollments} toast={toast}/>}
           {page==="announcements"&&<AnnouncementsPage toast={toast}/>}
           {page==="settings"&&<SettingsPage toast={toast}/>}
         </main>

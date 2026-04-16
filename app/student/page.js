@@ -55,7 +55,8 @@ body{background:var(--cream);color:var(--text);min-height:100vh;}
 
 /* CARDS GRID */
 .cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
-.info-card{background:#fff;border-radius:14px;padding:18px;border:1px solid var(--border);transition:all .2s;}
+.info-card{background:#fff !important;border-radius:14px;padding:18px;border:1px solid var(--border);transition:all .2s;box-shadow:none !important;}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(13,27,42,.1) !important;}
 .info-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(13,27,42,.1);}
 .card-ico{font-size:22px;margin-bottom:10px;}
 .card-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
@@ -86,6 +87,11 @@ body{background:var(--cream);color:var(--text);min-height:100vh;}
   .cards-grid{grid-template-columns:1fr 1fr;}
   .pcontent{padding:16px 12px;}
   .welcome-banner{padding:18px;}
+  .info-card{background:#fff !important;padding:14px;}
+  .card-val{font-size:18px;}
+  .pnav{padding:0 12px;}
+  .pnav-name{font-size:12px;}
+  .student-badge{font-size:11px;padding:4px 8px;}
 }
 `;
 
