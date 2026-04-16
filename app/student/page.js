@@ -10,22 +10,22 @@ const CSS = `
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:       #0b0e1a;
-  --bg2:      #111527;
-  --bg3:      #161b30;
-  --border:   rgba(255,255,255,0.07);
-  --border2:  rgba(255,255,255,0.12);
-  --text:     #f0f2ff;
-  --text2:    #9aa0be;
-  --text3:    #5a6080;
+  --bg:       #f8f4ee;
+  --bg2:      #ffffff;
+  --bg3:      #f8f4ee;
+  --border:   #e0d8cc;
+  --border2:  #d0c8bc;
+  --text:     #1a1a2e;
+  --text2:    #3d4a5c;
+  --text3:    #6b7a8d;
 
-  /* card gradients */
-  --g-purple: linear-gradient(135deg, #2a1f5e 0%, #3d2b8a 100%);
-  --g-teal:   linear-gradient(135deg, #0d3d35 0%, #0f5e4e 100%);
-  --g-rose:   linear-gradient(135deg, #3d1028 0%, #621840 100%);
-  --g-blue:   linear-gradient(135deg, #0f2a50 0%, #163d7a 100%);
-  --g-amber:  linear-gradient(135deg, #3a1f00 0%, #5e3500 100%);
-  --g-green:  linear-gradient(135deg, #0d3320 0%, #0f4d2e 100%);
+  /* card gradients — now plain white */
+  --g-purple: #ffffff;
+  --g-teal:   #ffffff;
+  --g-rose:   #ffffff;
+  --g-blue:   #ffffff;
+  --g-amber:  #ffffff;
+  --g-green:  #ffffff;
 
   /* accent colours */
   --purple: #9b8dff;
