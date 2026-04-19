@@ -10,7 +10,7 @@ export async function PUT(req) {
     await connectDB();
     const { studentId, firstName, lastName, email, phone } = await req.json();
 
-    const Student = (await import("@/models/Student")).default;
+    const Student = (await import("@/models/Enrollment")).default;
 
     const student = await Student.findByIdAndUpdate(
       studentId,
