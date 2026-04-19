@@ -205,7 +205,7 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; }
 .logout-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
 
 /* ── MAIN CONTENT ── */
-.pcontent { max-width: 940px; margin: 0 auto; padding: 28px 20px 60px; }
+.pcontent { max-width: 100%; padding: 28px 32px 60px; }
 
 /* ── ANNOUNCEMENT ── */
 .ann-bar {
