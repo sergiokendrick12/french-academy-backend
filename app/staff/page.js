@@ -258,7 +258,7 @@ export default function StaffPortal(){
       <div className="tricolor"><div className="tc1"/><div className="tc2"/><div className="tc3"/></div>
       <div className="login-glow a"/><div className="login-glow b"/>
       <div className="login-card">
-        <div className="login-logo-ring">👨‍🏫</div>
+        <div className="login-logo-ring"><img src="/logo.png" style={{width:60,height:60,borderradius:"50%",objectfit:"cover"}}/></div>
         <h1 className="login-title">Staff Portal</h1>
         <p className="login-sub">International French Academy</p>
         <div className="login-lbl">Email Address</div>
