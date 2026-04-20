@@ -2216,7 +2216,6 @@ export default function AdminDashboard() {
           {page==="schedule"&&<SchedulePage toast={toast}/>}
           {page==="messages"&&<MessagesPage enrollments={enrollments} toast={toast}/>}
           {page==="bulk-email"&&<BulkEmailPage enrollments={enrollments} toast={toast}/>}
-          {page==="bulk-email"&&<BulkEmailPage enrollments={enrollments} toast={toast}/>}
           {page==="staff"&&<StaffPage toast={toast}/>}
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
           {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}

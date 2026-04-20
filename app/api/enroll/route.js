@@ -27,6 +27,16 @@ export async function POST(request) {
     }
 
     await connectDB();
+
+    // Check for duplicate email
+    const existing = await Enrollment.findOne({ email });
+    if (existing) {
+      return NextResponse.json(
+        { success: false, error: "This email is already registered. Please contact us directly at frenchacademyinternational@gmail.com" },
+        { status: 409, headers: CORS }
+      );
+    }
+
     const enrollment = await Enrollment.create({
       firstName, lastName, email, phone, certificationGoal,
       message: message || "",
