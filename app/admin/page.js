@@ -1594,7 +1594,15 @@ function AttendancePage({enrollments, toast}) {
         setRecords(existing.records);
       } else {
         if(tab==="student") {
-          setRecords(enrollments.filter(e=>e.status==="enrolled").map(e=>({
+          const selectedClassName = classes.find(c=>c._id===selectedClass)?.name||"";
+          const filteredStudents = enrollments.filter(e=>{
+            if(e.status!=="enrolled") return false;
+            const goal = (e.certificationGoal||"").toLowerCase();
+            const cName = selectedClassName.toLowerCase();
+            return cName.includes(goal) || goal.split(" ").some(w => w.length > 2 && cName.includes(w));
+          });
+          const studentsToShow = filteredStudents.length > 0 ? filteredStudents : enrollments.filter(e=>e.status==="enrolled");
+          setRecords(studentsToShow.map(e=>({
             personId: e._id, personName:`${e.firstName} ${e.lastName}`, status:"present", note:""
           })));
         } else {
@@ -2243,4 +2251,4 @@ export default function AdminDashboard() {
     <ToastTray list={toasts}/>
     </>
   );
-} 
+}
