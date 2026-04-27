@@ -212,90 +212,52 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 
 /* ── Mobile (≤640px) ── */
 @media(max-width:640px){
-  /* Nav */
   .pnav{padding:0 12px;height:56px;}
   .pnav-sub{display:none;}
   .pnav-name{font-size:12px;}
   .student-chip-name{display:none;}
   .student-chip{padding:6px;}
   .logout-btn{display:none;}
-
-  /* Bottom nav appears */
   .bottom-nav{display:block;}
-  /* Hide tabs row on mobile (replaced by bottom nav) */
   .tabs-row{display:none;}
-
-  /* Content */
   .pcontent{padding:14px 12px 76px;}
-
-  /* Welcome card */
   .welcome-card{flex-direction:column;align-items:flex-start;padding:18px 18px;gap:12px;}
   .welcome-card::before{display:none;}
   .welcome-hi{font-size:20px;}
   .welcome-meta{gap:6px 12px;}
   .welcome-meta span{font-size:11px;}
   .enrolled-pill{align-self:flex-start;}
-
-  /* Announcements */
   .ann-bar{border-radius:10px;padding:12px 14px;}
-
-  /* Stats */
   .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px;}
   .stat-card{padding:14px 14px;}
   .stat-ico{font-size:18px;margin-bottom:8px;}
   .stat-val{font-size:20px;}
   .stat-sub{font-size:10px;}
-
-  /* Section */
   .section{padding:16px 14px;}
   .section-title{font-size:14px;}
-
-  /* Schedule */
   .sched-item{flex-wrap:wrap;gap:8px;}
   .sched-name{font-size:13px;}
   .sched-meta{font-size:10px;}
-
-  /* Payments table – stack into cards */
   .tbl-head{display:none;}
   .tbl-row-pay{display:flex!important;flex-direction:column;gap:8px;padding:14px;}
   .pay-row-top{display:flex;justify-content:space-between;align-items:center;}
   .pay-row-bot{display:flex;justify-content:space-between;align-items:center;}
-
-  /* Attendance table */
   .tbl-row-att{display:flex!important;flex-direction:column;gap:4px;padding:12px 14px;}
-
-  /* Certifications table */
   .tbl-row-cert{display:flex!important;flex-wrap:wrap;gap:6px;padding:12px 14px;align-items:center;}
-
-  /* Generic tbl-row fallback */
   .tbl-row{padding:10px 12px;}
-
-  /* Mini stats */
   .mini-stats{gap:8px;}
   .mini-stat{padding:10px 14px;flex:1;min-width:calc(50% - 4px);}
   .mini-stat-val{font-size:18px;}
-
-  /* Resources */
   .resource-item{padding:12px 14px;gap:10px;}
   .resource-name{font-size:13px;}
   .dl-btn{padding:6px 10px;font-size:10px;}
-
-  /* Help card */
   .help-card{padding:16px 14px;}
   .help-btns{flex-direction:column;}
   .btn-wa,.btn-email{width:100%;justify-content:center;padding:12px;}
-
-  /* Profile */
   .profile-avatar-big{width:64px;height:64px;font-size:22px;}
-
-  /* Message card */
   .msg-card{padding:16px 14px;}
   .msg-text{font-size:13px;}
-
-  /* Bottom grid */
   .bottom-grid{grid-template-columns:1fr;gap:10px;}
-
-  /* Journey steps */
   .journey-step{gap:10px;}
   .step-circle{width:30px;height:30px;font-size:12px;}
 }
@@ -349,7 +311,6 @@ const RESOURCES=[
   {ico:"🗣️",name:"Pronunciation Guide",desc:"PDF + Audio · A1",color:"rgba(45,212,191,.15)"},
 ];
 
-// Bottom nav tabs (most important ones for mobile)
 const BOTTOM_NAV_TABS=[
   {id:"overview",ico:"🏠",lbl:"Home"},
   {id:"progress",ico:"📈",lbl:"Progress"},
@@ -358,9 +319,9 @@ const BOTTOM_NAV_TABS=[
   {id:"profile",ico:"👤",lbl:"Me"},
 ];
 
-// All tabs for desktop scrollable row
 const ALL_TABS=[
   {id:"overview",label:"🏠 Overview"},
+  {id:"courses",label:"🎓 Courses"},
   {id:"progress",label:"📈 Progress"},
   {id:"schedule",label:"📅 Schedule"},
   {id:"payments",label:"💳 Payments"},
@@ -452,7 +413,7 @@ export default function StudentPortal(){
       <div className="tricolor"><div className="tc1"/><div className="tc2"/><div className="tc3"/></div>
       <div className="login-glow a"/><div className="login-glow b"/>
       <div className="login-card">
-        <div className="login-logo-ring"><img src="/logo.png" style={{width:60,height:60,borderradius:"50%",objectfit:"cover"}}/></div>
+        <div className="login-logo-ring"><img src="/logo.png" style={{width:60,height:60,borderRadius:"50%",objectFit:"cover"}}/></div>
         <h1 className="login-title">Student Portal</h1>
         <p className="login-sub">International French Academy</p>
         <div className="login-flag">
@@ -643,13 +604,11 @@ export default function StudentPortal(){
                     <div key={i} className="mini-stat"><div className="mini-stat-val" style={{color:s.color}}>{s.val}</div><div className="mini-stat-lbl">{s.lbl}</div></div>
                   ))}
                 </div>
-                {/* Desktop table header */}
                 <div className="tbl-head" style={{gridTemplateColumns:"1fr 1fr 100px 80px 90px"}}>
                   <span>Amount</span><span>Method</span><span>Date</span><span>Status</span><span>Receipt</span>
                 </div>
                 {data.payments.map((p,i)=>(
                   <div key={i} className="tbl-row tbl-row-pay" style={{gridTemplateColumns:"1fr 1fr 100px 80px 90px"}}>
-                    {/* On mobile these are hidden by tbl-head display:none and row becomes flex column */}
                     <div className="pay-row-top">
                       <span style={{fontWeight:700,color:"var(--green)",fontFamily:"'Sora',sans-serif"}}>{p.amount.toLocaleString()} RWF</span>
                       <Pill status={p.status} map={PAY_MAP}/>
@@ -713,6 +672,18 @@ export default function StudentPortal(){
                 ))}
               </>
             )}
+          </div>
+        )}
+
+        {/* COURSES */}
+        {tab==="courses"&&(
+          <div className="section">
+            <div className="section-title">🎓 My Courses</div>
+            <div className="section-sub">Your assigned online courses</div>
+            <div className="empty-state">
+              <div className="empty-ico">🎓</div>
+              <p>Courses coming soon! The academy will assign courses to you.</p>
+            </div>
           </div>
         )}
 
@@ -786,7 +757,6 @@ export default function StudentPortal(){
                   <a href="mailto:frenchacademyinternational@gmail.com" style={{textDecoration:"none"}}><button className="btn-email" style={{fontSize:12,padding:"8px 16px"}}>📧 Email</button></a>
                 </div>
               </div>
-              {/* Mobile sign-out */}
               <button onClick={logout} style={{marginTop:20,width:"100%",padding:"12px",background:"rgba(251,122,172,0.08)",border:"1px solid rgba(251,122,172,0.2)",color:"var(--rose)",borderRadius:10,fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>🚪 Sign Out</button>
             </div>
           </div>
@@ -804,10 +774,8 @@ export default function StudentPortal(){
               <span className="bnav-dot"/>
             </button>
           ))}
-          {/* More button for remaining tabs */}
           <button className={`bnav-btn${!BOTTOM_NAV_TABS.find(t=>t.id===tab)&&tab!=="overview"?" active":""}`}
             onClick={()=>{
-              // Cycle through the "more" tabs: certifications, attendance, resources
               const moreTabs=["certifications","attendance","resources"];
               const cur=moreTabs.indexOf(tab);
               setTab(moreTabs[cur<0?0:(cur+1)%moreTabs.length]);
