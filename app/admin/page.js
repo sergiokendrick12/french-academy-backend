@@ -2051,6 +2051,7 @@ export default function AdminDashboard() {
     {id:"certifications", ico:"🏆", label:"Certifications",section:"academy"},
     {id:"attendance",     ico:"📋", label:"Attendance",    section:"academy"},
     {id:"progress",       ico:"📊", label:"Progress",      section:"academy"},
+{id:"courses",        ico:"🎓", label:"Courses",        section:"academy"},
     {id:"announcements",  ico:"📢", label:"Announcements", section:"system"},
     {id:"settings",       ico:"⚙️", label:"Settings",      section:"system"},
   ];
@@ -2227,7 +2228,7 @@ export default function AdminDashboard() {
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
           {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}
           {page==="progress"&&<ProgressPage enrollments={enrollments} toast={toast}/>}
-          {page==="announcements"&&<AnnouncementsPage toast={toast}/>}
+          {page==="courses"&&<iframe src="/admin/courses" style={{width:"100%",height:"calc(100vh - 58px)",border:"none",background:"#0b0e1a"}}/>}
           {page==="settings"&&<SettingsPage toast={toast}/>}
         </main>
 
