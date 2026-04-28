@@ -46,11 +46,14 @@ export async function POST(request) {
     const course = await Course.create({
       title,
       description,
-      level,
+      level: level || "B1",
       fileName: file.name,
       fileUrl: uploaded.secure_url,
       fileType: file.type,
       fileSize: file.size,
+      isPublished: true,
+      lessons: [],
+      assignedStudents: [],
     });
 
     return NextResponse.json({ success: true, course });
