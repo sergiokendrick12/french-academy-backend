@@ -19,10 +19,14 @@ const CourseSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
     description: { type: String, default: "" },
-    level: { type: String, enum: ["A1","A2","B1","B2","C1","C2"], required: true },
+    level: { type: String, enum: ["A1","A2","B1","B2","C1","C2","All levels"], required: true },
     isPublished: { type: Boolean, default: false },
     lessons: [LessonSchema],
     assignedStudents: [{ type: String }],
+    fileName: { type: String, default: "" },
+    fileUrl: { type: String, default: "" },
+    fileType: { type: String, default: "" },
+    fileSize: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
