@@ -4,6 +4,7 @@ import Payment from "@/models/Payment";
 import Certification from "@/models/Certification";
 import Attendance from "@/models/Attendance";
 import Schedule from "@/models/Schedule";
+import Course from "@/models/Course";
 
 // ── GET all student data (payments, attendance, certs, schedules) ──
 export async function POST(req) {
@@ -12,11 +13,12 @@ export async function POST(req) {
     const { studentId } = await req.json();
     if (!studentId) return NextResponse.json({ success: false, error: "No studentId" });
 
-    const [payments, certifications, attendance, schedules] = await Promise.all([
+    const [payments, certifications, attendance, schedules, courses] = await Promise.all([
       Payment.find({ studentId }).sort({ createdAt: -1 }).lean(),
       Certification.find({ studentId }).sort({ createdAt: -1 }).lean(),
       Attendance.find({ studentId }).sort({ date: -1 }).lean(),
       Schedule.find({}).sort({ createdAt: 1 }).lean(),
+      Course.find({ isPublished: true }).sort({ createdAt: -1 }).lean(),
     ]);
 
     return NextResponse.json({
@@ -25,6 +27,7 @@ export async function POST(req) {
       certifications,
       attendance,
       schedules,
+      courses,
     });
   } catch (e) {
     return NextResponse.json({ success: false, error: e.message }, { status: 500 });
