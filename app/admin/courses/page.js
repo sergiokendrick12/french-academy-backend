@@ -31,7 +31,6 @@ export default function CoursesAdmin() {
     if (!form.title || !file) { setMsg("❌ Veuillez remplir le titre et sélectionner un fichier."); return; }
     setUploading(true); setMsg(""); setProgress(0);
     try {
-      // Upload directly to Cloudinary
       const fd = new FormData();
       fd.append("file", file);
       fd.append("upload_preset", UPLOAD_PRESET);
@@ -44,15 +43,22 @@ export default function CoursesAdmin() {
 
       const cloudRes = await new Promise((resolve, reject) => {
         xhr.open("POST", `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`);
-        xhr.onload = () => resolve(JSON.parse(xhr.responseText));
-        xhr.onerror = reject;
+        xhr.onload = () => {
+          try {
+            const res = JSON.parse(xhr.responseText);
+            resolve(res);
+          } catch(e) {
+            reject(new Error("Cloudinary error: " + xhr.responseText));
+          }
+        };
+        xhr.onerror = () => reject(new Error("Network error"));
         xhr.send(fd);
       });
 
-      if (!cloudRes.secure_url) throw new Error("Cloudinary upload failed");
+      if (cloudRes.error) throw new Error(cloudRes.error.message);
+      if (!cloudRes.secure_url) throw new Error("No URL returned from Cloudinary");
       setProgress(90);
 
-      // Save to MongoDB
       const r = await fetch("/api/admin/courses", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
