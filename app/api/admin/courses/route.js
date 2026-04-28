@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Course from "@/models/Course";
-import { isAuthenticated } from "@/lib/auth";
 
 export async function GET() {
   try {
@@ -14,7 +13,6 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  if (!(await isAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     await connectDB();
     const body = await request.json();
@@ -38,7 +36,6 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
-  if (!(await isAuthenticated())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     await connectDB();
     const { id } = await request.json();
