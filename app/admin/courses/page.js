@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
-const CLOUD_NAME = "dpwqj15y7";
+const CLOUD_NAME = "dgcgvn3oe";
 const UPLOAD_PRESET = "ifa_courses";
 
 export default function CoursesAdmin() {
