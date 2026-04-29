@@ -678,12 +678,23 @@ export default function StudentPortal(){
         {/* COURSES */}
         {tab==="courses"&&(
           <div className="section">
-            <div className="section-title">🎓 My Courses</div>
-            <div className="section-sub">Your assigned online courses</div>
-            <div className="empty-state">
-              <div className="empty-ico">🎓</div>
-              <p>Courses coming soon! The academy will assign courses to you.</p>
-            </div>
+            <div className="section-title">🎓 Mes Cours</div>
+            <div className="section-sub">Vos supports de cours assignés</div>
+            {!data?.courses?.length?<div className="empty-state"><div className="empty-ico">🎓</div><p>Aucun cours disponible pour l'instant.</p></div>
+            :data.courses.map((c,i)=>(
+              <div key={i} className="resource-item">
+                <div className="resource-ico" style={{background:"rgba(155,141,255,0.15)"}}>
+                  {c.fileType?.includes("pdf")?"📄":c.fileType?.includes("pptx")?"📊":"📁"}
+                </div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div className="resource-name">{c.title}</div>
+                  <div className="resource-desc">{c.description} · {c.level}</div>
+                </div>
+                <a href={c.fileUrl} target="_blank" rel="noopener noreferrer">
+                  <button className="dl-btn">⬇️ Télécharger</button>
+                </a>
+              </div>
+            ))}
           </div>
         )}
 
