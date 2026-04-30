@@ -22,8 +22,6 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 ::-webkit-scrollbar{width:6px;height:6px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px;}
-
-/* ── LOGIN ── */
 .login-wrap{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;}
 .login-glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
 .login-glow.a{width:400px;height:400px;background:rgba(155,141,255,0.12);top:-100px;left:-100px;}
@@ -46,16 +44,12 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 .login-btn:hover{opacity:0.9;transform:translateY(-1px);}
 .login-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 .login-note{font-size:11px;color:var(--text3);text-align:center;margin-top:14px;}
-
-/* ── NAV ── */
 .pnav{background:var(--bg2);border-bottom:1px solid var(--border);height:62px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .pnav-logo{display:flex;align-items:center;gap:12px;}
 .pnav-ifa{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#7c6fff,#9b8dff);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;}
 .pnav-name{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--text);}
 .pnav-sub{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;}
 .pnav-right{display:flex;align-items:center;gap:10px;}
-
-/* ── NOTIFICATIONS ── */
 .notif-bell{position:relative;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:background .2s;flex-shrink:0;}
 .notif-bell:hover{background:rgba(255,255,255,0.1);}
 .notif-badge{position:absolute;top:-4px;right:-4px;background:var(--rose);color:#fff;border-radius:999px;font-size:9px;font-weight:700;padding:2px 5px;min-width:16px;text-align:center;}
@@ -67,25 +61,17 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 .notif-title{font-size:12px;font-weight:600;margin-bottom:2px;}
 .notif-msg{font-size:11px;color:var(--text3);line-height:1.4;}
 .notif-unread{background:rgba(155,141,255,0.06);}
-
-/* ── STUDENT CHIP ── */
 .student-chip{display:flex;align-items:center;gap:8px;background:rgba(155,141,255,0.1);border:1px solid rgba(155,141,255,0.2);border-radius:999px;padding:6px 14px 6px 8px;cursor:pointer;}
 .student-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c6fff,#fb7aac);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
 .student-chip-name{font-size:13px;font-weight:500;color:var(--text);}
 .logout-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--text2);padding:8px 18px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;white-space:nowrap;}
 .logout-btn:hover{background:rgba(255,255,255,0.1);color:var(--text);}
-
-/* ── CONTENT ── */
 .pcontent{max-width:100%;padding:28px 32px 80px;}
-
-/* ── ANNOUNCEMENTS ── */
 .ann-bar{border-radius:14px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;border-left:3px solid;}
 .ann-ico{font-size:17px;flex-shrink:0;margin-top:1px;}
 .ann-title-txt{font-size:13px;font-weight:700;margin-bottom:3px;}
 .ann-body-txt{font-size:12px;line-height:1.6;color:var(--text2);}
 .ann-date-txt{font-size:10px;margin-top:5px;opacity:0.6;}
-
-/* ── WELCOME CARD ── */
 .welcome-card{background:linear-gradient(135deg,#1c1652 0%,#271e7a 45%,#1c2e5e 100%);border:1px solid rgba(155,141,255,0.2);border-radius:18px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative;overflow:hidden;gap:16px;}
 .welcome-card::before{content:'';position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(155,141,255,0.08);}
 .welcome-card::after{content:'';position:absolute;right:60px;bottom:-40px;width:120px;height:120px;border-radius:50%;background:rgba(45,212,191,0.06);}
@@ -94,15 +80,11 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 .welcome-meta span{font-size:12px;color:rgba(255,255,255,0.5);}
 .enrolled-pill{background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);color:var(--green);padding:8px 18px;border-radius:999px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:1;flex-shrink:0;}
 .e-dot{width:7px;height:7px;border-radius:50%;background:var(--green);}
-
-/* ── TABS ── */
 .tabs-row{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:5px;margin-bottom:22px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .tabs-row::-webkit-scrollbar{display:none;}
 .tab-btn{flex-shrink:0;padding:9px 14px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .18s;color:var(--text3);background:transparent;}
 .tab-btn.active{background:linear-gradient(135deg,#7c6fff,#9b8dff);color:#fff;}
 .tab-btn:hover:not(.active){color:var(--text);background:rgba(255,255,255,0.05);}
-
-/* ── STATS GRID ── */
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
 .stat-card{border-radius:16px;padding:20px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.07);transition:transform .2s;}
 .stat-card:hover{transform:translateY(-3px);}
@@ -122,45 +104,31 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 .stat-card.amber .stat-val{color:var(--amber);}
 .stat-card.green .stat-val{color:var(--green);}
 .stat-sub{font-size:11px;color:rgba(255,255,255,0.35);}
-
-/* ── LAYOUT BLOCKS ── */
 .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:14px;}
 .section-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .section-sub{font-size:12px;color:var(--text3);margin-bottom:18px;}
-
-/* ── HELP / CONTACT ── */
 .help-card{background:linear-gradient(135deg,#0d2e1a,#0f4228);border:1px solid rgba(74,222,128,0.15);border-radius:16px;padding:22px;}
 .help-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
 .btn-wa{background:#25D366;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;}
 .btn-email{background:rgba(155,141,255,0.15);color:var(--purple);border:1px solid rgba(155,141,255,0.25);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
-
-/* ── SCHEDULE ── */
 .sched-item{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:12px;}
 .sched-day{font-size:10px;color:var(--purple);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
 .sched-name{font-size:14px;font-weight:600;color:var(--text);}
 .sched-meta{font-size:11px;color:var(--text3);margin-top:3px;}
-
-/* ── TABLES ── */
 .tbl-head{display:grid;padding:8px 14px;font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
 .tbl-row{display:grid;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:6px;align-items:center;font-size:13px;color:var(--text);}
 .pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;}
 .pdot{width:5px;height:5px;border-radius:50%;}
-
-/* ── MINI STATS ── */
 .mini-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
 .mini-stat{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 18px;text-align:center;}
 .mini-stat-val{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px;}
 .mini-stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;}
-
-/* ── EMPTY / MSG ── */
 .empty-state{text-align:center;padding:40px 20px;color:var(--text3);}
 .empty-ico{font-size:36px;margin-bottom:12px;opacity:0.5;}
 .empty-state p{font-size:14px;}
 .msg-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:22px;}
 .msg-text{font-size:15px;color:var(--text2);font-style:italic;line-height:1.6;}
-
-/* ── PROGRESS ── */
 .progress-bar-wrap{background:rgba(255,255,255,0.07);border-radius:999px;height:8px;margin-top:8px;overflow:hidden;}
 .progress-bar-fill{height:100%;border-radius:999px;transition:width .6s ease;}
 .journey-step{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
@@ -169,26 +137,18 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 .step-done{background:rgba(74,222,128,0.15);color:var(--green);border:1px solid rgba(74,222,128,0.3);}
 .step-current{background:rgba(155,141,255,0.15);color:var(--purple);border:1px solid rgba(155,141,255,0.3);}
 .step-future{background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid var(--border);}
-
-/* ── PROFILE ── */
 .profile-avatar-big{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7c6fff,#fb7aac);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:28px;font-weight:800;color:#fff;margin:0 auto 16px;}
-.profile-field{margin-bottom:16px;}
-.profile-lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
 .profile-in{width:100%;padding:11px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;}
 .profile-in:focus{border-color:var(--purple);}
 .profile-in:disabled{opacity:0.5;cursor:not-allowed;}
 .profile-in::placeholder{color:var(--text3);}
 .save-btn{background:linear-gradient(135deg,#7c6fff,#9b8dff);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;}
 .save-btn:disabled{opacity:0.5;cursor:not-allowed;}
-
-/* ── RESOURCES ── */
 .resource-item{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;}
 .resource-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .resource-name{font-size:14px;font-weight:600;margin-bottom:3px;}
 .resource-desc{font-size:11px;color:var(--text3);}
 .dl-btn{background:rgba(155,141,255,0.12);color:var(--purple);border:1px solid rgba(155,141,255,0.2);padding:7px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;margin-left:auto;flex-shrink:0;}
-
-/* ── BOTTOM NAV (mobile only) ── */
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border2);z-index:200;padding:6px 4px env(safe-area-inset-bottom,6px);}
 .bottom-nav-inner{display:flex;justify-content:space-around;align-items:center;}
 .bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px;border-radius:10px;border:none;background:transparent;color:var(--text3);cursor:pointer;transition:all .18s;min-width:44px;}
@@ -197,102 +157,59 @@ body{background:var(--bg);color:var(--text);min-height:100vh;}
 .bnav-ico{font-size:18px;line-height:1;}
 .bnav-lbl{font-size:9px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;}
 .bnav-dot{width:4px;height:4px;border-radius:50%;background:transparent;margin-top:1px;}
-
-/* ════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-   ════════════════════════════════════════ */
-
-/* ── Tablet (≤900px) ── */
-@media(max-width:900px){
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .bottom-grid{grid-template-columns:1fr;}
-  .profile-grid{grid-template-columns:1fr!important;}
-  .pcontent{padding:20px 20px 80px;}
-}
-
-/* ── Mobile (≤640px) ── */
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr);}.bottom-grid{grid-template-columns:1fr;}.profile-grid{grid-template-columns:1fr!important;}.pcontent{padding:20px 20px 80px;}}
 @media(max-width:640px){
-  .pnav{padding:0 12px;height:56px;}
-  .pnav-sub{display:none;}
-  .pnav-name{font-size:12px;}
-  .student-chip-name{display:none;}
-  .student-chip{padding:6px;}
-  .logout-btn{display:none;}
-  .bottom-nav{display:block;}
-  .tabs-row{display:none;}
-  .pcontent{padding:14px 12px 76px;}
-  .welcome-card{flex-direction:column;align-items:flex-start;padding:18px 18px;gap:12px;}
-  .welcome-card::before{display:none;}
-  .welcome-hi{font-size:20px;}
-  .welcome-meta{gap:6px 12px;}
-  .welcome-meta span{font-size:11px;}
-  .enrolled-pill{align-self:flex-start;}
+  .pnav{padding:0 12px;height:56px;}.pnav-sub{display:none;}.pnav-name{font-size:12px;}
+  .student-chip-name{display:none;}.student-chip{padding:6px;}.logout-btn{display:none;}
+  .bottom-nav{display:block;}.tabs-row{display:none;}.pcontent{padding:14px 12px 76px;}
+  .welcome-card{flex-direction:column;align-items:flex-start;padding:18px;gap:12px;}
+  .welcome-card::before{display:none;}.welcome-hi{font-size:20px;}
+  .welcome-meta{gap:6px 12px;}.welcome-meta span{font-size:11px;}.enrolled-pill{align-self:flex-start;}
   .ann-bar{border-radius:10px;padding:12px 14px;}
   .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px;}
-  .stat-card{padding:14px 14px;}
-  .stat-ico{font-size:18px;margin-bottom:8px;}
-  .stat-val{font-size:20px;}
-  .stat-sub{font-size:10px;}
-  .section{padding:16px 14px;}
-  .section-title{font-size:14px;}
-  .sched-item{flex-wrap:wrap;gap:8px;}
-  .sched-name{font-size:13px;}
-  .sched-meta{font-size:10px;}
+  .stat-card{padding:14px;}.stat-ico{font-size:18px;margin-bottom:8px;}.stat-val{font-size:20px;}.stat-sub{font-size:10px;}
+  .section{padding:16px 14px;}.section-title{font-size:14px;}
+  .sched-item{flex-wrap:wrap;gap:8px;}.sched-name{font-size:13px;}.sched-meta{font-size:10px;}
   .tbl-head{display:none;}
   .tbl-row-pay{display:flex!important;flex-direction:column;gap:8px;padding:14px;}
   .pay-row-top{display:flex;justify-content:space-between;align-items:center;}
   .pay-row-bot{display:flex;justify-content:space-between;align-items:center;}
   .tbl-row-att{display:flex!important;flex-direction:column;gap:4px;padding:12px 14px;}
   .tbl-row-cert{display:flex!important;flex-wrap:wrap;gap:6px;padding:12px 14px;align-items:center;}
-  .tbl-row{padding:10px 12px;}
-  .mini-stats{gap:8px;}
-  .mini-stat{padding:10px 14px;flex:1;min-width:calc(50% - 4px);}
-  .mini-stat-val{font-size:18px;}
-  .resource-item{padding:12px 14px;gap:10px;}
-  .resource-name{font-size:13px;}
-  .dl-btn{padding:6px 10px;font-size:10px;}
-  .help-card{padding:16px 14px;}
-  .help-btns{flex-direction:column;}
-  .btn-wa,.btn-email{width:100%;justify-content:center;padding:12px;}
+  .tbl-row{padding:10px 12px;}.mini-stats{gap:8px;}
+  .mini-stat{padding:10px 14px;flex:1;min-width:calc(50% - 4px);}.mini-stat-val{font-size:18px;}
+  .resource-item{padding:12px 14px;gap:10px;}.resource-name{font-size:13px;}.dl-btn{padding:6px 10px;font-size:10px;}
+  .help-card{padding:16px 14px;}.help-btns{flex-direction:column;}.btn-wa,.btn-email{width:100%;justify-content:center;padding:12px;}
   .profile-avatar-big{width:64px;height:64px;font-size:22px;}
-  .msg-card{padding:16px 14px;}
-  .msg-text{font-size:13px;}
+  .msg-card{padding:16px 14px;}.msg-text{font-size:13px;}
   .bottom-grid{grid-template-columns:1fr;gap:10px;}
-  .journey-step{gap:10px;}
-  .step-circle{width:30px;height:30px;font-size:12px;}
+  .journey-step{gap:10px;}.step-circle{width:30px;height:30px;font-size:12px;}
 }
-
-/* ── Small mobile (≤380px) ── */
-@media(max-width:380px){
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .stat-val{font-size:18px;}
-  .welcome-hi{font-size:17px;}
-  .pnav-ifa{width:34px;height:34px;font-size:12px;}
-}
+@media(max-width:380px){.stats-grid{grid-template-columns:1fr 1fr;}.stat-val{font-size:18px;}.welcome-hi{font-size:17px;}.pnav-ifa{width:34px;height:34px;font-size:12px;}}
 `;
 
 const STATUS_MAP={
-  new:      {color:"#60a5fa",bg:"rgba(96,165,250,.12)",border:"rgba(96,165,250,.25)",label:"New"},
+  new:{color:"#60a5fa",bg:"rgba(96,165,250,.12)",border:"rgba(96,165,250,.25)",label:"New"},
   contacted:{color:"#fbbf24",bg:"rgba(251,191,36,.12)",border:"rgba(251,191,36,.25)",label:"Contacted"},
-  enrolled: {color:"#4ade80",bg:"rgba(74,222,128,.12)",border:"rgba(74,222,128,.25)",label:"Enrolled"},
+  enrolled:{color:"#4ade80",bg:"rgba(74,222,128,.12)",border:"rgba(74,222,128,.25)",label:"Enrolled"},
   cancelled:{color:"#fb7aac",bg:"rgba(251,122,172,.12)",border:"rgba(251,122,172,.25)",label:"Cancelled"},
 };
 const PAY_MAP={
-  paid:   {color:"#4ade80",bg:"rgba(74,222,128,.12)",label:"Paid"},
+  paid:{color:"#4ade80",bg:"rgba(74,222,128,.12)",label:"Paid"},
   pending:{color:"#fbbf24",bg:"rgba(251,191,36,.12)",label:"Pending"},
   partial:{color:"#9b8dff",bg:"rgba(155,141,255,.12)",label:"Partial"},
-  waived: {color:"#94a3b8",bg:"rgba(148,163,184,.10)",label:"Waived"},
+  waived:{color:"#94a3b8",bg:"rgba(148,163,184,.10)",label:"Waived"},
 };
 const ATT_MAP={
   present:{color:"#4ade80",bg:"rgba(74,222,128,.12)",label:"Present"},
-  absent: {color:"#fb7aac",bg:"rgba(251,122,172,.12)",label:"Absent"},
-  late:   {color:"#fbbf24",bg:"rgba(251,191,36,.12)",label:"Late"},
+  absent:{color:"#fb7aac",bg:"rgba(251,122,172,.12)",label:"Absent"},
+  late:{color:"#fbbf24",bg:"rgba(251,191,36,.12)",label:"Late"},
 };
 const ANN_STYLES={
-  info:   {color:"#60a5fa",bg:"rgba(96,165,250,.08)",border:"rgba(96,165,250,.25)",ico:"ℹ️"},
+  info:{color:"#60a5fa",bg:"rgba(96,165,250,.08)",border:"rgba(96,165,250,.25)",ico:"ℹ️"},
   warning:{color:"#fbbf24",bg:"rgba(251,191,36,.08)",border:"rgba(251,191,36,.25)",ico:"⚠️"},
   success:{color:"#4ade80",bg:"rgba(74,222,128,.08)",border:"rgba(74,222,128,.25)",ico:"✅"},
-  urgent: {color:"#fb7aac",bg:"rgba(251,122,172,.08)",border:"rgba(251,122,172,.25)",ico:"🚨"},
+  urgent:{color:"#fb7aac",bg:"rgba(251,122,172,.08)",border:"rgba(251,122,172,.25)",ico:"🚨"},
 };
 const LEVELS=[
   {code:"A1",name:"Débutant",desc:"Complete beginner",color:"#4ade80"},
@@ -310,7 +227,6 @@ const RESOURCES=[
   {ico:"📚",name:"Grammar Reference Book",desc:"PDF · All levels",color:"rgba(251,122,172,.15)"},
   {ico:"🗣️",name:"Pronunciation Guide",desc:"PDF + Audio · A1",color:"rgba(45,212,191,.15)"},
 ];
-
 const BOTTOM_NAV_TABS=[
   {id:"overview",ico:"🏠",lbl:"Home"},
   {id:"progress",ico:"📈",lbl:"Progress"},
@@ -318,9 +234,7 @@ const BOTTOM_NAV_TABS=[
   {id:"payments",ico:"💳",lbl:"Pay"},
   {id:"profile",ico:"👤",lbl:"Me"},
 ];
-
 const ALL_TABS=[
-
   {id:"overview",label:"🏠 Overview"},
   {id:"courses",label:"🎓 Courses"},
   {id:"quiz",label:"📝 Quiz"},
@@ -332,6 +246,12 @@ const ALL_TABS=[
   {id:"resources",label:"📚 Resources"},
   {id:"profile",label:"👤 Profile"},
 ];
+
+function Pill({status,map}){const s=map[status]||Object.values(map)[0];return <span className="pill" style={{background:s.bg,color:s.color}}><span className="pdot" style={{background:s.color}}/>{s.label}</span>;}
+function fmtDate(d){if(!d)return"—";return new Date(d).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});}
+function initials(f,l){return`${(f||"")[0]||""}${(l||"")[0]||""}`.toUpperCase();}
+function AnnouncementBar({a}){const c=ANN_STYLES[a.type]||ANN_STYLES.info;return(<div className="ann-bar" style={{background:c.bg,borderColor:c.border}}><span className="ann-ico">{c.ico}</span><div style={{flex:1}}><div className="ann-title-txt" style={{color:c.color}}>{a.title}</div><div className="ann-body-txt">{a.message}</div><div className="ann-date-txt">📅 {fmtDate(a.createdAt)}</div></div></div>);}
+
 function QuizTab({studentId,studentName}){
   const [quizzes,setQuizzes]=useState([]);
   const [active,setActive]=useState(null);
@@ -350,6 +270,24 @@ function QuizTab({studentId,studentName}){
     setTimeLeft(q.timeLimit*60);
   };
 
+  const submitQuiz=async(auto=false)=>{
+    if(!active)return;
+    clearInterval(timerRef.current);
+    setSubmitting(true);
+    const timeTaken=(active.timeLimit*60)-timeLeft;
+    const answersArr=active.questions.map((_,i)=>answers[i]||"");
+    try{
+      const r=await fetch("/api/student/quiz",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({quizId:active._id,studentId,studentName,answers:answersArr,timeTaken})});
+      const d=await r.json();
+      if(d.success){
+        setResult(d.result);
+        setQuizzes(prev=>prev.map(q=>q._id===active._id?{...q,result:d.result}:q));
+      }
+    }catch{}
+    setSubmitting(false);
+  };
+
   useEffect(()=>{
     if(!active||result)return;
     timerRef.current=setInterval(()=>{
@@ -364,18 +302,6 @@ function QuizTab({studentId,studentName}){
   useEffect(()=>{
     if(timeLeft===0&&active&&!result)submitQuiz(true);
   },[timeLeft]);
-    const answersArr=active.questions.map((_,i)=>answers[i]||"");
-    try{
-      const r=await fetch("/api/student/quiz",{method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({quizId:active._id,studentId,studentName,answers:answersArr,timeTaken})});
-      const d=await r.json();
-      if(d.success){
-        setResult(d.result);
-        setQuizzes(prev=>prev.map(q=>q._id===active._id?{...q,result:d.result}:q));
-      }
-    }catch{}
-    setSubmitting(false);
-  };
 
   const mins=String(Math.floor(timeLeft/60)).padStart(2,"0");
   const secs=String(timeLeft%60).padStart(2,"0");
@@ -469,10 +395,6 @@ function QuizTab({studentId,studentName}){
     </div>
   );
 }
-function Pill({status,map}){const s=map[status]||Object.values(map)[0];return <span className="pill" style={{background:s.bg,color:s.color}}><span className="pdot" style={{background:s.color}}/>{s.label}</span>;}
-function fmtDate(d){if(!d)return"—";return new Date(d).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});}
-function initials(f,l){return`${(f||"")[0]||""}${(l||"")[0]||""}`.toUpperCase();}
-function AnnouncementBar({a}){const c=ANN_STYLES[a.type]||ANN_STYLES.info;return(<div className="ann-bar" style={{background:c.bg,borderColor:c.border}}><span className="ann-ico">{c.ico}</span><div style={{flex:1}}><div className="ann-title-txt" style={{color:c.color}}>{a.title}</div><div className="ann-body-txt">{a.message}</div><div className="ann-date-txt">📅 {fmtDate(a.createdAt)}</div></div></div>);}
 
 export default function StudentPortal(){
   const [student,setStudent]=useState(null);
@@ -578,8 +500,6 @@ export default function StudentPortal(){
   return(
     <><style>{CSS}</style>
     <div style={{background:"var(--bg)",minHeight:"100vh"}}>
-
-      {/* ── TOP NAV ── */}
       <nav className="pnav">
         <div className="pnav-logo">
           <div className="pnav-ifa">IFA</div>
@@ -616,10 +536,8 @@ export default function StudentPortal(){
         </div>
       </nav>
 
-      {/* ── MAIN CONTENT ── */}
       <div className="pcontent">
         {announcements.map((a,i)=><AnnouncementBar key={i} a={a}/>)}
-
         <div className="welcome-card">
           <div style={{position:"relative",zIndex:1,flex:1}}>
             <div className="welcome-hi">Welcome back, {student.firstName}! 👋</div>
@@ -634,12 +552,10 @@ export default function StudentPortal(){
           </span>
         </div>
 
-        {/* Desktop tab row */}
         <div className="tabs-row">
           {ALL_TABS.map(t=><button key={t.id} className={`tab-btn${tab===t.id?" active":""}`} onClick={()=>setTab(t.id)}>{t.label}</button>)}
         </div>
 
-        {/* OVERVIEW */}
         {tab==="overview"&&(<>
           <div className="stats-grid">
             {[
@@ -674,16 +590,13 @@ export default function StudentPortal(){
           </div>
         </>)}
 
-        {/* PROGRESS */}
         {tab==="progress"&&(
           <div className="section">
             <div className="section-title">📈 My Learning Journey</div>
             <div className="section-sub">Track your French language progress through the CEFR levels</div>
-            <div style={{background:"linear-gradient(135deg,rgba(155,141,255,0.1),rgba(45,212,191,0.08))",border:"1px solid rgba(155,141,255,0.2)",borderRadius:14,padding:"20px 20px",marginBottom:20}}>
+            <div style={{background:"linear-gradient(135deg,rgba(155,141,255,0.1),rgba(45,212,191,0.08))",border:"1px solid rgba(155,141,255,0.2)",borderRadius:14,padding:"20px",marginBottom:20}}>
               <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:14,flexWrap:"wrap"}}>
-                <div style={{width:52,height:52,borderRadius:12,background:"rgba(155,141,255,0.15)",border:"1px solid rgba(155,141,255,0.3)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Sora',sans-serif",fontSize:18,fontWeight:800,color:"var(--purple)",flexShrink:0}}>
-                  {currentLevel.code}
-                </div>
+                <div style={{width:52,height:52,borderRadius:12,background:"rgba(155,141,255,0.15)",border:"1px solid rgba(155,141,255,0.3)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Sora',sans-serif",fontSize:18,fontWeight:800,color:"var(--purple)",flexShrink:0}}>{currentLevel.code}</div>
                 <div style={{flex:1}}>
                   <div style={{fontFamily:"'Sora',sans-serif",fontSize:17,fontWeight:700}}>{currentLevel.name}</div>
                   <div style={{fontSize:12,color:"var(--text3)"}}>{currentLevel.desc}</div>
@@ -711,7 +624,6 @@ export default function StudentPortal(){
           </div>
         )}
 
-        {/* SCHEDULE */}
         {tab==="schedule"&&(
           <div className="section">
             <div className="section-title">📅 Class Schedule</div>
@@ -730,7 +642,6 @@ export default function StudentPortal(){
           </div>
         )}
 
-        {/* PAYMENTS */}
         {tab==="payments"&&(
           <div className="section">
             <div className="section-title">💳 Payment History</div>
@@ -742,9 +653,7 @@ export default function StudentPortal(){
                     <div key={i} className="mini-stat"><div className="mini-stat-val" style={{color:s.color}}>{s.val}</div><div className="mini-stat-lbl">{s.lbl}</div></div>
                   ))}
                 </div>
-                <div className="tbl-head" style={{gridTemplateColumns:"1fr 1fr 100px 80px 90px"}}>
-                  <span>Amount</span><span>Method</span><span>Date</span><span>Status</span><span>Receipt</span>
-                </div>
+                <div className="tbl-head" style={{gridTemplateColumns:"1fr 1fr 100px 80px 90px"}}><span>Amount</span><span>Method</span><span>Date</span><span>Status</span><span>Receipt</span></div>
                 {data.payments.map((p,i)=>(
                   <div key={i} className="tbl-row tbl-row-pay" style={{gridTemplateColumns:"1fr 1fr 100px 80px 90px"}}>
                     <div className="pay-row-top">
@@ -765,7 +674,6 @@ export default function StudentPortal(){
           </div>
         )}
 
-        {/* CERTIFICATIONS */}
         {tab==="certifications"&&(
           <div className="section">
             <div className="section-title">🏆 Exam Results</div>
@@ -786,7 +694,6 @@ export default function StudentPortal(){
           </div>
         )}
 
-        {/* ATTENDANCE */}
         {tab==="attendance"&&(
           <div className="section">
             <div className="section-title">📋 My Attendance</div>
@@ -813,7 +720,6 @@ export default function StudentPortal(){
           </div>
         )}
 
-        {/* COURSES */}
         {tab==="courses"&&(
           <div className="section">
             <div className="section-title">🎓 Mes Cours</div>
@@ -836,8 +742,8 @@ export default function StudentPortal(){
           </div>
         )}
 
-        {/* RESOURCES */}
         {tab==="quiz"&&<QuizTab studentId={student._id} studentName={`${student.firstName} ${student.lastName}`}/>}
+
         {tab==="resources"&&(
           <div className="section">
             <div className="section-title">📚 Study Resources</div>
@@ -855,7 +761,6 @@ export default function StudentPortal(){
           </div>
         )}
 
-        {/* PROFILE */}
         {tab==="profile"&&(
           <div className="profile-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
             <div className="section">
@@ -911,10 +816,8 @@ export default function StudentPortal(){
             </div>
           </div>
         )}
-
       </div>
 
-      {/* ── BOTTOM NAV (mobile) ── */}
       <div className="bottom-nav">
         <div className="bottom-nav-inner">
           {BOTTOM_NAV_TABS.map(t=>(
@@ -925,18 +828,13 @@ export default function StudentPortal(){
             </button>
           ))}
           <button className={`bnav-btn${!BOTTOM_NAV_TABS.find(t=>t.id===tab)&&tab!=="overview"?" active":""}`}
-            onClick={()=>{
-              const moreTabs=["certifications","attendance","resources"];
-              const cur=moreTabs.indexOf(tab);
-              setTab(moreTabs[cur<0?0:(cur+1)%moreTabs.length]);
-            }}>
+            onClick={()=>{const moreTabs=["certifications","attendance","resources"];const cur=moreTabs.indexOf(tab);setTab(moreTabs[cur<0?0:(cur+1)%moreTabs.length]);}}>
             <span className="bnav-ico">•••</span>
             <span className="bnav-lbl">More</span>
             <span className="bnav-dot"/>
           </button>
         </div>
       </div>
-
     </div></>
   );
 }
