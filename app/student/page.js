@@ -300,7 +300,12 @@ function QuizTab({studentId,studentName}){
   },[active,result]);
 
   useEffect(()=>{
-    if(timeLeft===0&&active&&!result)submitQuiz(true);
+    if(timeLeft===0&&active&&!result){
+      const answersArr=active.questions.map((_,i)=>answers[i]||"");
+      fetch("/api/student/quiz",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({quizId:active._id,studentId,studentName,answers:answersArr,timeTaken:active.timeLimit*60})})
+        .then(r=>r.json()).then(d=>{if(d.success){setResult(d.result);setQuizzes(prev=>prev.map(q=>q._id===active._id?{...q,result:d.result}:q));}});
+    }
   },[timeLeft]);
 
   const mins=String(Math.floor(timeLeft/60)).padStart(2,"0");
