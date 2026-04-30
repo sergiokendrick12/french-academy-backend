@@ -37,7 +37,7 @@ export async function POST(request) {
 
     // Check already submitted
     const existing = await QuizResult.findOne({ quizId, studentId });
-    if (existing) return NextResponse.json({ error: "Already submitted" }, { status: 400 });
+    if (existing) return NextResponse.json({ success: true, result: existing });
 
     // Auto-grade
     let score = 0, totalPoints = 0;
