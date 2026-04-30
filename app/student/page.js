@@ -332,7 +332,143 @@ const ALL_TABS=[
   {id:"resources",label:"📚 Resources"},
   {id:"profile",label:"👤 Profile"},
 ];
+function QuizTab({studentId,studentName}){
+  const [quizzes,setQuizzes]=useState([]);
+  const [active,setActive]=useState(null);
+  const [answers,setAnswers]=useState({});
+  const [timeLeft,setTimeLeft]=useState(0);
+  const [result,setResult]=useState(null);
+  const [submitting,setSubmitting]=useState(false);
+  const timerRef=useRef(null);
 
+  useEffect(()=>{
+    fetch(`/api/student/quiz?studentId=${studentId}`).then(r=>r.json()).then(d=>{if(d.success)setQuizzes(d.quizzes);});
+  },[studentId]);
+
+  const startQuiz=(q)=>{
+    setActive(q);setAnswers({});setResult(null);
+    setTimeLeft(q.timeLimit*60);
+  };
+
+  useEffect(()=>{
+    if(!active||result)return;
+    timerRef.current=setInterval(()=>{
+      setTimeLeft(t=>{
+        if(t<=1){clearInterval(timerRef.current);return 0;}
+        return t-1;
+      });
+    },1000);
+    return()=>clearInterval(timerRef.current);
+  },[active,result]);
+
+  useEffect(()=>{
+    if(timeLeft===0&&active&&!result)submitQuiz(true);
+  },[timeLeft]);
+    const answersArr=active.questions.map((_,i)=>answers[i]||"");
+    try{
+      const r=await fetch("/api/student/quiz",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({quizId:active._id,studentId,studentName,answers:answersArr,timeTaken})});
+      const d=await r.json();
+      if(d.success){
+        setResult(d.result);
+        setQuizzes(prev=>prev.map(q=>q._id===active._id?{...q,result:d.result}:q));
+      }
+    }catch{}
+    setSubmitting(false);
+  };
+
+  const mins=String(Math.floor(timeLeft/60)).padStart(2,"0");
+  const secs=String(timeLeft%60).padStart(2,"0");
+  const urgent=timeLeft<=60&&timeLeft>0;
+
+  if(active&&!result)return(
+    <div className="section">
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
+        <div>
+          <div className="section-title">📝 {active.title}</div>
+          <div className="section-sub">{active.questions.length} questions · {active.level}</div>
+        </div>
+        <div style={{background:urgent?"rgba(251,122,172,0.15)":"rgba(155,141,255,0.12)",border:`1px solid ${urgent?"rgba(251,122,172,0.3)":"rgba(155,141,255,0.25)"}`,borderRadius:12,padding:"10px 20px",textAlign:"center"}}>
+          <div style={{fontFamily:"'Sora',sans-serif",fontSize:28,fontWeight:800,color:urgent?"var(--rose)":"var(--purple)"}}>{mins}:{secs}</div>
+          <div style={{fontSize:10,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"1px"}}>Time Left</div>
+        </div>
+      </div>
+      {active.questions.map((q,i)=>(
+        <div key={i} style={{background:"var(--bg3)",border:"1px solid var(--border)",borderRadius:14,padding:"18px 20px",marginBottom:14}}>
+          <div style={{fontSize:13,fontWeight:700,marginBottom:14,color:"var(--text)"}}>Q{i+1}. {q.question}</div>
+          {q.type==="multiple"&&q.options.map((opt,oi)=>(
+            <div key={oi} onClick={()=>setAnswers(a=>({...a,[i]:opt}))}
+              style={{padding:"11px 16px",borderRadius:10,border:`1px solid ${answers[i]===opt?"rgba(155,141,255,0.5)":"var(--border)"}`,background:answers[i]===opt?"rgba(155,141,255,0.12)":"rgba(255,255,255,0.02)",marginBottom:8,cursor:"pointer",fontSize:13,color:answers[i]===opt?"var(--purple)":"var(--text2)",transition:"all .15s"}}>
+              <span style={{fontWeight:700,marginRight:8}}>{["A","B","C","D"][oi]}.</span>{opt}
+            </div>
+          ))}
+          {q.type==="truefalse"&&["True","False"].map(opt=>(
+            <div key={opt} onClick={()=>setAnswers(a=>({...a,[i]:opt}))}
+              style={{padding:"11px 16px",borderRadius:10,border:`1px solid ${answers[i]===opt?"rgba(155,141,255,0.5)":"var(--border)"}`,background:answers[i]===opt?"rgba(155,141,255,0.12)":"rgba(255,255,255,0.02)",marginBottom:8,cursor:"pointer",fontSize:13,color:answers[i]===opt?"var(--purple)":"var(--text2)",transition:"all .15s"}}>
+              {opt==="True"?"✅":"❌"} {opt}
+            </div>
+          ))}
+          {q.type==="written"&&(
+            <textarea value={answers[i]||""} onChange={e=>setAnswers(a=>({...a,[i]:e.target.value}))}
+              placeholder="Write your answer here..."
+              style={{width:"100%",padding:"11px 14px",background:"rgba(255,255,255,0.05)",border:"1px solid var(--border2)",borderRadius:10,color:"var(--text)",fontSize:13,outline:"none",resize:"vertical",minHeight:80,fontFamily:"'DM Sans',sans-serif"}}/>
+          )}
+        </div>
+      ))}
+      <div style={{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}}>
+        <button onClick={()=>{clearInterval(timerRef.current);setActive(null);}} style={{background:"rgba(255,255,255,0.05)",border:"1px solid var(--border2)",color:"var(--text2)",padding:"12px 24px",borderRadius:10,fontSize:13,cursor:"pointer"}}>✕ Cancel</button>
+        <button onClick={()=>submitQuiz(false)} disabled={submitting} style={{background:"linear-gradient(135deg,#7c6fff,#9b8dff)",color:"#fff",border:"none",padding:"12px 28px",borderRadius:10,fontSize:14,fontWeight:700,cursor:"pointer"}}>
+          {submitting?"Submitting…":"✅ Submit Quiz"}
+        </button>
+      </div>
+    </div>
+  );
+
+  if(result)return(
+    <div className="section" style={{textAlign:"center"}}>
+      <div style={{fontSize:48,marginBottom:16}}>{result.passed?"🎉":"💪"}</div>
+      <div style={{fontFamily:"'Sora',sans-serif",fontSize:22,fontWeight:800,marginBottom:8}}>{result.passed?"Quiz Passed!":"Keep Practicing!"}</div>
+      <div style={{fontSize:14,color:"var(--text3)",marginBottom:24}}>{active?.title}</div>
+      <div style={{display:"flex",justifyContent:"center",gap:16,marginBottom:24,flexWrap:"wrap"}}>
+        {[
+          {lbl:"Score",val:`${result.score}/${result.totalPoints}`,color:"var(--purple)"},
+          {lbl:"Percentage",val:`${result.percentage}%`,color:result.passed?"var(--green)":"var(--rose)"},
+          {lbl:"Result",val:result.passed?"PASSED":"FAILED",color:result.passed?"var(--green)":"var(--rose)"},
+        ].map((s,i)=>(
+          <div key={i} style={{background:"var(--bg3)",border:"1px solid var(--border)",borderRadius:14,padding:"16px 24px",textAlign:"center",minWidth:120}}>
+            <div style={{fontFamily:"'Sora',sans-serif",fontSize:24,fontWeight:800,color:s.color}}>{s.val}</div>
+            <div style={{fontSize:11,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"1px",marginTop:4}}>{s.lbl}</div>
+          </div>
+        ))}
+      </div>
+      <button onClick={()=>{setActive(null);setResult(null);}} style={{background:"linear-gradient(135deg,#7c6fff,#9b8dff)",color:"#fff",border:"none",padding:"12px 28px",borderRadius:10,fontSize:14,fontWeight:700,cursor:"pointer"}}>← Back to Quizzes</button>
+    </div>
+  );
+
+  return(
+    <div className="section">
+      <div className="section-title">📝 Quiz & Assessments</div>
+      <div className="section-sub">Test your French knowledge</div>
+      {!quizzes.length?<div className="empty-state"><div className="empty-ico">📝</div><p>No quizzes available yet.</p></div>
+      :quizzes.map((q,i)=>(
+        <div key={i} style={{background:"var(--bg3)",border:"1px solid var(--border)",borderRadius:14,padding:"16px 20px",marginBottom:12,display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
+          <div style={{width:44,height:44,borderRadius:10,background:"rgba(155,141,255,0.12)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>📝</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontWeight:700,fontSize:14,marginBottom:4}}>{q.title}</div>
+            <div style={{fontSize:11,color:"var(--text3)"}}>⏱ {q.timeLimit} min · 📊 {q.level} · ❓ {q.questionCount} questions</div>
+            {q.result&&<div style={{marginTop:6,fontSize:11,color:q.result.passed?"var(--green)":"var(--rose)",fontWeight:600}}>
+              {q.result.passed?"✅":"❌"} Score: {q.result.score}/{q.result.totalPoints} ({q.result.percentage}%)
+            </div>}
+          </div>
+          <button onClick={()=>startQuiz(q)} disabled={!!q.result}
+            style={{background:q.result?"rgba(255,255,255,0.05)":"linear-gradient(135deg,#7c6fff,#9b8dff)",color:q.result?"var(--text3)":"#fff",border:q.result?"1px solid var(--border)":"none",padding:"10px 20px",borderRadius:10,fontSize:13,fontWeight:700,cursor:q.result?"not-allowed":"pointer",flexShrink:0}}>
+            {q.result?"✓ Completed":"Start Quiz →"}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
 function Pill({status,map}){const s=map[status]||Object.values(map)[0];return <span className="pill" style={{background:s.bg,color:s.color}}><span className="pdot" style={{background:s.color}}/>{s.label}</span>;}
 function fmtDate(d){if(!d)return"—";return new Date(d).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});}
 function initials(f,l){return`${(f||"")[0]||""}${(l||"")[0]||""}`.toUpperCase();}
@@ -701,6 +837,7 @@ export default function StudentPortal(){
         )}
 
         {/* RESOURCES */}
+        {tab==="quiz"&&<QuizTab studentId={student._id} studentName={`${student.firstName} ${student.lastName}`}/>}
         {tab==="resources"&&(
           <div className="section">
             <div className="section-title">📚 Study Resources</div>
