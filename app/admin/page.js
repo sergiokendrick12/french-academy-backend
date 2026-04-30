@@ -2230,6 +2230,7 @@ export default function AdminDashboard() {
           {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}
           {page==="progress"&&<ProgressPage enrollments={enrollments} toast={toast}/>}
           {page==="courses"&&<iframe src="/admin/courses" style={{width:"100%",height:"calc(100vh - 58px)",border:"none",background:"#0b0e1a"}}/>}
+          {page==="quiz"&&<iframe src="/admin/quiz" style={{width:"100%",height:"calc(100vh - 58px)",border:"none",background:"#0b0e1a"}}/>}
           {page==="settings"&&<SettingsPage toast={toast}/>}
         </main>
 
