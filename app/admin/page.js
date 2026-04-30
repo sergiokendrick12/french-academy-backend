@@ -1207,7 +1207,7 @@ function CertificationsPage({enrollments,toast}) {
   const enrolled = enrollments.filter(e=>e.status==="enrolled");
   const [tracking,setTracking] = useState([]);
   const [showModal,setShowModal] = useState(false);
-  const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:""});
+  const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:"",editId:null});
 
   const fetchTracking = async () => {
     try { const r = await fetch("/api/admin/certifications"); const d = await r.json(); setTracking(d.certifications||[]); } catch {}
@@ -1221,6 +1221,12 @@ function CertificationsPage({enrollments,toast}) {
     const r = await fetch("/api/admin/certifications",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
     const d = await r.json();
     if(d.success){ fetchTracking(); setShowModal(false); toast("Result recorded!","success"); setForm({studentId:"",examDate:"",score:"",passed:false,notes:""}); }
+  };
+
+  const deleteResult = async (id) => {
+    if(!confirm("Delete this result?")) return;
+    await fetch("/api/admin/certifications",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
+    fetchTracking(); toast("Deleted","error");
   };
 
   const passRate = tracking.length > 0 ? Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100) : 0;
@@ -1253,12 +1259,16 @@ function CertificationsPage({enrollments,toast}) {
         {tracking.length===0?(
           <div className="empty"><div className="empty-ico">📝</div><p className="empty-txt">No exam results yet</p><p className="empty-sub">Add exam results for enrolled students</p></div>
         ):tracking.map(t=>(
-          <div key={t._id} style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"12px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",fontSize:13,alignItems:"center"}}>
+          <div key={t._id} style={{display:"grid",gridTemplateColumns:"1fr 1fr 90px 80px 110px 90px",padding:"12px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",fontSize:13,alignItems:"center"}}>
             <span style={{fontWeight:500}}>{t.studentName}</span>
             <span style={{fontSize:12,color:"var(--gold)"}}>{t.cert}</span>
-            <span style={{fontWeight:600}}>{t.score||"—"}</span>
-            <span><span className="pill" style={{background:t.passed?"var(--teal-dim)":"var(--rose-dim)",color:t.passed?"var(--teal)":"var(--rose)"}}>{t.passed?"Passed":"Failed"}</span></span>
+            <span style={{fontWeight:600,color:"var(--text)"}}>{t.score||"—"}</span>
+            <span><span className="pill" style={{background:t.passed?"var(--teal-dim)":"var(--rose-dim)",color:t.passed?"var(--teal)":"var(--rose)"}}><span className="dot" style={{background:t.passed?"var(--teal)":"var(--rose)"}}/>{t.passed?"Passed":"Failed"}</span></span>
             <span style={{fontSize:11,color:"var(--text3)"}}>{t.examDate||"—"}</span>
+            <div style={{display:"flex",gap:6}}>
+              <button onClick={()=>{ setForm({studentId:t.studentId||"",examDate:t.examDate||"",score:t.score||"",passed:t.passed,notes:t.notes||"",editId:t._id}); setShowModal(true); }} style={{background:"var(--blue-dim)",color:"var(--blue)",border:"1px solid rgba(77,157,224,.25)",padding:"5px 12px",borderRadius:6,fontSize:11,fontWeight:600,cursor:"pointer"}}>✏️ Edit</button>
+              <button onClick={()=>deleteResult(t._id)} style={{background:"var(--rose-dim)",color:"var(--rose)",border:"1px solid rgba(224,92,122,.25)",padding:"5px 12px",borderRadius:6,fontSize:11,fontWeight:600,cursor:"pointer"}}>🗑️</button>
+            </div>
           </div>
         ))}
       </div>
