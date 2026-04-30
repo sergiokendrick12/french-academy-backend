@@ -320,8 +320,10 @@ const BOTTOM_NAV_TABS=[
 ];
 
 const ALL_TABS=[
+
   {id:"overview",label:"🏠 Overview"},
   {id:"courses",label:"🎓 Courses"},
+  {id:"quiz",label:"📝 Quiz"},
   {id:"progress",label:"📈 Progress"},
   {id:"schedule",label:"📅 Schedule"},
   {id:"payments",label:"💳 Payments"},
