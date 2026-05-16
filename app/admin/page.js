@@ -1391,7 +1391,7 @@ function QuizPage({toast}) {
             </table>
           </div>
         )}
-      </div>
+      </div>}
       {showCreate&&(
         <div className="modal-bg" onClick={()=>setShowCreate(false)}>
           <div className="modal" style={{maxWidth:700,width:"95%",maxHeight:"90vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
