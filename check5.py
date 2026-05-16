@@ -1,0 +1,8 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('editItem&&')
+print(repr(c[idx:idx+100]))
+idx2 = c.find('{showModal&&(')
+print('showModal position:', idx2)
+print('editItem position:', c.find('{editItem&&('))

@@ -731,7 +731,7 @@ function PaymentsPage({enrollments,toast}) {
           </div>
         ))}
       </div>
-      {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div style={{display:"flex",alignItems:"center",gap:8,gridColumn:"span 2"}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}{showModal&&(
+      {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
             <div className="modal-title">Record Payment</div>
@@ -1204,12 +1204,10 @@ function StaffPage({toast}) {
 }
 
 function CertificationsPage({enrollments,toast}) {
-  const [editItem,setEditItem] = useState(null);
-  const deleteResult = async (id) => { if(!confirm("Delete this result?")) return; await fetch("/api/admin/certifications",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchTracking(); toast("Result deleted!","success"); };
-  const saveEdit = async () => { await fetch("/api/admin/certifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(editItem)}); setEditItem(null); fetchTracking(); toast("Result updated!","success"); };
   const enrolled = enrollments.filter(e=>e.status==="enrolled");
   const [tracking,setTracking] = useState([]);
   const [showModal,setShowModal] = useState(false);
+  const [editItem,setEditItem] = useState(null);
   const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:""});
 
   const fetchTracking = async () => {
@@ -1217,6 +1215,8 @@ function CertificationsPage({enrollments,toast}) {
   };
   useEffect(()=>{ fetchTracking(); },[]);
 
+  const deleteResult = async (id) => { if(!confirm("Delete this result?")) return; await fetch("/api/admin/certifications",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchTracking(); toast("Result deleted!","success"); };
+  const saveEdit = async () => { await fetch("/api/admin/certifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(editItem)}); setEditItem(null); fetchTracking(); toast("Result updated!","success"); };
   const addResult = async () => {
     if(!form.studentId) return;
     const student = enrollments.find(e=>e._id===form.studentId);
@@ -1265,7 +1265,7 @@ function CertificationsPage({enrollments,toast}) {
           </div>
         ))}
       </div>
-      {showModal&&(
+      {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div style={{display:"flex",alignItems:"center",gap:8,gridColumn:"span 2"}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}{showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
             <div className="modal-title">Add Exam Result</div>
