@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 
 const CSS = `
@@ -2119,25 +2119,27 @@ export default function AdminDashboard() {
   }[bp];
 
   const navItems = [
-    {id:"home",           ico:"🏠", label:"Dashboard",     section:"overview"},
-    {id:"enrollments",    ico:"👥", label:"Enrollments",   section:"management", badge:stats.new||0},
-    {id:"analytics",      ico:"📊", label:"Analytics",     section:"management"},
-    {id:"payments",       ico:"💰", label:"Payments",      section:"finance"},
-    {id:"schedule",       ico:"📅", label:"Schedule",      section:"academy"},
-    {id:"messages",       ico:"💬", label:"Messages",      section:"academy"},
-    {id:"bulk-email",     ico:"📧", label:"Bulk Email",    section:"academy"},
-    {id:"staff",          ico:"👨‍🏫", label:"Staff",         section:"academy"},
-    {id:"certifications", ico:"🏆", label:"Certifications",section:"academy"},
-    {id:"attendance",     ico:"📋", label:"Attendance",    section:"academy"},
-    {id:"progress",       ico:"📊", label:"Progress",      section:"academy"},
-    {id:"announcements",  ico:"📢", label:"Announcements", section:"system"},
-    {id:"settings",       ico:"⚙️", label:"Settings",      section:"system"},
+    {id:"home",           ico:"🏠", label:"Dashboard",      section:"overview"},
+    {id:"enrollments",    ico:"👥", label:"Enrollments",    section:"management", badge:stats.new||0},
+    {id:"analytics",      ico:"📊", label:"Analytics",      section:"management"},
+    {id:"payments",       ico:"💰", label:"Payments",       section:"finance"},
+    {id:"schedule",       ico:"📅", label:"Schedule",       section:"academy"},
+    {id:"messages",       ico:"💬", label:"Messages",       section:"academy"},
+    {id:"bulk-email",     ico:"📧", label:"Bulk Email",     section:"academy"},
+    {id:"staff",          ico:"👨‍🏫", label:"Staff",          section:"academy"},
+    {id:"resources",      ico:"📚", label:"Resources",      section:"academy"},
+    {id:"certifications", ico:"🏆", label:"Certifications", section:"academy"},
+    {id:"attendance",     ico:"📋", label:"Attendance",     section:"academy"},
+    {id:"progress",       ico:"📈", label:"Progress",       section:"academy"},
+    {id:"announcements",  ico:"📢", label:"Announcements",  section:"system"},
+    {id:"settings",       ico:"⚙️", label:"Settings",       section:"system"},
   ];
 
   const pageTitles = {
     home:"Dashboard",enrollments:"Enrollments",analytics:"Analytics",payments:"Payments",
     schedule:"Schedule",messages:"Messages","bulk-email":"Bulk Email",staff:"Staff",
-    certifications:"Certifications",attendance:"Attendance",announcements:"Announcements",settings:"Settings"
+    resources:"Resources",certifications:"Certifications",attendance:"Attendance",
+    progress:"Progress",announcements:"Announcements",settings:"Settings"
   };
 
   const statCards = [
