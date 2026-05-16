@@ -1,5 +1,0 @@
-﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
-c = f.read()
-f.close()
-print('passRate occurrences:', c.count('const passRate = tracking.length'))
-print('CertificationsPage occurrences:', c.count('function CertificationsPage'))
