@@ -786,7 +786,7 @@ export default function StudentPortal(){
                         <span className="pill" style={{background:"var(--gold-dim)",color:"var(--gold)"}}>{q.duration} min</span>
                       </div>
                     </div>
-                    (()=>{const done=quizResults.some(r=>r.quizId===q._id);return done?(<span style={{fontSize:12,color:"var(--teal)",fontWeight:600}}>✅ Completed</span>):(<button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);return 0;}return p-1;});},1000);}}>Start Quiz</button>);})()
+                    {quizResults.some(r=>r.quizId===q._id)?(<span style={{fontSize:12,color:"var(--teal)",fontWeight:600}}>Completed</span>):(<button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);return 0;}return p-1;});},1000);}}>Start Quiz</button>)}
                   </div>
                 ))}
               </div>
