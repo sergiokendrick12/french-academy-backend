@@ -12,5 +12,6 @@ const QuizSchema = new mongoose.Schema({
   duration: { type: Number, default: 30 },
   questions: [QuestionSchema],
   active: { type: Boolean, default: true },
+  totalMarks: { type: Number, default: 0 },
 }, { timestamps: true });
 export default mongoose.models.Quiz || mongoose.model("Quiz", QuizSchema);

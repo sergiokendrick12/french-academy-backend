@@ -1404,7 +1404,7 @@ function QuizPage({toast}) {
             <div className="pay-form">
               <div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Title</label><input className="form-input" placeholder="e.g. TCF Canada Practice Test" value={form.title} onChange={e=>setForm({...form,title:e.target.value})}/></div>
               <div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Description</label><input className="form-input" placeholder="Short description..." value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div>
-              <div className="form-group"><label className="form-label">Duration (minutes)</label><input className="form-input" type="number" min="1" value={form.duration} onChange={e=>setForm({...form,duration:Number(e.target.value)})}/></div>
+              <div className="form-group"><label className="form-label">Duration (minutes)</label><input className="form-input" type="number" min="1" value={form.duration} onChange={e=>setForm({...form,duration:Number(e.target.value)})}/></div><div className="form-group"><label className="form-label">Total Marks</label><input className="form-input" type="number" min="0" placeholder="e.g. 10" value={form.totalMarks} onChange={e=>setForm({...form,totalMarks:Number(e.target.value)})}/></div>
               <div className="form-group" style={{display:"flex",alignItems:"center",gap:8,marginTop:20}}><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/><label className="form-label" style={{margin:0}}>Active (visible to students)</label></div>
             </div>
 
