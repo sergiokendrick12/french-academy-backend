@@ -385,6 +385,11 @@ export default function StudentPortal(){
   const [quizSubmitted,setQuizSubmitted]=useState(null);
   const [quizResults,setQuizResults]=useState([]);
   useEffect(()=>{fetch('/api/student/quiz').then(r=>r.json()).then(d=>setQuizzes(d.quizzes||[])).catch(()=>{});},[]);
+  useEffect(()=>{
+    if(activeQuiz && quizTimeLeft===0 && !quizSubmitted){
+      fetch("/api/student/quiz/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({quizId:activeQuiz._id,studentId:student?._id,studentName:(student?.firstName||"")+" "+(student?.lastName||""),answers:quizAnswers,timeTaken:activeQuiz.duration*60})}).then(r=>r.json()).then(d=>{if(d.success)setQuizSubmitted(d);});
+    }
+  },[quizTimeLeft]);
   useEffect(()=>{fetch('/api/admin/resources').then(r=>r.json()).then(d=>setRESOURCES(d.resources||[])).catch(()=>{});},[]);
   const [showNotif,setShowNotif]=useState(false);
   const [readNotifs,setReadNotifs]=useState([]);
@@ -737,7 +742,7 @@ export default function StudentPortal(){
                     <div style={{fontSize:48,marginBottom:12}}>🎉</div>
                     <div style={{fontFamily:"var(--font-d)",fontSize:28,color:"var(--gold)",marginBottom:8}}>{quizSubmitted.score}/{quizSubmitted.total}</div>
                     <div style={{color:"var(--text3)",marginBottom:20}}>Quiz completed!</div>
-                    <button className="btn btn-gold" onClick={()=>{setActiveQuiz(null);setQuizSubmitted(null);setQuizAnswers({});}}>Back to Quizzes</button>
+                    <button className="btn btn-gold" onClick={()=>{setActiveQuiz(null);setQuizSubmitted(null);setQuizAnswers({});if(student?._id)fetch("/api/student/quiz/results?studentId="+student._id).then(r=>r.json()).then(d=>setQuizResults(d.results||[])).catch(()=>{});}}>Back to Quizzes</button>
                   </div>
                 ):(
                   <div>
@@ -781,7 +786,7 @@ export default function StudentPortal(){
                         <span className="pill" style={{background:"var(--gold-dim)",color:"var(--gold)"}}>{q.duration} min</span>
                       </div>
                     </div>
-                    <button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);document.getElementById("quiz-submit-btn")?.click();return 0;}return p-1;});},1000);}}>Start Quiz</button>
+                    (()=>{const done=quizResults.some(r=>r.quizId===q._id);return done?(<span style={{fontSize:12,color:"var(--teal)",fontWeight:600}}>✅ Completed</span>):(<button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);return 0;}return p-1;});},1000);}}>Start Quiz</button>);})()
                   </div>
                 ))}
               </div>
