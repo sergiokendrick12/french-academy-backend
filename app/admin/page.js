@@ -407,7 +407,7 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
           ):recentEnrollments.map((e,i)=>(
             <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 0",borderBottom:i<recentEnrollments.length-1?"1px solid rgba(36,54,80,.5)":"none"}}>
               <div style={{width:34,height:34,borderRadius:"var(--r-sm)",background:"var(--gold-dim)",border:"1px solid rgba(212,168,67,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"var(--font-d)",fontSize:13,color:"var(--gold)",flexShrink:0}}>
-                {initials(e.firstName,e.lastName)}
+                {e.photo?<img src={e.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"50%"}}/>:initials(e.firstName,e.lastName)}
               </div>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{fontSize:13,fontWeight:500}}>{e.firstName} {e.lastName}</div>
