@@ -384,7 +384,7 @@ export default function StudentPortal(){
   const [quizTimeLeft,setQuizTimeLeft]=useState(0);
   const [quizSubmitted,setQuizSubmitted]=useState(null);
   const [quizResults,setQuizResults]=useState([]);
-  useEffect(()=>{fetch('/api/student/quiz').then(r=>r.json()).then(d=>setQuizzes(d.quizzes||[])).catch(()=>{});},[]);
+  useEffect(()=>{fetch('/api/student/quiz').then(r=>r.json()).then(d=>setQuizzes(d.quizzes||[])).catch(()=>{});},[]);useEffect(()=>{if(student?._id){fetch('/api/student/quiz/results?studentId='+student._id).then(r=>r.json()).then(d=>setQuizResults(d.results||[])).catch(()=>{});}},[student]);
   useEffect(()=>{
     if(activeQuiz && quizTimeLeft===0 && !quizSubmitted){
       fetch("/api/student/quiz/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({quizId:activeQuiz._id,studentId:student?._id,studentName:(student?.firstName||"")+" "+(student?.lastName||""),answers:quizAnswers,timeTaken:activeQuiz.duration*60})}).then(r=>r.json()).then(d=>{if(d.success)setQuizSubmitted(d);});
