@@ -1,4 +1,10 @@
-t-content",border:"1px solid var(--border)"}}>
-        {[{id:"student",ico:"👨‍🎓",label:"Students"},{id:"resources",  ico:"📚", label:"Resources",   section:"academy"},
-    {id:"staff",ico:"👨‍💼",label:"Staff"}].map(t=>(
-          <button key={t.id} onC
+id:"home",           ico:"🏠", label:"Dashboard",     section:"overview"},
+    {id:"enrollments",    ico:"👥", label:"Enrollments",   section:"management", badge:stats.new||0},
+    {id:"analytics",      ico:"📊", label:"Analytics",     section:"management"},
+    {id:"payments",       ico:"💰", label:"Payments",      section:"finance"},
+    {id:"schedule",       ico:"📅", label:"Schedule",      section:"academy"},
+    {id:"messages",       ico:"💬", label:"Messages",      section:"academy"},
+    {id:"bulk-email",     ico:"📧", label:"Bulk Email",    section:"academy"},
+    {id:"staff",          ico:"👨‍🏫", label:"Staff",         section:"academy"},
+    {id:"certifications", ico:"🏆", label:"Certifications",section:"academy"},
+    {id:"attendance",     ico:"📋", label:"Attendance",    section:"academy
