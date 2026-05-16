@@ -1380,13 +1380,13 @@ function QuizPage({toast}) {
                 <th style={{textAlign:"center",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Result</th>
                 <th style={{textAlign:"left",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Date</th>
               </tr></thead>
-              <tbody>{quizResults.map((r,i)=>{const pct=Math.round((r.score/r.total)*100);return(
+              <tbody>{quizResults.map((r,i)=>{const pct=r.total?Math.round((r.score/r.total)*100):null;return(
                 <tr key={i} style={{borderBottom:"1px solid var(--ink3)"}}>
                   <td style={{padding:"10px 12px",fontWeight:500}}>{r.studentName}</td>
-                  <td style={{padding:"10px 12px",color:"var(--text3)"}}>{r.quizTitle}</td>
+                  <td style={{padding:"10px 12px",color:"var(--text3)"}}>{r.quizTitle||"N/A"}</td>
                   <td style={{padding:"10px 12px",textAlign:"center"}}><span style={{fontWeight:600,color:"var(--gold)"}}>{r.score}/{r.total}</span></td>
-                  <td style={{padding:"10px 12px",textAlign:"center"}}><span style={{fontSize:11,padding:"3px 10px",borderRadius:20,fontWeight:600,background:pct>=70?"var(--teal-dim)":pct>=50?"var(--gold-dim)":"var(--rose-dim)",color:pct>=70?"var(--teal)":pct>=50?"var(--gold)":"var(--rose)"}}>{pct}%</span></td>
-                  <td style={{padding:"10px 12px",color:"var(--text3)",fontSize:12}}>{new Date(r.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}</td>
+                  <td style={{padding:"10px 12px",textAlign:"center"}}><span style={{fontSize:11,padding:"3px 10px",borderRadius:20,fontWeight:600,background:pct===null?"var(--ink3)":pct>=70?"var(--teal-dim)":pct>=50?"var(--gold-dim)":"var(--rose-dim)",color:pct===null?"var(--text3)":pct>=70?"var(--teal)":pct>=50?"var(--gold)":"var(--rose)"}}>{pct!==null?pct+"%":"N/A"}</span></td>
+                  <td style={{padding:"10px 12px",color:"var(--text3)",fontSize:12}}>{r.createdAt?new Date(r.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"N/A"}</td>
                 </tr>);})}</tbody>
             </table>
           </div>
