@@ -1,0 +1,8 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('id:"resources"')
+out = open('sidebar.txt', 'w', encoding='utf-8')
+out.write(c[idx-100:idx+150])
+out.close()
+print('found at:', idx)

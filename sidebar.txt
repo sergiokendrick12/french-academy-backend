@@ -1,12 +1,4 @@
-lse)}>Cancel</button>
-              <button className="btn btn-gold" onClick={addResource}>Add Resource</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-function ProgressPage({enrollments, toast}) {
-  const [progress, setProgress] = useState([]);
-  const [select
+t-content",border:"1px solid var(--border)"}}>
+        {[{id:"student",ico:"👨‍🎓",label:"Students"},{id:"resources",  ico:"📚", label:"Resources",   section:"academy"},
+    {id:"staff",ico:"👨‍💼",label:"Staff"}].map(t=>(
+          <button key={t.id} onC

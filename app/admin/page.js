@@ -1754,8 +1754,8 @@ function AttendancePage({enrollments, toast}) {
         </div>
       </div>
       <div style={{display:"flex",gap:0,marginBottom:20,background:"var(--ink3)",borderRadius:"var(--r-md)",padding:4,width:"fit-content",border:"1px solid var(--border)"}}>
-        {[{id:"student",ico:"👨‍🎓",label:"Students"},{id:"resources",  ico:"📚", label:"Resources",   section:"academy"},
-    {id:"staff",ico:"👨‍💼",label:"Staff"}].map(t=>(
+        {[{id:"student",ico:"👨‍🎓",label:"Students"},
+    {id:"resources",ico:"📚",label:"Resources",section:"academy"},{id:"staff",ico:"👨‍💼",label:"Staff"}].map(t=>(
           <button key={t.id} onClick={()=>{setTab(t.id);setRecords([]);setViewHistory(false);}} style={{padding:"7px 20px",borderRadius:"var(--r-sm)",border:"none",fontFamily:"var(--font-b)",fontSize:13,fontWeight:500,cursor:"pointer",background:tab===t.id?"var(--gold)":"transparent",color:tab===t.id?"var(--ink)":"var(--text2)",transition:"all .15s"}}>
             {t.ico} {t.label}
           </button>
