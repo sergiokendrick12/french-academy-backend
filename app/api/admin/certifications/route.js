@@ -33,3 +33,13 @@ export async function DELETE(req) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+export async function PUT(req) {
+  try {
+    await connectDB();
+    const { _id, ...update } = await req.json();
+    const certification = await Certification.findByIdAndUpdate(_id, update, { new: true });
+    return NextResponse.json({ success: true, certification });
+  } catch(e) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
