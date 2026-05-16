@@ -753,7 +753,7 @@ export default function StudentPortal(){
                         const isOpen=q.type==="open";
                         const isCorrect=!isOpen&&Number(ans)===Number(q.correct);
                         return(
-                          <div key={i} style={{background:"var(--ink3)",borderRadius:10,padding:14,marginBottom:10,borderLeft:3px solid }}>
+                          <div key={i} style={{background:"var(--ink3)",borderRadius:10,padding:14,marginBottom:10,borderLeft:"3px solid "+(isOpen?"var(--blue)":isCorrect?"var(--teal)":"var(--rose)")}}>
                             <div style={{fontWeight:500,marginBottom:8,fontSize:13}}>{i+1}. {q.question}</div>
                             {q.type==="multiple"&&q.options.map((o,j)=>(
                               <div key={j} style={{fontSize:12,padding:"4px 10px",borderRadius:6,marginBottom:4,background:j===Number(q.correct)?"var(--teal-dim)":j===ans&&ans!==q.correct?"var(--rose-dim)":"transparent",color:j===Number(q.correct)?"var(--teal)":j===ans&&ans!==q.correct?"var(--rose)":"var(--text3)"}}>
