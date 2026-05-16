@@ -340,10 +340,7 @@ const LEVELS=[
   {code:"C1",name:"Autonome",desc:"Fluent expression",color:"#fbbf24"},
   {code:"C2",name:"Maîtrise",desc:"Near-native mastery",color:"#fb7aac"},
 ];
-const [RESOURCES, setRESOURCES] = useState([]);
-  useEffect(()=>{
-    fetch('/api/admin/resources').then(r=>r.json()).then(d=>setRESOURCES(d.resources||[])).catch(()=>{});
-  },[]);
+const RESOURCES_PLACEHOLDER = [];
 
 // Bottom nav tabs (most important ones for mobile)
 const BOTTOM_NAV_TABS=[
@@ -379,6 +376,8 @@ export default function StudentPortal(){
   const [loading,setLoading]=useState(false);
   const [err,setErr]=useState("");
   const [tab,setTab]=useState("overview");
+  const [RESOURCES,setRESOURCES]=useState([]);
+  useEffect(()=>{fetch('/api/admin/resources').then(r=>r.json()).then(d=>setRESOURCES(d.resources||[])).catch(()=>{});},[]);
   const [showNotif,setShowNotif]=useState(false);
   const [readNotifs,setReadNotifs]=useState([]);
   const [profileEdit,setProfileEdit]=useState(false);
