@@ -1,0 +1,6 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+print('deleteResult count:', c.count('deleteResult'))
+print('setEditItem count:', c.count('setEditItem'))
+print('saveEdit count:', c.count('saveEdit'))
