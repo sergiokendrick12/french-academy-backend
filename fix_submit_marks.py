@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿content = '''import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import QuizResult from "@/models/QuizResult";
 import Quiz from "@/models/Quiz";
@@ -21,3 +21,8 @@ export async function POST(req) {
     return NextResponse.json({ success: true, score: scaledScore, total: totalMarks, result });
   } catch(e) { return NextResponse.json({ error: e.message }, { status: 500 }); }
 }
+'''
+f = open('app/api/student/quiz/submit/route.js', 'w', encoding='utf-8')
+f.write(content)
+f.close()
+print('Done!')
