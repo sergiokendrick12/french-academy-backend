@@ -1,10 +1,5 @@
-id:"home",           ico:"🏠", label:"Dashboard",     section:"overview"},
-    {id:"enrollments",    ico:"👥", label:"Enrollments",   section:"management", badge:stats.new||0},
-    {id:"analytics",      ico:"📊", label:"Analytics",     section:"management"},
-    {id:"payments",       ico:"💰", label:"Payments",      section:"finance"},
-    {id:"schedule",       ico:"📅", label:"Schedule",      section:"academy"},
-    {id:"messages",       ico:"💬", label:"Messages",      section:"academy"},
-    {id:"bulk-email",     ico:"📧", label:"Bulk Email",    section:"academy"},
-    {id:"staff",          ico:"👨‍🏫", label:"Staff",         section:"academy"},
-    {id:"certifications", ico:"🏆", label:"Certifications",section:"academy"},
-    {id:"attendance",     ico:"📋", label:"Attendance",    section:"academy
+l:"Students"},
+    {id:"resources",ico:"📚",label:"Resources",section:"academy"},{id:"staff",ico:"👨‍💼
+---
+on:"academy"},
+    {id:"resources",ico:"R",label:"Resources",section:"academy"},{id:"certifications"

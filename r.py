@@ -1,0 +1,8 @@
+﻿f=open('app/admin/page.js','r',encoding='utf-8')
+c=f.read()
+f.close()
+c=c.replace('{id:"resources",ico:"R",label:"Resources",section:"academy"},{id:"certifications",','{id:"certifications",')
+f=open('app/admin/page.js','w',encoding='utf-8')
+f.write(c)
+f.close()
+print('done:', c.count('id:"resources"'))
