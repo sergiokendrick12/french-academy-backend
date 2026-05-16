@@ -760,7 +760,7 @@ export default function StudentPortal(){
                         )}
                       </div>
                     ))}
-                    <button className="btn btn-gold" style={{width:"100%",marginTop:8}} onClick={async()=>{
+                    <button id="quiz-submit-btn" className="btn btn-gold" style={{width:"100%",marginTop:8}} onClick={async()=>{
                       const r=await fetch("/api/student/quiz/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({quizId:activeQuiz._id,studentId:student?._id,studentName:student?.firstName+" "+student?.lastName,answers:quizAnswers,timeTaken:activeQuiz.duration*60-quizTimeLeft})});
                       const d=await r.json();
                       if(d.success)setQuizSubmitted(d);
@@ -781,7 +781,7 @@ export default function StudentPortal(){
                         <span className="pill" style={{background:"var(--gold-dim)",color:"var(--gold)"}}>{q.duration} min</span>
                       </div>
                     </div>
-                    <button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);return 0;}return p-1;});},1000);}}>Start Quiz</button>
+                    <button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);document.getElementById("quiz-submit-btn")?.click();return 0;}return p-1;});},1000);}}>Start Quiz</button>
                   </div>
                 ))}
               </div>
