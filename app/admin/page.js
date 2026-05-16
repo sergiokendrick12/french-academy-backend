@@ -731,7 +731,8 @@ function PaymentsPage({enrollments,toast}) {
           </div>
         ))}
       </div>
-      {showModal&&(
+      {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2",display:"flex",alignItems:"center",gap:8}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}
+        {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
             <div className="modal-title">Record Payment</div>
@@ -1258,7 +1259,7 @@ function CertificationsPage({enrollments,toast}) {
             <span style={{fontSize:12,color:"var(--gold)"}}>{t.cert}</span>
             <span style={{fontWeight:600}}>{t.score||"—"}</span>
             <span><span className="pill" style={{background:t.passed?"var(--teal-dim)":"var(--rose-dim)",color:t.passed?"var(--teal)":"var(--rose)"}}>{t.passed?"Passed":"Failed"}</span></span>
-            <span style={{fontSize:11,color:"var(--text3)"}}>{t.examDate||"—"}</span>
+            <span style={{fontSize:11,color:"var(--text3)"}}>{t.examDate||"-"}</span><span style={{display:"flex",gap:6}}><button onClick={()=>setEditItem({...t})} style={{background:"var(--ink3)",border:"1px solid var(--border)",color:"var(--gold)",borderRadius:6,padding:"3px 8px",cursor:"pointer",fontSize:11}}>Edit</button><button onClick={()=>deleteResult(t._id)} style={{background:"var(--rose-dim)",border:"none",color:"var(--rose)",borderRadius:6,padding:"3px 8px",cursor:"pointer",fontSize:11}}>Delete</button></span>
           </div>
         ))}
       </div>
