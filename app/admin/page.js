@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 
 const CSS = `
@@ -298,7 +298,7 @@ function useToast() {
 }
 
 function ToastTray({list}) {
-  const ico = {success:"✓",error:"✕",info:"ℹ"};
+  const ico = {success:"âœ“",error:"âœ•",info:"â„¹"};
   const col = {success:"var(--teal)",error:"var(--rose)",info:"var(--blue)"};
   return <div className="toast-tray">{list.map(t=><div key={t.id} className="toast"><span className="toast-ico" style={{color:col[t.type]}}>{ico[t.type]}</span>{t.msg}</div>)}</div>;
 }
@@ -323,20 +323,20 @@ function LoginPage({onLogin}) {
       <div className="login-card">
         <div className="login-emblem" style={{padding:0,overflow:"hidden",width:80,height:80,borderRadius:"50%",margin:"0 auto 14px"}}><img src="/logo.png" alt="IFA Logo" style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"var(--r-lg)"}}/></div>
         <h1 className="login-title">Admin Portal</h1>
-        <p className="login-sub">International French Academy · Kigali</p>
+        <p className="login-sub">International French Academy Â· Kigali</p>
         <div className="login-lbl">Password</div>
         <input type="password" className="login-in" autoFocus value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin password"/>
         {err&&<p className="login-err">{err}</p>}
-        <button className="btn btn-gold" style={{width:"100%",justifyContent:"center",padding:"12px",fontSize:"14px"}} onClick={submit} disabled={loading}>{loading?"Verifying...":"Enter Dashboard →"}</button>
-        <p className="login-foot">International French Academy · Rwanda</p>
+        <button className="btn btn-gold" style={{width:"100%",justifyContent:"center",padding:"12px",fontSize:"14px"}} onClick={submit} disabled={loading}>{loading?"Verifying...":"Enter Dashboard â†’"}</button>
+        <p className="login-foot">International French Academy Â· Rwanda</p>
       </div>
     </div></>
   );
 }
 
-// ═══════════════════════════════════════════
-// 🏠 HOME DASHBOARD
-// ═══════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ðŸ  HOME DASHBOARD
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
   const recentEnrollments = [...enrollments]
     .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -351,12 +351,12 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
   const dayName = today.toLocaleDateString("en-US",{weekday:"long"});
 
   const allClasses = [
-    {id:1,name:"TCF Canada Preparation",time:"8H00–10H00",teacher:"Banda Clément",room:"Room A",days:["Monday","Wednesday","Friday"]},
-    {id:2,name:"DELF A1–A2 Beginners",time:"18H00–20H00",teacher:"KWIBUKA Erick",room:"Room B",days:["Tuesday","Thursday"]},
-    {id:3,name:"TEF Québec Intensive",time:"9H00–12H00",teacher:"Banda Clément",room:"Main Hall",days:["Monday","Tuesday","Wednesday","Thursday","Friday"]},
-    {id:4,name:"DALF C1/C2 Advanced",time:"15H00–18H00",teacher:"KWIBUKA Erick",room:"Room A",days:["Saturday","Sunday"]},
-    {id:5,name:"General French Beginners",time:"18H00–20H00",teacher:"Ingabire Germaine",room:"Room C",days:["Monday","Wednesday"]},
-    {id:6,name:"DILF Weekend",time:"9H00–12H00",teacher:"Ingabire Germaine",room:"Room B",days:["Saturday"]},
+    {id:1,name:"TCF Canada Preparation",time:"8H00â€“10H00",teacher:"Banda ClÃ©ment",room:"Room A",days:["Monday","Wednesday","Friday"]},
+    {id:2,name:"DELF A1â€“A2 Beginners",time:"18H00â€“20H00",teacher:"KWIBUKA Erick",room:"Room B",days:["Tuesday","Thursday"]},
+    {id:3,name:"TEF QuÃ©bec Intensive",time:"9H00â€“12H00",teacher:"Banda ClÃ©ment",room:"Main Hall",days:["Monday","Tuesday","Wednesday","Thursday","Friday"]},
+    {id:4,name:"DALF C1/C2 Advanced",time:"15H00â€“18H00",teacher:"KWIBUKA Erick",room:"Room A",days:["Saturday","Sunday"]},
+    {id:5,name:"General French Beginners",time:"18H00â€“20H00",teacher:"Ingabire Germaine",room:"Room C",days:["Monday","Wednesday"]},
+    {id:6,name:"DILF Weekend",time:"9H00â€“12H00",teacher:"Ingabire Germaine",room:"Room B",days:["Saturday"]},
   ];
   const todayClasses = allClasses.filter(c=>c.days.includes(dayName));
   const pendingPayments = payments.filter(p=>p.status==="pending");
@@ -366,10 +366,10 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
       <div style={{background:"linear-gradient(135deg,var(--ink3) 0%,var(--ink4) 100%)",border:"1px solid var(--border)",borderLeft:"3px solid var(--gold)",borderRadius:"var(--r-lg)",padding:"18px 22px",marginBottom:20,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
         <div>
           <div style={{fontFamily:"var(--font-d)",fontSize:20,marginBottom:3}}>
-            Good {today.getHours()<12?"Morning":today.getHours()<17?"Afternoon":"Evening"}, Admin 👋
+            Good {today.getHours()<12?"Morning":today.getHours()<17?"Afternoon":"Evening"}, Admin ðŸ‘‹
           </div>
           <div style={{fontSize:12,color:"var(--text3)"}}>
-            {today.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})} · International French Academy
+            {today.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})} Â· International French Academy
           </div>
         </div>
         <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
@@ -380,10 +380,10 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
         {[
-          {label:"Total Students",value:stats.total||0,color:"var(--gold)",ico:"👥",sub:`${stats.new||0} new this week`,page:"enrollments"},
-          {label:"Revenue Collected",value:`${totalRevenue.toLocaleString()} RWF`,color:"var(--teal)",ico:"💰",sub:`${pendingRevenue.toLocaleString()} RWF pending`,page:"payments"},
-          {label:"Enrolled",value:stats.enrolled||0,color:"var(--blue)",ico:"✅",sub:"Active students",page:"enrollments"},
-          {label:"Pass Rate",value:`${passRate}%`,color:"var(--purple)",ico:"🏆",sub:`${tracking.length} exam results`,page:"certifications"},
+          {label:"Total Students",value:stats.total||0,color:"var(--gold)",ico:"ðŸ‘¥",sub:`${stats.new||0} new this week`,page:"enrollments"},
+          {label:"Revenue Collected",value:`${totalRevenue.toLocaleString()} RWF`,color:"var(--teal)",ico:"ðŸ’°",sub:`${pendingRevenue.toLocaleString()} RWF pending`,page:"payments"},
+          {label:"Enrolled",value:stats.enrolled||0,color:"var(--blue)",ico:"âœ…",sub:"Active students",page:"enrollments"},
+          {label:"Pass Rate",value:`${passRate}%`,color:"var(--purple)",ico:"ðŸ†",sub:`${tracking.length} exam results`,page:"certifications"},
         ].map((s,i)=>(
           <div key={i} className="stat-card" style={{borderColor:s.color+"30",cursor:"pointer"}} onClick={()=>onNavigate(s.page)}>
             <div className="stat-top">
@@ -403,7 +403,7 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
             <button className="btn btn-outline btn-xs" onClick={()=>onNavigate("enrollments")}>View All</button>
           </div>
           {recentEnrollments.length===0?(
-            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">📭</div><p className="empty-txt">No enrollments yet</p></div>
+            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">ðŸ“­</div><p className="empty-txt">No enrollments yet</p></div>
           ):recentEnrollments.map((e,i)=>(
             <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 0",borderBottom:i<recentEnrollments.length-1?"1px solid rgba(36,54,80,.5)":"none"}}>
               <div style={{width:34,height:34,borderRadius:"var(--r-sm)",background:"var(--gold-dim)",border:"1px solid rgba(212,168,67,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"var(--font-d)",fontSize:13,color:"var(--gold)",flexShrink:0}}>
@@ -424,14 +424,14 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
             <button className="btn btn-outline btn-xs" onClick={()=>onNavigate("schedule")}>View All</button>
           </div>
           {todayClasses.length===0?(
-            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">🎉</div><p className="empty-txt">No classes today!</p><p className="empty-sub">Enjoy your day off</p></div>
+            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">ðŸŽ‰</div><p className="empty-txt">No classes today!</p><p className="empty-sub">Enjoy your day off</p></div>
           ):todayClasses.map((c,i)=>(
             <div key={i} style={{padding:"10px 12px",background:"var(--ink3)",borderRadius:"var(--r-md)",border:"1px solid var(--border)",marginBottom:i<todayClasses.length-1?8:0}}>
               <div style={{fontWeight:500,fontSize:13,marginBottom:4}}>{c.name}</div>
               <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
-                <span style={{fontSize:10,color:"var(--gold)"}}>🕐 {c.time}</span>
-                <span style={{fontSize:10,color:"var(--text3)"}}>👨‍🏫 {c.teacher}</span>
-                <span style={{fontSize:10,color:"var(--text3)"}}>📍 {c.room}</span>
+                <span style={{fontSize:10,color:"var(--gold)"}}>ðŸ• {c.time}</span>
+                <span style={{fontSize:10,color:"var(--text3)"}}>ðŸ‘¨â€ðŸ« {c.teacher}</span>
+                <span style={{fontSize:10,color:"var(--text3)"}}>ðŸ“ {c.room}</span>
               </div>
             </div>
           ))}
@@ -445,7 +445,7 @@ function HomeDashboard({enrollments, stats, payments, tracking, onNavigate}) {
             <button className="btn btn-outline btn-xs" onClick={()=>onNavigate("payments")}>View All</button>
           </div>
           {pendingPayments.length===0?(
-            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">✅</div><p className="empty-txt">All payments up to date!</p></div>
+            <div className="empty" style={{padding:"20px"}}><div className="empty-ico">âœ…</div><p className="empty-txt">All payments up to date!</p></div>
           ):pendingPayments.map((p,i)=>(
             <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"9px 0",borderBottom:i<pendingPayments.length-1?"1px solid rgba(36,54,80,.5)":"none"}}>
               <div>
@@ -536,10 +536,10 @@ function AnalyticsPage({enrollments,stats}) {
     <div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>
         {[
-          {label:"Total Students",value:stats.total||0,color:"var(--gold)",ico:"👥"},
-          {label:"This Month",value:thisMonth,color:"var(--teal)",ico:"📅"},
-          {label:"Avg/Month",value:avgPerMonth,color:"var(--blue)",ico:"📊"},
-          {label:"Total Revenue",value:`${totalRevenue.toLocaleString()} RWF`,color:"var(--purple)",ico:"💰"},
+          {label:"Total Students",value:stats.total||0,color:"var(--gold)",ico:"ðŸ‘¥"},
+          {label:"This Month",value:thisMonth,color:"var(--teal)",ico:"ðŸ“…"},
+          {label:"Avg/Month",value:avgPerMonth,color:"var(--blue)",ico:"ðŸ“Š"},
+          {label:"Total Revenue",value:`${totalRevenue.toLocaleString()} RWF`,color:"var(--purple)",ico:"ðŸ’°"},
         ].map((s,i)=>(
           <div key={i} className="card" style={{borderColor:s.color+"30"}}>
             <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
@@ -658,7 +658,7 @@ function PaymentsPage({enrollments,toast}) {
 
   const printReceipt = (p) => {
     const win = window.open("","_blank","width=800,height=600");
-    win.document.write(`<!DOCTYPE html><html><head><title>Receipt — ${p.studentName}</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#1a1a2e;padding:40px;}.receipt{max-width:600px;margin:0 auto;border:2px solid #1a2e47;border-radius:12px;overflow:hidden;}.header{background:linear-gradient(135deg,#0d1b2a,#1a2e47);padding:28px 32px;text-align:center;}.academy-name{color:#fff;font-size:20px;font-weight:700;}.receipt-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid #c9a84c;color:#c9a84c;padding:4px 16px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:12px;}.body{padding:32px;}.amount-box{background:linear-gradient(135deg,#0d1b2a,#1a2e47);border-radius:10px;padding:20px 24px;text-align:center;margin-bottom:24px;}.amount-value{color:#c9a84c;font-size:36px;font-weight:900;}.details{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}.detail-item{background:#f8f4ee;border-radius:8px;padding:12px 16px;}.detail-label{font-size:10px;color:#6b7a8d;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}.detail-value{font-size:14px;font-weight:600;color:#1a1a2e;}.footer{background:#f8f4ee;padding:20px 32px;text-align:center;border-top:1px solid #ede8df;}.footer p{font-size:11px;color:#6b7a8d;line-height:1.8;}@media print{.no-print{display:none;}}</style></head><body><div class="receipt"><div class="header"><div class="academy-name">International French Academy</div><div class="receipt-badge">✓ Payment Receipt</div></div><div class="body"><div class="amount-box"><div style="color:rgba(255,255,255,0.5);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Amount Paid</div><div class="amount-value">${p.amount.toLocaleString()} RWF</div></div><div class="details"><div class="detail-item"><div class="detail-label">Student Name</div><div class="detail-value">${p.studentName}</div></div><div class="detail-item"><div class="detail-label">Status</div><div class="detail-value">${p.status.toUpperCase()}</div></div><div class="detail-item"><div class="detail-label">Method</div><div class="detail-value">${p.method}</div></div><div class="detail-item"><div class="detail-label">Date</div><div class="detail-value">${p.date}</div></div>${p.note?`<div class="detail-item" style="grid-column:span 2"><div class="detail-label">Note</div><div class="detail-value">${p.note}</div></div>`:""}</div></div><div class="footer"><p><strong>International French Academy</strong><br/>📍 Norrsken House · 📍 Sainte Famille, Kigali<br/>📧 frenchacademyinternational@gmail.com · 📞 +250 785 302 957</p></div></div><div class="no-print" style="text-align:center;margin-top:24px;"><button onclick="window.print()" style="background:#c9a84c;color:#1a1a2e;border:none;padding:12px 32px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;">🖨️ Print / Save as PDF</button></div></body></html>`);
+    win.document.write(`<!DOCTYPE html><html><head><title>Receipt â€” ${p.studentName}</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#1a1a2e;padding:40px;}.receipt{max-width:600px;margin:0 auto;border:2px solid #1a2e47;border-radius:12px;overflow:hidden;}.header{background:linear-gradient(135deg,#0d1b2a,#1a2e47);padding:28px 32px;text-align:center;}.academy-name{color:#fff;font-size:20px;font-weight:700;}.receipt-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid #c9a84c;color:#c9a84c;padding:4px 16px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:12px;}.body{padding:32px;}.amount-box{background:linear-gradient(135deg,#0d1b2a,#1a2e47);border-radius:10px;padding:20px 24px;text-align:center;margin-bottom:24px;}.amount-value{color:#c9a84c;font-size:36px;font-weight:900;}.details{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}.detail-item{background:#f8f4ee;border-radius:8px;padding:12px 16px;}.detail-label{font-size:10px;color:#6b7a8d;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}.detail-value{font-size:14px;font-weight:600;color:#1a1a2e;}.footer{background:#f8f4ee;padding:20px 32px;text-align:center;border-top:1px solid #ede8df;}.footer p{font-size:11px;color:#6b7a8d;line-height:1.8;}@media print{.no-print{display:none;}}</style></head><body><div class="receipt"><div class="header"><div class="academy-name">International French Academy</div><div class="receipt-badge">âœ“ Payment Receipt</div></div><div class="body"><div class="amount-box"><div style="color:rgba(255,255,255,0.5);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Amount Paid</div><div class="amount-value">${p.amount.toLocaleString()} RWF</div></div><div class="details"><div class="detail-item"><div class="detail-label">Student Name</div><div class="detail-value">${p.studentName}</div></div><div class="detail-item"><div class="detail-label">Status</div><div class="detail-value">${p.status.toUpperCase()}</div></div><div class="detail-item"><div class="detail-label">Method</div><div class="detail-value">${p.method}</div></div><div class="detail-item"><div class="detail-label">Date</div><div class="detail-value">${p.date}</div></div>${p.note?`<div class="detail-item" style="grid-column:span 2"><div class="detail-label">Note</div><div class="detail-value">${p.note}</div></div>`:""}</div></div><div class="footer"><p><strong>International French Academy</strong><br/>ðŸ“ Norrsken House Â· ðŸ“ Sainte Famille, Kigali<br/>ðŸ“§ frenchacademyinternational@gmail.com Â· ðŸ“ž +250 785 302 957</p></div></div><div class="no-print" style="text-align:center;margin-top:24px;"><button onclick="window.print()" style="background:#c9a84c;color:#1a1a2e;border:none;padding:12px 32px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;">ðŸ–¨ï¸ Print / Save as PDF</button></div></body></html>`);
     win.document.close();
   };
 
@@ -683,9 +683,9 @@ function PaymentsPage({enrollments,toast}) {
     <div>
       <div className="pay-grid">
         {[
-          {label:"Total Collected",value:`${totalPaid.toLocaleString()} RWF`,color:"var(--teal)",ico:"💰"},
-          {label:"Pending",value:`${totalPending.toLocaleString()} RWF`,color:"var(--amber)",ico:"⏳"},
-          {label:"Partial",value:`${totalPartial.toLocaleString()} RWF`,color:"var(--purple)",ico:"⚡"},
+          {label:"Total Collected",value:`${totalPaid.toLocaleString()} RWF`,color:"var(--teal)",ico:"ðŸ’°"},
+          {label:"Pending",value:`${totalPending.toLocaleString()} RWF`,color:"var(--amber)",ico:"â³"},
+          {label:"Partial",value:`${totalPartial.toLocaleString()} RWF`,color:"var(--purple)",ico:"âš¡"},
         ].map((s,i)=>(
           <div key={i} className="card" style={{borderColor:s.color+"30"}}>
             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
@@ -700,7 +700,7 @@ function PaymentsPage({enrollments,toast}) {
         <div style={{fontFamily:"var(--font-d)",fontSize:18}}>Payment Records</div>
         <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
           <div className="search-wrap" style={{minWidth:180}}>
-            <span className="search-ico">🔍</span>
+            <span className="search-ico">ðŸ”</span>
             <input className="search-in" placeholder="Search student..." value={paySearch} onChange={e=>setPaySearch(e.target.value)}/>
           </div>
           <div className="chips">
@@ -714,7 +714,7 @@ function PaymentsPage({enrollments,toast}) {
       <div className="tbl-wrap">
         <div className="pay-row pay-head"><span>Student</span><span>Amount</span><span>Method</span><span>Status</span><span>Date</span></div>
         {payments.length===0?(
-          <div className="empty"><div className="empty-ico">💳</div><p className="empty-txt">No payments recorded</p><p className="empty-sub">Add your first payment record</p></div>
+          <div className="empty"><div className="empty-ico">ðŸ’³</div><p className="empty-txt">No payments recorded</p><p className="empty-sub">Add your first payment record</p></div>
         ):filtered.map(p=>(
           <div key={p._id} className="pay-row" style={{cursor:"default"}}>
             <div style={{fontWeight:500}}>{p.studentName}</div>
@@ -724,14 +724,15 @@ function PaymentsPage({enrollments,toast}) {
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:4}}>
               <span style={{fontSize:11,color:"var(--text3)"}}>{p.date}</span>
               <div style={{display:"flex",gap:4}}>
-                <button className="btn btn-outline btn-xs" onClick={()=>printReceipt(p)} title="Print Receipt">🧾</button>
-                <button className="del-ico" style={{opacity:1}} onClick={()=>delPayment(p._id)}>✕</button>
+                <button className="btn btn-outline btn-xs" onClick={()=>printReceipt(p)} title="Print Receipt">ðŸ§¾</button>
+                <button className="del-ico" style={{opacity:1}} onClick={()=>delPayment(p._id)}>âœ•</button>
               </div>
             </div>
           </div>
         ))}
       </div>
-      {showModal&&(
+              {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2",display:"flex",alignItems:"center",gap:8}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}
+        {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
             <div className="modal-title">Record Payment</div>
@@ -741,7 +742,7 @@ function PaymentsPage({enrollments,toast}) {
                 <label className="form-label">Student</label>
                 <select className="form-select" value={form.studentId} onChange={e=>setForm({...form,studentId:e.target.value})}>
                   <option value="">Select student...</option>
-                  {enrollments.map(e=><option key={e._id} value={e._id}>{e.firstName} {e.lastName} — {e.certificationGoal}</option>)}
+                  {enrollments.map(e=><option key={e._id} value={e._id}>{e.firstName} {e.lastName} â€” {e.certificationGoal}</option>)}
                 </select>
               </div>
               <div className="form-group">
@@ -813,11 +814,11 @@ function SchedulePage({toast}) {
             <div className="class-day">{c.day}</div>
             <div className="class-name">{c.name}</div>
             <div className="class-info">
-              <span className="class-tag">🕐 {c.time}</span>
-              <span className="class-tag">📊 {c.level}</span>
-              <span className="class-tag">👨‍🏫 {c.teacher}</span>
-              <span className="class-tag">👥 {c.students} students</span>
-              <span className="class-tag">📍 {c.room}</span>
+              <span className="class-tag">ðŸ• {c.time}</span>
+              <span className="class-tag">ðŸ“Š {c.level}</span>
+              <span className="class-tag">ðŸ‘¨â€ðŸ« {c.teacher}</span>
+              <span className="class-tag">ðŸ‘¥ {c.students} students</span>
+              <span className="class-tag">ðŸ“ {c.room}</span>
             </div>
             <div style={{marginTop:12,display:"flex",gap:6}}>
               <button className="btn btn-outline btn-xs" onClick={async()=>{await fetch("/api/admin/schedule",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:c._id})});fetchClasses();toast("Class removed","error");}}>Remove</button>
@@ -825,7 +826,8 @@ function SchedulePage({toast}) {
           </div>
         ))}
       </div>
-      {showModal&&(
+              {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2",display:"flex",alignItems:"center",gap:8}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}
+        {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
             <div className="modal-title">Add New Class</div>
@@ -841,20 +843,20 @@ function SchedulePage({toast}) {
               </div>
               <div className="form-group">
                 <label className="form-label">Time</label>
-                <input className="form-input" placeholder="e.g. 8H00 – 10H00" value={form.time} onChange={e=>setForm({...form,time:e.target.value})}/>
+                <input className="form-input" placeholder="e.g. 8H00 â€“ 10H00" value={form.time} onChange={e=>setForm({...form,time:e.target.value})}/>
               </div>
               <div className="form-group">
                 <label className="form-label">Level</label>
                 <select className="form-select" value={form.level} onChange={e=>setForm({...form,level:e.target.value})}>
                   <option value="">Select level...</option>
-                  {["A1","A1.1","A2","B1","B2","C1","C2","A1–A2","B1–B2","C1–C2"].map(l=><option key={l}>{l}</option>)}
+                  {["A1","A1.1","A2","B1","B2","C1","C2","A1â€“A2","B1â€“B2","C1â€“C2"].map(l=><option key={l}>{l}</option>)}
                 </select>
               </div>
               <div className="form-group">
                 <label className="form-label">Teacher</label>
                 <select className="form-select" value={form.teacher} onChange={e=>setForm({...form,teacher:e.target.value})}>
                   <option value="">Select teacher...</option>
-                  {["KWIBUKA Erick","Banda Clément","Ingabire Germaine"].map(t=><option key={t}>{t}</option>)}
+                  {["KWIBUKA Erick","Banda ClÃ©ment","Ingabire Germaine"].map(t=><option key={t}>{t}</option>)}
                 </select>
               </div>
               <div className="form-group">
@@ -877,9 +879,9 @@ function SchedulePage({toast}) {
   );
 }
 
-// ═══════════════════════════════════════════
-// 📧 MESSAGES INBOX (from enrollment form)
-// ═══════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ðŸ“§ MESSAGES INBOX (from enrollment form)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function BulkEmailPage({enrollments, toast}) {
   const [form, setForm] = useState({ subject:"", message:"", audience:"all" });
   const [sending, setSending] = useState(false);
@@ -900,7 +902,7 @@ function BulkEmailPage({enrollments, toast}) {
     try {
       const r = await fetch("/api/admin/bulk-email",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
       const d = await r.json();
-      if(d.success){ setResult(d); toast(`✅ Sent to ${d.sent} students!`,"success"); setForm({subject:"",message:"",audience:"all"}); }
+      if(d.success){ setResult(d); toast(`âœ… Sent to ${d.sent} students!`,"success"); setForm({subject:"",message:"",audience:"all"}); }
       else toast(d.error||"Error sending","error");
     } catch { toast("Error sending emails","error"); }
     finally { setSending(false); }
@@ -958,10 +960,10 @@ function BulkEmailPage({enrollments, toast}) {
 
           <div style={{display:"flex",gap:8}}>
             <button className="btn btn-outline" onClick={()=>setPreview(v=>!v)} style={{flex:1}}>
-              {preview?"✕ Hide Preview":"👁 Preview Email"}
+              {preview?"âœ• Hide Preview":"ðŸ‘ Preview Email"}
             </button>
             <button className="btn btn-gold" onClick={send} disabled={sending} style={{flex:1}}>
-              {sending?`Sending...`:`📧 Send to ${audienceCount[form.audience]} Students`}
+              {sending?`Sending...`:`ðŸ“§ Send to ${audienceCount[form.audience]} Students`}
             </button>
           </div>
         </div>
@@ -981,11 +983,11 @@ function BulkEmailPage({enrollments, toast}) {
               <p style={{fontSize:13,color:"#555",lineHeight:1.7,whiteSpace:"pre-wrap",marginBottom:16}}>{form.message||"Your message will appear here..."}</p>
               <div style={{background:"rgba(201,168,76,0.1)",borderLeft:"3px solid #c9a84c",padding:"12px",borderRadius:4,fontSize:12,color:"#555"}}>
                 <div style={{fontWeight:700,color:"#c9a84c",marginBottom:4}}>International French Academy</div>
-                <div>📧 frenchacademyinternational@gmail.com</div>
-                <div>📱 +250 785 302 957</div>
-                <div>📍 Norrsken House · Sainte Famille, Kigali</div>
+                <div>ðŸ“§ frenchacademyinternational@gmail.com</div>
+                <div>ðŸ“± +250 785 302 957</div>
+                <div>ðŸ“ Norrsken House Â· Sainte Famille, Kigali</div>
               </div>
-              <p style={{fontSize:12,color:"#888",marginTop:12}}>— The IFA Team 🇫🇷</p>
+              <p style={{fontSize:12,color:"#888",marginTop:12}}>â€” The IFA Team ðŸ‡«ðŸ‡·</p>
             </div>
           ):(
             <div style={{maxHeight:400,overflowY:"auto"}}>
@@ -1030,7 +1032,7 @@ function MessagesPage({enrollments, toast}) {
     const updated = [...new Set([...read, ...ids])];
     setRead(updated);
     try { localStorage.setItem("ifa_read_msgs", JSON.stringify(updated)); } catch {}
-    toast("All marked as read ✓", "success");
+    toast("All marked as read âœ“", "success");
   };
 
   const filtered = messages.filter(m => {
@@ -1059,10 +1061,10 @@ function MessagesPage({enrollments, toast}) {
           </div>
           <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Student messages from enrollment form</div>
         </div>
-        {unreadCount>0&&<button className="btn btn-outline btn-sm" onClick={markAllRead}>✓ Mark all as read</button>}
+        {unreadCount>0&&<button className="btn btn-outline btn-sm" onClick={markAllRead}>âœ“ Mark all as read</button>}
       </div>
       <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
-        <input className="form-input" placeholder="🔍 Search messages..." value={search} onChange={e=>setSearch(e.target.value)} style={{flex:1,minWidth:200,maxWidth:320}}/>
+        <input className="form-input" placeholder="ðŸ” Search messages..." value={search} onChange={e=>setSearch(e.target.value)} style={{flex:1,minWidth:200,maxWidth:320}}/>
         <div style={{display:"flex",gap:0,background:"var(--ink3)",borderRadius:"var(--r-md)",padding:4,border:"1px solid var(--border)"}}>
           {[{id:"all",label:"All"},{id:"unread",label:"Unread"},{id:"read",label:"Read"}].map(f=>(
             <button key={f.id} onClick={()=>setFilter(f.id)} style={{padding:"6px 16px",borderRadius:"var(--r-sm)",border:"none",fontFamily:"var(--font-b)",fontSize:12,fontWeight:500,cursor:"pointer",background:filter===f.id?"var(--gold)":"transparent",color:filter===f.id?"var(--ink)":"var(--text2)",transition:"all .15s"}}>
@@ -1072,7 +1074,7 @@ function MessagesPage({enrollments, toast}) {
         </div>
       </div>
       {filtered.length===0?(
-        <div className="card"><div className="empty"><div className="empty-ico">💬</div><p className="empty-txt">{messages.length===0?"No messages yet":"No messages match your filter"}</p></div></div>
+        <div className="card"><div className="empty"><div className="empty-ico">ðŸ’¬</div><p className="empty-txt">{messages.length===0?"No messages yet":"No messages match your filter"}</p></div></div>
       ):filtered.map((m,i)=>{
         const isRead = read.includes(m._id);
         const sc = STATUS_COLORS[m.status]||STATUS_COLORS.new;
@@ -1091,15 +1093,15 @@ function MessagesPage({enrollments, toast}) {
                 </div>
                 <div style={{fontSize:13,color:"var(--text2)",lineHeight:1.6,marginBottom:8,fontStyle:"italic"}}>"{m.message}"</div>
                 <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
-                  <span style={{fontSize:11,color:"var(--text3)"}}>🎯 {m.certificationGoal}</span>
-                  <span style={{fontSize:11,color:"var(--text3)"}}>📅 {new Date(m.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}</span>
+                  <span style={{fontSize:11,color:"var(--text3)"}}>ðŸŽ¯ {m.certificationGoal}</span>
+                  <span style={{fontSize:11,color:"var(--text3)"}}>ðŸ“… {new Date(m.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}</span>
                 </div>
                 <div style={{display:"flex",gap:8,marginTop:10,flexWrap:"wrap"}}>
                   <a href={`https://wa.me/${(m.phone||"").replace(/\D/g,"")}`} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
-                    <button className="btn btn-teal btn-xs">💬 WhatsApp</button>
+                    <button className="btn btn-teal btn-xs">ðŸ’¬ WhatsApp</button>
                   </a>
                   <a href={`mailto:${m.email}?subject=Re: Your enrollment at IFA&body=Dear ${m.firstName},%0D%0A%0D%0A`} style={{textDecoration:"none"}}>
-                    <button className="btn btn-outline btn-xs">📧 Reply by Email</button>
+                    <button className="btn btn-outline btn-xs">ðŸ“§ Reply by Email</button>
                   </a>
                 </div>
               </div>
@@ -1165,7 +1167,8 @@ function StaffPage({toast}) {
           </div>
         ))}
       </div>
-      {showModal&&(
+              {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2",display:"flex",alignItems:"center",gap:8}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}
+        {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
             <div className="modal-title">Add Staff Member</div>
@@ -1223,15 +1226,15 @@ function CertificationsPage({enrollments,toast}) {
     if(d.success){ fetchTracking(); setShowModal(false); toast("Result recorded!","success"); setForm({studentId:"",examDate:"",score:"",passed:false,notes:""}); }
   };
 
-  const passRate = tracking.length > 0 ? Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100) : 0;
+  const deleteResult=async(id)=>{if(!confirm("Delete this result?"))return;await fetch("/api/admin/certifications",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});fetchTracking();toast("Result deleted!","success");};const[editItem,setEditItem]=useState(null);const saveEdit=async()=>{await fetch("/api/admin/certifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(editItem)});setEditItem(null);fetchTracking();toast("Result updated!","success");};const passRate=tracking.length>0?Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100):0;
 
   return (
     <div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>
         {[
-          {label:"Enrolled Students",value:enrolled.length,color:"var(--teal)",ico:"📚"},
-          {label:"Exam Results",value:tracking.length,color:"var(--blue)",ico:"📝"},
-          {label:"Pass Rate",value:`${passRate}%`,color:"var(--gold)",ico:"🏆"},
+          {label:"Enrolled Students",value:enrolled.length,color:"var(--teal)",ico:"ðŸ“š"},
+          {label:"Exam Results",value:tracking.length,color:"var(--blue)",ico:"ðŸ“"},
+          {label:"Pass Rate",value:`${passRate}%`,color:"var(--gold)",ico:"ðŸ†"},
         ].map((s,i)=>(
           <div key={i} className="card" style={{borderColor:s.color+"30"}}>
             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
@@ -1248,21 +1251,22 @@ function CertificationsPage({enrollments,toast}) {
       </div>
       <div className="tbl-wrap">
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"9px 16px",background:"var(--ink3)",borderBottom:"1px solid var(--border)",fontSize:10,fontWeight:600,letterSpacing:"1.5px",textTransform:"uppercase",color:"var(--text3)"}}>
-          <span>Student</span><span>Certification</span><span>Score</span><span>Result</span><span>Date</span>
+          <span>Student</span><span>Certification</span><span>Score</span><span>Result</span><span>Date</span><span>Actions</span>
         </div>
         {tracking.length===0?(
-          <div className="empty"><div className="empty-ico">📝</div><p className="empty-txt">No exam results yet</p><p className="empty-sub">Add exam results for enrolled students</p></div>
+          <div className="empty"><div className="empty-ico">ðŸ“</div><p className="empty-txt">No exam results yet</p><p className="empty-sub">Add exam results for enrolled students</p></div>
         ):tracking.map(t=>(
           <div key={t._id} style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"12px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",fontSize:13,alignItems:"center"}}>
             <span style={{fontWeight:500}}>{t.studentName}</span>
             <span style={{fontSize:12,color:"var(--gold)"}}>{t.cert}</span>
-            <span style={{fontWeight:600}}>{t.score||"—"}</span>
+            <span style={{fontWeight:600}}>{t.score||"â€”"}</span>
             <span><span className="pill" style={{background:t.passed?"var(--teal-dim)":"var(--rose-dim)",color:t.passed?"var(--teal)":"var(--rose)"}}>{t.passed?"Passed":"Failed"}</span></span>
-            <span style={{fontSize:11,color:"var(--text3)"}}>{t.examDate||"—"}</span>
+            <span style={{fontSize:11,color:"var(--text3)"}}>{t.examDate||"â€”"}</span>
           </div>
         ))}
       </div>
-      {showModal&&(
+              {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2",display:"flex",alignItems:"center",gap:8}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}
+        {showModal&&(
         <div className="modal-bg" onClick={()=>setShowModal(false)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
             <div className="modal-title">Add Exam Result</div>
@@ -1272,7 +1276,7 @@ function CertificationsPage({enrollments,toast}) {
                 <label className="form-label">Student</label>
                 <select className="form-select" value={form.studentId} onChange={e=>setForm({...form,studentId:e.target.value})}>
                   <option value="">Select student...</option>
-                  {enrollments.map(e=><option key={e._id} value={e._id}>{e.firstName} {e.lastName} — {e.certificationGoal}</option>)}
+                  {enrollments.map(e=><option key={e._id} value={e._id}>{e.firstName} {e.lastName} â€” {e.certificationGoal}</option>)}
                 </select>
               </div>
               <div className="form-group">
@@ -1286,8 +1290,8 @@ function CertificationsPage({enrollments,toast}) {
               <div className="form-group" style={{gridColumn:"span 2"}}>
                 <label className="form-label">Result</label>
                 <div style={{display:"flex",gap:10}}>
-                  <button className="btn btn-sm" style={{background:form.passed?"var(--teal-dim)":"transparent",color:form.passed?"var(--teal)":"var(--text2)",border:`1px solid ${form.passed?"var(--teal)":"var(--border)"}`}} onClick={()=>setForm({...form,passed:true})}>✓ Passed</button>
-                  <button className="btn btn-sm" style={{background:!form.passed?"var(--rose-dim)":"transparent",color:!form.passed?"var(--rose)":"var(--text2)",border:`1px solid ${!form.passed?"var(--rose)":"var(--border)"}`}} onClick={()=>setForm({...form,passed:false})}>✕ Failed</button>
+                  <button className="btn btn-sm" style={{background:form.passed?"var(--teal-dim)":"transparent",color:form.passed?"var(--teal)":"var(--text2)",border:`1px solid ${form.passed?"var(--teal)":"var(--border)"}`}} onClick={()=>setForm({...form,passed:true})}>âœ“ Passed</button>
+                  <button className="btn btn-sm" style={{background:!form.passed?"var(--rose-dim)":"transparent",color:!form.passed?"var(--rose)":"var(--text2)",border:`1px solid ${!form.passed?"var(--rose)":"var(--border)"}`}} onClick={()=>setForm({...form,passed:false})}>âœ• Failed</button>
                 </div>
               </div>
               <div className="form-group" style={{gridColumn:"span 2"}}>
@@ -1335,7 +1339,7 @@ function ProgressPage({enrollments, toast}) {
         body:JSON.stringify({ studentId:selected._id, studentName:`${selected.firstName} ${selected.lastName}`, level:form.level, note:form.note })
       });
       const d = await r.json();
-      if(d.success){ toast("Progress updated! 📊","success"); fetchProgress(); setSelected(null); setForm({level:"A1",note:""}); }
+      if(d.success){ toast("Progress updated! ðŸ“Š","success"); fetchProgress(); setSelected(null); setForm({level:"A1",note:""}); }
       else toast(d.error||"Error","error");
     } catch { toast("Error saving","error"); }
     finally { setSaving(false); }
@@ -1356,7 +1360,7 @@ function ProgressPage({enrollments, toast}) {
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
         <div>
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Student Progress</div>
-          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Track French level for each student A1 → C2</div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Track French level for each student A1 â†’ C2</div>
         </div>
       </div>
 
@@ -1378,10 +1382,10 @@ function ProgressPage({enrollments, toast}) {
         {/* Student List */}
         <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",overflow:"hidden"}}>
           <div style={{padding:"14px 18px",borderBottom:"1px solid var(--border)",fontFamily:"var(--font-d)",fontSize:15}}>
-            All Students — Click to update level
+            All Students â€” Click to update level
           </div>
           {enrollments.length===0?(
-            <div className="empty"><div className="empty-ico">👨‍🎓</div><p className="empty-txt">No students yet</p></div>
+            <div className="empty"><div className="empty-ico">ðŸ‘¨â€ðŸŽ“</div><p className="empty-txt">No students yet</p></div>
           ):enrollments.map((e,i)=>{
             const level = getStudentLevel(e._id);
             const lc = level ? LEVEL_COLORS[level] : null;
@@ -1394,7 +1398,7 @@ function ProgressPage({enrollments, toast}) {
                 </div>
                 <div style={{flex:1,minWidth:0}}>
                   <div style={{fontWeight:500,fontSize:13}}>{e.firstName} {e.lastName}</div>
-                  <div style={{fontSize:11,color:"var(--text3)"}}>🎯 {e.certificationGoal}</div>
+                  <div style={{fontSize:11,color:"var(--text3)"}}>ðŸŽ¯ {e.certificationGoal}</div>
                 </div>
                 {level?(
                   <span style={{background:lc.bg,color:lc.color,padding:"3px 10px",borderRadius:20,fontSize:12,fontWeight:700}}>{level}</span>
@@ -1413,7 +1417,7 @@ function ProgressPage({enrollments, toast}) {
           </div>
           {!selected?(
             <div style={{textAlign:"center",padding:"30px 0",color:"var(--text3)"}}>
-              <div style={{fontSize:32,marginBottom:8}}>👈</div>
+              <div style={{fontSize:32,marginBottom:8}}>ðŸ‘ˆ</div>
               <p style={{fontSize:13}}>Click any student to update their French level</p>
             </div>
           ):(
@@ -1438,7 +1442,7 @@ function ProgressPage({enrollments, toast}) {
                 <textarea className="form-input" rows={3} placeholder="e.g. Improving fast, ready for B2 exam..." value={form.note} onChange={e=>setForm(f=>({...f,note:e.target.value}))} style={{resize:"vertical"}}/>
               </div>
               <button className="btn btn-gold" style={{width:"100%"}} onClick={save} disabled={saving}>
-                {saving?"Saving...":"💾 Save Progress"}
+                {saving?"Saving...":"ðŸ’¾ Save Progress"}
               </button>
             </>
           )}
@@ -1466,7 +1470,7 @@ function AnnouncementsPage({toast}) {
     try {
       const r = await fetch("/api/admin/announcements",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
       const d = await r.json();
-      if(d.success){ toast("Announcement posted! 📢","success"); setForm({title:"",message:"",type:"info",audience:"all"}); setShowForm(false); fetchAnnouncements(); }
+      if(d.success){ toast("Announcement posted! ðŸ“¢","success"); setForm({title:"",message:"",type:"info",audience:"all"}); setShowForm(false); fetchAnnouncements(); }
       else toast(d.error||"Error","error");
     } catch { toast("Error posting","error"); }
     finally { setSaving(false); }
@@ -1482,10 +1486,10 @@ function AnnouncementsPage({toast}) {
   };
 
   const TYPE_COLORS = {
-    info:    {color:"var(--blue)",  bg:"rgba(77,157,224,.12)",  ico:"ℹ️"},
-    warning: {color:"var(--amber)", bg:"rgba(232,160,48,.12)",  ico:"⚠️"},
-    success: {color:"var(--teal)",  bg:"rgba(62,201,167,.12)",  ico:"✅"},
-    urgent:  {color:"var(--rose)",  bg:"rgba(224,92,122,.12)",  ico:"🚨"},
+    info:    {color:"var(--blue)",  bg:"rgba(77,157,224,.12)",  ico:"â„¹ï¸"},
+    warning: {color:"var(--amber)", bg:"rgba(232,160,48,.12)",  ico:"âš ï¸"},
+    success: {color:"var(--teal)",  bg:"rgba(62,201,167,.12)",  ico:"âœ…"},
+    urgent:  {color:"var(--rose)",  bg:"rgba(224,92,122,.12)",  ico:"ðŸš¨"},
   };
   const AUD_LABELS = { all:"Everyone", students:"Students only", staff:"Staff only" };
 
@@ -1496,7 +1500,7 @@ function AnnouncementsPage({toast}) {
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Announcements</div>
           <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Post updates visible to students and staff</div>
         </div>
-        <button className="btn btn-gold btn-sm" onClick={()=>setShowForm(v=>!v)}>{showForm ? "✕ Cancel" : "📢 New Announcement"}</button>
+        <button className="btn btn-gold btn-sm" onClick={()=>setShowForm(v=>!v)}>{showForm ? "âœ• Cancel" : "ðŸ“¢ New Announcement"}</button>
       </div>
       {showForm&&(
         <div style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"20px",marginBottom:20}}>
@@ -1513,10 +1517,10 @@ function AnnouncementsPage({toast}) {
             <div className="form-group">
               <label className="form-label">Type</label>
               <select className="form-select" value={form.type} onChange={e=>setForm(f=>({...f,type:e.target.value}))}>
-                <option value="info">ℹ️ Info</option>
-                <option value="success">✅ Success</option>
-                <option value="warning">⚠️ Warning</option>
-                <option value="urgent">🚨 Urgent</option>
+                <option value="info">â„¹ï¸ Info</option>
+                <option value="success">âœ… Success</option>
+                <option value="warning">âš ï¸ Warning</option>
+                <option value="urgent">ðŸš¨ Urgent</option>
               </select>
             </div>
             <div className="form-group">
@@ -1528,11 +1532,11 @@ function AnnouncementsPage({toast}) {
               </select>
             </div>
           </div>
-          <button className="btn btn-gold" onClick={save} disabled={saving}>{saving?"Posting...":"📢 Post Announcement"}</button>
+          <button className="btn btn-gold" onClick={save} disabled={saving}>{saving?"Posting...":"ðŸ“¢ Post Announcement"}</button>
         </div>
       )}
       {announcements.length===0?(
-        <div className="card"><div className="empty"><div className="empty-ico">📢</div><p className="empty-txt">No announcements yet</p><p className="empty-sub">Click "New Announcement" to post one</p></div></div>
+        <div className="card"><div className="empty"><div className="empty-ico">ðŸ“¢</div><p className="empty-txt">No announcements yet</p><p className="empty-sub">Click "New Announcement" to post one</p></div></div>
       ):announcements.map((a,i)=>{
         const t = TYPE_COLORS[a.type]||TYPE_COLORS.info;
         return (
@@ -1541,16 +1545,16 @@ function AnnouncementsPage({toast}) {
               <div style={{flex:1}}>
                 <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6,flexWrap:"wrap"}}>
                   <span style={{background:t.bg,color:t.color,padding:"2px 10px",borderRadius:20,fontSize:11,fontWeight:700}}>{t.ico} {a.type.toUpperCase()}</span>
-                  <span style={{background:"rgba(255,255,255,0.05)",color:"var(--text3)",padding:"2px 10px",borderRadius:20,fontSize:11}}>👥 {AUD_LABELS[a.audience]}</span>
-                  {!a.active&&<span style={{background:"rgba(255,255,255,0.05)",color:"var(--text3)",padding:"2px 10px",borderRadius:20,fontSize:11}}>🔇 Hidden</span>}
+                  <span style={{background:"rgba(255,255,255,0.05)",color:"var(--text3)",padding:"2px 10px",borderRadius:20,fontSize:11}}>ðŸ‘¥ {AUD_LABELS[a.audience]}</span>
+                  {!a.active&&<span style={{background:"rgba(255,255,255,0.05)",color:"var(--text3)",padding:"2px 10px",borderRadius:20,fontSize:11}}>ðŸ”‡ Hidden</span>}
                 </div>
                 <div style={{fontWeight:600,fontSize:15,marginBottom:4}}>{a.title}</div>
                 <div style={{fontSize:13,color:"var(--text2)",lineHeight:1.6}}>{a.message}</div>
-                <div style={{fontSize:11,color:"var(--text3)",marginTop:8}}>📅 {new Date(a.createdAt).toLocaleString()}</div>
+                <div style={{fontSize:11,color:"var(--text3)",marginTop:8}}>ðŸ“… {new Date(a.createdAt).toLocaleString()}</div>
               </div>
               <div style={{display:"flex",gap:6,flexShrink:0}}>
-                <button className="btn btn-outline btn-xs" onClick={()=>toggle(a._id,a.active)}>{a.active?"🔇 Hide":"👁 Show"}</button>
-                <button className="del-ico" style={{opacity:1}} onClick={()=>del(a._id)}>✕</button>
+                <button className="btn btn-outline btn-xs" onClick={()=>toggle(a._id,a.active)}>{a.active?"ðŸ”‡ Hide":"ðŸ‘ Show"}</button>
+                <button className="del-ico" style={{opacity:1}} onClick={()=>del(a._id)}>âœ•</button>
               </div>
             </div>
           </div>
@@ -1637,7 +1641,7 @@ function AttendancePage({enrollments, toast}) {
         body: JSON.stringify({ type:tab, classId, className, date, records })
       });
       const d = await r.json();
-      if(d.success) { toast(d.updated ? "Attendance updated! ✓" : "Attendance saved! ✓","success"); }
+      if(d.success) { toast(d.updated ? "Attendance updated! âœ“" : "Attendance saved! âœ“","success"); }
       else { toast(d.error||"Error saving","error"); }
     } catch { toast("Error saving attendance","error"); }
     finally { setSaving(false); }
@@ -1667,16 +1671,16 @@ function AttendancePage({enrollments, toast}) {
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20,flexWrap:"wrap",gap:10}}>
         <div>
           <div style={{fontFamily:"var(--font-d)",fontSize:22}}>Attendance Tracker</div>
-          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Mark and track attendance · Locks after 24h</div>
+          <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>Mark and track attendance Â· Locks after 24h</div>
         </div>
         <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-          <button className="btn btn-outline btn-sm" onClick={loadHistory}>📋 View History</button>
-          <button className="btn btn-outline btn-sm" onClick={exportAttendanceCSV}>📥 Export CSV</button>
-          <button className="btn btn-gold btn-sm" onClick={saveAttendance} disabled={saving}>{saving?"Saving...":"💾 Save Attendance"}</button>
+          <button className="btn btn-outline btn-sm" onClick={loadHistory}>ðŸ“‹ View History</button>
+          <button className="btn btn-outline btn-sm" onClick={exportAttendanceCSV}>ðŸ“¥ Export CSV</button>
+          <button className="btn btn-gold btn-sm" onClick={saveAttendance} disabled={saving}>{saving?"Saving...":"ðŸ’¾ Save Attendance"}</button>
         </div>
       </div>
       <div style={{display:"flex",gap:0,marginBottom:20,background:"var(--ink3)",borderRadius:"var(--r-md)",padding:4,width:"fit-content",border:"1px solid var(--border)"}}>
-        {[{id:"student",ico:"👨‍🎓",label:"Students"},{id:"staff",ico:"👨‍💼",label:"Staff"}].map(t=>(
+        {[{id:"student",ico:"ðŸ‘¨â€ðŸŽ“",label:"Students"},{id:"staff",ico:"ðŸ‘¨â€ðŸ’¼",label:"Staff"}].map(t=>(
           <button key={t.id} onClick={()=>{setTab(t.id);setRecords([]);setViewHistory(false);}} style={{padding:"7px 20px",borderRadius:"var(--r-sm)",border:"none",fontFamily:"var(--font-b)",fontSize:13,fontWeight:500,cursor:"pointer",background:tab===t.id?"var(--gold)":"transparent",color:tab===t.id?"var(--ink)":"var(--text2)",transition:"all .15s"}}>
             {t.ico} {t.label}
           </button>
@@ -1684,12 +1688,12 @@ function AttendancePage({enrollments, toast}) {
       </div>
       <div style={{display:"grid",gridTemplateColumns:tab==="student"?"1fr 1fr":"1fr",gap:12,marginBottom:16}}>
         <div className="form-group">
-          <label className="form-label">📅 Date {date===today&&<span style={{color:"var(--teal)",marginLeft:6}}>● Today</span>}</label>
+          <label className="form-label">ðŸ“… Date {date===today&&<span style={{color:"var(--teal)",marginLeft:6}}>â— Today</span>}</label>
           <input className="form-input" type="date" value={date} max={today} onChange={e=>setDate(e.target.value)}/>
         </div>
         {tab==="student"&&(
           <div className="form-group">
-            <label className="form-label">🏫 Class</label>
+            <label className="form-label">ðŸ« Class</label>
             <select className="form-select" value={selectedClass} onChange={e=>setSelectedClass(e.target.value)}>
               <option value="">Select class...</option>
               {classes.map(c=><option key={c._id} value={c._id}>{c.name}</option>)}
@@ -1713,13 +1717,13 @@ function AttendancePage({enrollments, toast}) {
         </div>
       )}
       <div style={{background:"rgba(212,168,67,0.06)",border:"1px solid rgba(212,168,67,0.2)",borderRadius:"var(--r-md)",padding:"10px 14px",marginBottom:16,display:"flex",alignItems:"center",gap:10}}>
-        <span style={{fontSize:16}}>🔒</span>
+        <span style={{fontSize:16}}>ðŸ”’</span>
         <span style={{fontSize:12,color:"var(--text2)"}}>Attendance is <strong style={{color:"var(--gold)"}}>locked after 24 hours</strong> and cannot be edited. Future dates are blocked.</span>
       </div>
       {!viewHistory&&(
         <>
           {records.length===0?(
-            <div className="card"><div className="empty"><div className="empty-ico">{tab==="student"?"📚":"👨‍💼"}</div><p className="empty-txt">{tab==="student"?"Select a class to mark attendance":"Loading staff..."}</p></div></div>
+            <div className="card"><div className="empty"><div className="empty-ico">{tab==="student"?"ðŸ“š":"ðŸ‘¨â€ðŸ’¼"}</div><p className="empty-txt">{tab==="student"?"Select a class to mark attendance":"Loading staff..."}</p></div></div>
           ):(
             <div className="tbl-wrap">
               <div style={{display:"grid",gridTemplateColumns:"1fr 260px 1fr",padding:"9px 16px",background:"var(--ink3)",borderBottom:"1px solid var(--border)",fontSize:10,fontWeight:600,letterSpacing:"1.5px",textTransform:"uppercase",color:"var(--text3)"}}>
@@ -1730,9 +1734,9 @@ function AttendancePage({enrollments, toast}) {
                   <div style={{fontWeight:500,fontSize:13}}>{rec.personName}</div>
                   <div style={{display:"flex",gap:6}}>
                     {[
-                      {s:"present",label:"✓ Present",color:"var(--teal)",bg:"var(--teal-dim)"},
-                      {s:"absent", label:"✕ Absent", color:"var(--rose)",bg:"var(--rose-dim)"},
-                      {s:"late",   label:"⏰ Late",   color:"var(--amber)",bg:"var(--amber-dim)"},
+                      {s:"present",label:"âœ“ Present",color:"var(--teal)",bg:"var(--teal-dim)"},
+                      {s:"absent", label:"âœ• Absent", color:"var(--rose)",bg:"var(--rose-dim)"},
+                      {s:"late",   label:"â° Late",   color:"var(--amber)",bg:"var(--amber-dim)"},
                     ].map(opt=>(
                       <button key={opt.s} onClick={()=>setStatus(i,opt.s)} style={{padding:"4px 10px",borderRadius:"var(--r-sm)",border:`1px solid ${rec.status===opt.s?opt.color:"var(--border)"}`,background:rec.status===opt.s?opt.bg:"transparent",color:rec.status===opt.s?opt.color:"var(--text3)",fontSize:11,fontWeight:rec.status===opt.s?600:400,cursor:"pointer",fontFamily:"var(--font-b)",transition:"all .12s"}}>
                         {opt.label}
@@ -1750,21 +1754,21 @@ function AttendancePage({enrollments, toast}) {
         <div>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
             <div style={{fontFamily:"var(--font-d)",fontSize:18}}>Attendance History</div>
-            <button className="btn btn-outline btn-sm" onClick={()=>setViewHistory(false)}>← Back to Mark</button>
+            <button className="btn btn-outline btn-sm" onClick={()=>setViewHistory(false)}>â† Back to Mark</button>
           </div>
           {history.length===0?(
-            <div className="card"><div className="empty"><div className="empty-ico">📋</div><p className="empty-txt">No attendance records yet</p></div></div>
+            <div className="card"><div className="empty"><div className="empty-ico">ðŸ“‹</div><p className="empty-txt">No attendance records yet</p></div></div>
           ):history.map((h,i)=>(
             <div key={i} style={{background:"var(--ink2)",border:"1px solid var(--border)",borderRadius:"var(--r-lg)",padding:"14px 18px",marginBottom:10}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10,flexWrap:"wrap",gap:8}}>
                 <div>
-                  <div style={{fontWeight:600,fontSize:14}}>{h.className} <span style={{fontSize:11,color:"var(--text3)",marginLeft:8}}>📅 {h.date}</span></div>
-                  <div style={{fontSize:11,color:"var(--text3)",marginTop:2}}>Marked at {new Date(h.markedAt||h.createdAt).toLocaleString()}{h.isLocked&&<span style={{color:"var(--rose)",marginLeft:8}}>🔒 Locked</span>}</div>
+                  <div style={{fontWeight:600,fontSize:14}}>{h.className} <span style={{fontSize:11,color:"var(--text3)",marginLeft:8}}>ðŸ“… {h.date}</span></div>
+                  <div style={{fontSize:11,color:"var(--text3)",marginTop:2}}>Marked at {new Date(h.markedAt||h.createdAt).toLocaleString()}{h.isLocked&&<span style={{color:"var(--rose)",marginLeft:8}}>ðŸ”’ Locked</span>}</div>
                 </div>
                 <div style={{display:"flex",gap:8}}>
-                  <span style={{fontSize:11,background:"var(--teal-dim)",color:"var(--teal)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>✓ {h.records.filter(r=>r.status==="present").length} Present</span>
-                  <span style={{fontSize:11,background:"var(--rose-dim)",color:"var(--rose)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>✕ {h.records.filter(r=>r.status==="absent").length} Absent</span>
-                  <span style={{fontSize:11,background:"var(--amber-dim)",color:"var(--amber)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>⏰ {h.records.filter(r=>r.status==="late").length} Late</span>
+                  <span style={{fontSize:11,background:"var(--teal-dim)",color:"var(--teal)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>âœ“ {h.records.filter(r=>r.status==="present").length} Present</span>
+                  <span style={{fontSize:11,background:"var(--rose-dim)",color:"var(--rose)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>âœ• {h.records.filter(r=>r.status==="absent").length} Absent</span>
+                  <span style={{fontSize:11,background:"var(--amber-dim)",color:"var(--amber)",padding:"2px 8px",borderRadius:10,fontWeight:600}}>â° {h.records.filter(r=>r.status==="late").length} Late</span>
                 </div>
               </div>
               <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
@@ -1788,7 +1792,7 @@ function SettingsPage({toast}) {
   const changePwd = async () => {
     if(pwd.newPwd!==pwd.confirm){toast("Passwords don't match","error");return;}
     if(pwd.newPwd.length<8){toast("Password too short","error");return;}
-    toast("Password change requires backend update — contact your developer","info");
+    toast("Password change requires backend update â€” contact your developer","info");
     setPwd({current:"",newPwd:"",confirm:""});
   };
   return (
@@ -1822,17 +1826,17 @@ function SettingsPage({toast}) {
           <div className="settings-title">Quick Links</div>
           <div className="settings-sub">Important links for your academy</div>
           {[
-            {label:"Live Website",url:"https://french-app-new.vercel.app",ico:"🌐"},
-            {label:"Admin Dashboard",url:"https://french-academy-backend-six.vercel.app/admin",ico:"⚙️"},
-            {label:"MongoDB Atlas",url:"https://cloud.mongodb.com",ico:"🗄️"},
-            {label:"Vercel Dashboard",url:"https://vercel.com",ico:"▲"},
-            {label:"GitHub Repo",url:"https://github.com/sergiokendrick12",ico:"🐙"},
+            {label:"Live Website",url:"https://french-app-new.vercel.app",ico:"ðŸŒ"},
+            {label:"Admin Dashboard",url:"https://french-academy-backend-six.vercel.app/admin",ico:"âš™ï¸"},
+            {label:"MongoDB Atlas",url:"https://cloud.mongodb.com",ico:"ðŸ—„ï¸"},
+            {label:"Vercel Dashboard",url:"https://vercel.com",ico:"â–²"},
+            {label:"GitHub Repo",url:"https://github.com/sergiokendrick12",ico:"ðŸ™"},
           ].map((l,i)=>(
             <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
               <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:"var(--r-md)",border:"1px solid var(--border)",marginBottom:8,cursor:"pointer",transition:"all .15s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--border)"}>
                 <span style={{fontSize:16}}>{l.ico}</span>
                 <span style={{fontSize:13,color:"var(--text2)"}}>{l.label}</span>
-                <span style={{marginLeft:"auto",fontSize:11,color:"var(--text3)"}}>↗</span>
+                <span style={{marginLeft:"auto",fontSize:11,color:"var(--text3)"}}>â†—</span>
               </div>
             </a>
           ))}
@@ -1843,8 +1847,8 @@ function SettingsPage({toast}) {
           {[
             {label:"Frontend",value:"french-app-new.vercel.app",color:"var(--teal)"},
             {label:"Backend",value:"french-academy-backend-six.vercel.app",color:"var(--teal)"},
-            {label:"Database",value:"MongoDB Atlas — Connected",color:"var(--teal)"},
-            {label:"Email",value:"Gmail SMTP — Active",color:"var(--teal)"},
+            {label:"Database",value:"MongoDB Atlas â€” Connected",color:"var(--teal)"},
+            {label:"Email",value:"Gmail SMTP â€” Active",color:"var(--teal)"},
             {label:"Version",value:"IFA Admin v2.0",color:"var(--gold)"},
           ].map((s,i)=>(
             <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 0",borderBottom:"1px solid rgba(36,54,80,.5)"}}>
@@ -1861,7 +1865,7 @@ function SettingsPage({toast}) {
 function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
   const [tab,setTab] = useState("info");
   const [notes,setNotes] = useState(e.notes||"");
-  const [subj,setSubj] = useState("Regarding your enrollment — IFA Kigali");
+  const [subj,setSubj] = useState("Regarding your enrollment â€” IFA Kigali");
   const [body,setBody] = useState(`Dear ${e.firstName},\n\nThank you for your interest in the International French Academy.\n\n`);
   const [sending,setSending] = useState(false);
 
@@ -1886,7 +1890,7 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
     const win = window.open("","_blank","width=900,height=600");
     const enrollDate = new Date(student.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
     const idNum = `IFA-${new Date(student.createdAt).getFullYear()}-${student._id.slice(-5).toUpperCase()}`;
-    win.document.write(`<!DOCTYPE html><html><head><title>ID Card — ${student.firstName} ${student.lastName}</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:30px;}.card-wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}.card{width:340px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);}.front{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e47 60%,#0d1b2a 100%);}.card-top{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}.tricolor{height:4px;display:flex;margin-bottom:14px;}.tc1{flex:1;background:#002395;}.tc2{flex:1;background:#fff;}.tc3{flex:1;background:#ED2939;}.academy-row{display:flex;align-items:center;gap:10px;}.logo-c{width:38px;height:38px;border-radius:50%;background:rgba(201,168,67,0.15);border:1.5px solid #c9a843;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}.academy-name{color:#fff;font-size:11px;font-weight:700;line-height:1.3;}.academy-sub{color:rgba(255,255,255,0.4);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;}.card-type{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.3);color:#c9a843;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:8px;}.card-body{padding:18px 20px;}.photo-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}.photo{width:72px;height:80px;border-radius:8px;background:rgba(255,255,255,0.06);border:2px solid rgba(201,168,67,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}.student-name{font-size:17px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px;}.cert-badge{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.25);color:#c9a843;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px;}.info-txt{font-size:10px;color:rgba(255,255,255,0.5);}.info-val{font-size:10px;color:rgba(255,255,255,0.8);font-weight:500;}.card-footer{background:rgba(0,0,0,0.3);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}.id-num{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;}.status-dot{display:flex;align-items:center;gap:5px;font-size:9px;color:#3ec9a7;font-weight:600;}.dot{width:5px;height:5px;border-radius:50%;background:#3ec9a7;}.print-btn{margin-top:28px;background:#c9a843;color:#0d1b2a;border:none;padding:12px 36px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;}@media print{body{background:#fff;padding:0;}.no-print{display:none;}}</style></head><body><div class="card-wrap"><div class="card front"><div class="card-top"><div class="tricolor"><div class="tc1"></div><div class="tc2"></div><div class="tc3"></div></div><div class="academy-row"><div class="logo-c">🎓</div><div><div class="academy-name">International French Academy</div><div class="academy-sub">Kigali · Rwanda</div></div></div><div class="card-type">🪪 Student ID Card</div></div><div class="card-body"><div class="photo-row"><div class="photo">👤</div><div><div class="student-name">${student.firstName} ${student.lastName}</div><div class="cert-badge">🎯 ${student.certificationGoal}</div><div><span class="info-txt">📧 </span><span class="info-val">${student.email}</span></div><div style="margin-top:4px"><span class="info-txt">📞 </span><span class="info-val">${student.phone}</span></div></div></div><div><span class="info-txt">📅 Enrolled: </span><span class="info-val">${enrollDate}</span></div><div style="margin-top:4px"><span class="info-txt">🆔 </span><span class="info-val">${idNum}</span></div></div><div class="card-footer"><span class="id-num">${idNum}</span><span class="status-dot"><span class="dot"></span>ACTIVE</span></div></div></div><div class="no-print" style="text-align:center;margin-top:24px;"><button class="print-btn" onclick="window.print()">🖨️ Print ID Card</button></div></body></html>`);
+    win.document.write(`<!DOCTYPE html><html><head><title>ID Card â€” ${student.firstName} ${student.lastName}</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:30px;}.card-wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}.card{width:340px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);}.front{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e47 60%,#0d1b2a 100%);}.card-top{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);}.tricolor{height:4px;display:flex;margin-bottom:14px;}.tc1{flex:1;background:#002395;}.tc2{flex:1;background:#fff;}.tc3{flex:1;background:#ED2939;}.academy-row{display:flex;align-items:center;gap:10px;}.logo-c{width:38px;height:38px;border-radius:50%;background:rgba(201,168,67,0.15);border:1.5px solid #c9a843;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}.academy-name{color:#fff;font-size:11px;font-weight:700;line-height:1.3;}.academy-sub{color:rgba(255,255,255,0.4);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;}.card-type{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.3);color:#c9a843;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:8px;}.card-body{padding:18px 20px;}.photo-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}.photo{width:72px;height:80px;border-radius:8px;background:rgba(255,255,255,0.06);border:2px solid rgba(201,168,67,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}.student-name{font-size:17px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px;}.cert-badge{background:rgba(201,168,67,0.12);border:1px solid rgba(201,168,67,0.25);color:#c9a843;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px;}.info-txt{font-size:10px;color:rgba(255,255,255,0.5);}.info-val{font-size:10px;color:rgba(255,255,255,0.8);font-weight:500;}.card-footer{background:rgba(0,0,0,0.3);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}.id-num{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;}.status-dot{display:flex;align-items:center;gap:5px;font-size:9px;color:#3ec9a7;font-weight:600;}.dot{width:5px;height:5px;border-radius:50%;background:#3ec9a7;}.print-btn{margin-top:28px;background:#c9a843;color:#0d1b2a;border:none;padding:12px 36px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;}@media print{body{background:#fff;padding:0;}.no-print{display:none;}}</style></head><body><div class="card-wrap"><div class="card front"><div class="card-top"><div class="tricolor"><div class="tc1"></div><div class="tc2"></div><div class="tc3"></div></div><div class="academy-row"><div class="logo-c">ðŸŽ“</div><div><div class="academy-name">International French Academy</div><div class="academy-sub">Kigali Â· Rwanda</div></div></div><div class="card-type">ðŸªª Student ID Card</div></div><div class="card-body"><div class="photo-row"><div class="photo">ðŸ‘¤</div><div><div class="student-name">${student.firstName} ${student.lastName}</div><div class="cert-badge">ðŸŽ¯ ${student.certificationGoal}</div><div><span class="info-txt">ðŸ“§ </span><span class="info-val">${student.email}</span></div><div style="margin-top:4px"><span class="info-txt">ðŸ“ž </span><span class="info-val">${student.phone}</span></div></div></div><div><span class="info-txt">ðŸ“… Enrolled: </span><span class="info-val">${enrollDate}</span></div><div style="margin-top:4px"><span class="info-txt">ðŸ†” </span><span class="info-val">${idNum}</span></div></div><div class="card-footer"><span class="id-num">${idNum}</span><span class="status-dot"><span class="dot"></span>ACTIVE</span></div></div></div><div class="no-print" style="text-align:center;margin-top:24px;"><button class="print-btn" onclick="window.print()">ðŸ–¨ï¸ Print ID Card</button></div></body></html>`);
     win.document.close();
   };
   const del = async () => {
@@ -1906,7 +1910,7 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
               <div style={{marginTop:5}}><Pill status={e.status}/></div>
             </div>
           </div>
-          <button className="close-btn" onClick={onClose}>✕</button>
+          <button className="close-btn" onClick={onClose}>âœ•</button>
         </div>
       </div>
       <div className="ptabs">
@@ -1918,17 +1922,17 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
         {tab==="info"&&(
           <div>
             {[
-              {ico:"👤",lbl:"Full Name",val:<>{e.firstName} {e.lastName}</>},
-              {ico:"📧",lbl:"Email",val:<a href={`mailto:${e.email}`} className="info-link">{e.email}</a>},
-              {ico:"📞",lbl:"Phone",val:<a href={`https://wa.me/${(e.phone||"").replace(/\D/g,"")}`} target="_blank" className="info-link">{e.phone}</a>},
-              {ico:"🎯",lbl:"Certification Goal",val:<span style={{color:"var(--gold)",fontWeight:600}}>{e.certificationGoal}</span>},
+              {ico:"ðŸ‘¤",lbl:"Full Name",val:<>{e.firstName} {e.lastName}</>},
+              {ico:"ðŸ“§",lbl:"Email",val:<a href={`mailto:${e.email}`} className="info-link">{e.email}</a>},
+              {ico:"ðŸ“ž",lbl:"Phone",val:<a href={`https://wa.me/${(e.phone||"").replace(/\D/g,"")}`} target="_blank" className="info-link">{e.phone}</a>},
+              {ico:"ðŸŽ¯",lbl:"Certification Goal",val:<span style={{color:"var(--gold)",fontWeight:600}}>{e.certificationGoal}</span>},
             ].map((r,i)=>(
               <div key={i} className="info-row">
                 <span className="info-ico">{r.ico}</span>
                 <div><div className="info-lbl">{r.lbl}</div><div className="info-val">{r.val}</div></div>
               </div>
             ))}
-            {e.message&&<div className="info-row"><span className="info-ico">💬</span><div><div className="info-lbl">Message</div><div className="info-val" style={{color:"var(--text2)",lineHeight:1.6}}>{e.message}</div></div></div>}
+            {e.message&&<div className="info-row"><span className="info-ico">ðŸ’¬</span><div><div className="info-lbl">Message</div><div className="info-val" style={{color:"var(--text2)",lineHeight:1.6}}>{e.message}</div></div></div>}
           </div>
         )}
         {tab==="status"&&(
@@ -1967,9 +1971,9 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
       </div>
       <div className="pfoot">
         <a href={`https://wa.me/${(e.phone||"").replace(/\D/g,"")}`} target="_blank" style={{flex:1,textDecoration:"none"}}>
-          <button className="btn btn-teal" style={{width:"100%",justifyContent:"center"}}>💬 WhatsApp</button>
+          <button className="btn btn-teal" style={{width:"100%",justifyContent:"center"}}>ðŸ’¬ WhatsApp</button>
         </a>
-        <button className="btn btn-outline btn-sm" onClick={()=>printIDCard(e)} title="Generate ID Card">🪪</button>
+        <button className="btn btn-outline btn-sm" onClick={()=>printIDCard(e)} title="Generate ID Card">ðŸªª</button>
         <button className="btn btn-danger btn-sm" onClick={del}>Delete</button>
       </div>
     </div>
@@ -2040,19 +2044,19 @@ export default function AdminDashboard() {
   }[bp];
 
   const navItems = [
-    {id:"home",           ico:"🏠", label:"Dashboard",     section:"overview"},
-    {id:"enrollments",    ico:"👥", label:"Enrollments",   section:"management", badge:stats.new||0},
-    {id:"analytics",      ico:"📊", label:"Analytics",     section:"management"},
-    {id:"payments",       ico:"💰", label:"Payments",      section:"finance"},
-    {id:"schedule",       ico:"📅", label:"Schedule",      section:"academy"},
-    {id:"messages",       ico:"💬", label:"Messages",      section:"academy"},
-    {id:"bulk-email",     ico:"📧", label:"Bulk Email",    section:"academy"},
-    {id:"staff",          ico:"👨‍🏫", label:"Staff",         section:"academy"},
-    {id:"certifications", ico:"🏆", label:"Certifications",section:"academy"},
-    {id:"attendance",     ico:"📋", label:"Attendance",    section:"academy"},
-    {id:"progress",       ico:"📊", label:"Progress",      section:"academy"},
-    {id:"announcements",  ico:"📢", label:"Announcements", section:"system"},
-    {id:"settings",       ico:"⚙️", label:"Settings",      section:"system"},
+    {id:"home",           ico:"ðŸ ", label:"Dashboard",     section:"overview"},
+    {id:"enrollments",    ico:"ðŸ‘¥", label:"Enrollments",   section:"management", badge:stats.new||0},
+    {id:"analytics",      ico:"ðŸ“Š", label:"Analytics",     section:"management"},
+    {id:"payments",       ico:"ðŸ’°", label:"Payments",      section:"finance"},
+    {id:"schedule",       ico:"ðŸ“…", label:"Schedule",      section:"academy"},
+    {id:"messages",       ico:"ðŸ’¬", label:"Messages",      section:"academy"},
+    {id:"bulk-email",     ico:"ðŸ“§", label:"Bulk Email",    section:"academy"},
+    {id:"staff",          ico:"ðŸ‘¨â€ðŸ«", label:"Staff",         section:"academy"},
+    {id:"certifications", ico:"ðŸ†", label:"Certifications",section:"academy"},
+    {id:"attendance",     ico:"ðŸ“‹", label:"Attendance",    section:"academy"},
+    {id:"progress",       ico:"ðŸ“Š", label:"Progress",      section:"academy"},
+    {id:"announcements",  ico:"ðŸ“¢", label:"Announcements", section:"system"},
+    {id:"settings",       ico:"âš™ï¸", label:"Settings",      section:"system"},
   ];
 
   const pageTitles = {
@@ -2062,19 +2066,19 @@ export default function AdminDashboard() {
   };
 
   const statCards = [
-    {label:"Total",     value:stats.total||0,    color:"var(--text)",  iconBg:"var(--gold-dim)",  ico:"👥"},
-    {label:"New",       value:stats.new||0,      color:"var(--blue)",  iconBg:"var(--blue-dim)",  ico:"🆕"},
-    {label:"Contacted", value:stats.contacted||0,color:"var(--amber)", iconBg:"var(--amber-dim)", ico:"📞"},
-    {label:"Enrolled",  value:stats.enrolled||0, color:"var(--teal)",  iconBg:"var(--teal-dim)",  ico:"✅"},
-    {label:"Cancelled", value:stats.cancelled||0,color:"var(--rose)",  iconBg:"var(--rose-dim)",  ico:"❌"},
+    {label:"Total",     value:stats.total||0,    color:"var(--text)",  iconBg:"var(--gold-dim)",  ico:"ðŸ‘¥"},
+    {label:"New",       value:stats.new||0,      color:"var(--blue)",  iconBg:"var(--blue-dim)",  ico:"ðŸ†•"},
+    {label:"Contacted", value:stats.contacted||0,color:"var(--amber)", iconBg:"var(--amber-dim)", ico:"ðŸ“ž"},
+    {label:"Enrolled",  value:stats.enrolled||0, color:"var(--teal)",  iconBg:"var(--teal-dim)",  ico:"âœ…"},
+    {label:"Cancelled", value:stats.cancelled||0,color:"var(--rose)",  iconBg:"var(--rose-dim)",  ico:"âŒ"},
   ];
 
   const mobileNavItems = [
-    {id:"home",       ico:"🏠",label:"Home"},
-    {id:"enrollments",ico:"👥",label:"Students"},
-    {id:"analytics",  ico:"📊",label:"Analytics"},
-    {id:"payments",   ico:"💰",label:"Payments"},
-    {id:"settings",   ico:"⚙️",label:"Settings"},
+    {id:"home",       ico:"ðŸ ",label:"Home"},
+    {id:"enrollments",ico:"ðŸ‘¥",label:"Students"},
+    {id:"analytics",  ico:"ðŸ“Š",label:"Analytics"},
+    {id:"payments",   ico:"ðŸ’°",label:"Payments"},
+    {id:"settings",   ico:"âš™ï¸",label:"Settings"},
   ];
 
   const sections = ["overview","management","finance","academy","system"];
@@ -2086,10 +2090,10 @@ export default function AdminDashboard() {
     <div className="shell">
       <aside className={`sidebar${sidebarOpen?" open":""}`}>
         <div className="sb-brand">
-          <div className="sb-logo">🎓</div>
+          <div className="sb-logo">ðŸŽ“</div>
           <div>
             <div className="sb-name">International<br/>French Academy</div>
-            <div className="sb-tag">Kigali · Rwanda</div>
+            <div className="sb-tag">Kigali Â· Rwanda</div>
           </div>
         </div>
         <nav className="sb-nav">
@@ -2111,10 +2115,10 @@ export default function AdminDashboard() {
           })}
           <div className="sb-section">Actions</div>
           <button className="nav-btn" onClick={()=>{exportCSV(enrollments);toast("CSV exported","success");}}>
-            <span className="nav-ico">📥</span><span className="nav-lbl">Export CSV</span>
+            <span className="nav-ico">ðŸ“¥</span><span className="nav-lbl">Export CSV</span>
           </button>
           <button className="nav-btn" onClick={fetchData}>
-            <span className="nav-ico">🔄</span><span className="nav-lbl">Refresh Data</span>
+            <span className="nav-ico">ðŸ”„</span><span className="nav-lbl">Refresh Data</span>
           </button>
         </nav>
         <div className="sb-foot">
@@ -2122,22 +2126,22 @@ export default function AdminDashboard() {
             <div className="u-av">A</div>
             <div><div className="u-name">Admin</div><div className="u-role">Academy Portal</div></div>
           </div>
-          <button className="logout-btn" onClick={logout}>🚪 Sign Out</button>
+          <button className="logout-btn" onClick={logout}>ðŸšª Sign Out</button>
         </div>
       </aside>
 
       <div className="main">
         <header className="topbar">
           <div className="tb-left">
-            <button className="hbg" onClick={()=>setSidebarOpen(o=>!o)}>☰</button>
+            <button className="hbg" onClick={()=>setSidebarOpen(o=>!o)}>â˜°</button>
             <h1 className="tb-title">{pageTitles[page]||page}</h1>
           </div>
           <div className="tb-right">
-            {page==="enrollments"&&<><button className="btn btn-outline btn-sm" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}>📥 Export</button><button className="btn btn-gold btn-sm" onClick={fetchData}>🔄 Refresh</button></>}
-            {page==="home"&&<button className="btn btn-gold btn-sm" onClick={fetchData}>🔄 Refresh</button>}
+            {page==="enrollments"&&<><button className="btn btn-outline btn-sm" onClick={()=>{exportCSV(enrollments);toast("Exported","success");}}>ðŸ“¥ Export</button><button className="btn btn-gold btn-sm" onClick={fetchData}>ðŸ”„ Refresh</button></>}
+            {page==="home"&&<button className="btn btn-gold btn-sm" onClick={fetchData}>ðŸ”„ Refresh</button>}
             <div style={{position:"relative"}}>
               <button className="btn btn-outline btn-sm" onClick={()=>{setShowNotif(o=>!o);if(!showNotif)markAllRead();}} style={{position:"relative",padding:"6px 10px"}}>
-                🔔
+                ðŸ””
                 {unread>0&&<span style={{position:"absolute",top:-4,right:-4,background:"var(--rose)",color:"#fff",fontSize:9,fontWeight:700,padding:"1px 5px",borderRadius:10,minWidth:16,textAlign:"center"}}>{unread}</span>}
               </button>
               {showNotif&&(
@@ -2152,7 +2156,7 @@ export default function AdminDashboard() {
                     ):notifications.map((n,i)=>(
                       <div key={i} style={{padding:"10px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",cursor:"pointer"}} onClick={()=>{setShowNotif(false);setPage("enrollments");}}>
                         <div style={{fontSize:13,fontWeight:500,marginBottom:2}}>{n.message}</div>
-                        <div style={{fontSize:11,color:"var(--text3)"}}>{n.sub} · {n.time}</div>
+                        <div style={{fontSize:11,color:"var(--text3)"}}>{n.sub} Â· {n.time}</div>
                       </div>
                     ))}
                   </div>
@@ -2178,7 +2182,7 @@ export default function AdminDashboard() {
               </div>
               <div className="filters">
                 <div className="search-wrap">
-                  <span className="search-ico">🔍</span>
+                  <span className="search-ico">ðŸ”</span>
                   <input className="search-in" placeholder="Search name, email, phone..." value={search} onChange={e=>setSearch(e.target.value)}/>
                 </div>
                 <div className="chips">
@@ -2197,9 +2201,9 @@ export default function AdminDashboard() {
                 </div>
                 <div className="tbl-body">
                   {loading?(
-                    <div className="empty"><div className="empty-ico">⏳</div><p className="empty-txt">Loading...</p></div>
+                    <div className="empty"><div className="empty-ico">â³</div><p className="empty-txt">Loading...</p></div>
                   ):enrollments.length===0?(
-                    <div className="empty"><div className="empty-ico">📭</div><p className="empty-txt">No enrollments found</p><p className="empty-sub">Try adjusting your search or filter</p></div>
+                    <div className="empty"><div className="empty-ico">ðŸ“­</div><p className="empty-txt">No enrollments found</p><p className="empty-sub">Try adjusting your search or filter</p></div>
                   ):enrollments.map(row=>(
                     <div key={row._id} className={`tbl-row${selected?._id===row._id?" sel":""}`} style={{"--cols":colsDef}} onClick={()=>setSelected(selected?._id===row._id?null:row)}>
                       <div>
@@ -2210,7 +2214,7 @@ export default function AdminDashboard() {
                       <div><Pill status={row.status}/></div>
                       {bp==="desktop"&&<div style={{fontSize:11,color:"var(--text3)"}}>{fmtDate(row.createdAt)}</div>}
                       <div style={{display:"flex",justifyContent:"center"}}>
-                        <button className="del-ico" onClick={ev=>{ev.stopPropagation();if(!confirm("Delete?"))return;fetch("/api/admin/enrollments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:row._id})}).then(()=>{handleDelete(row._id);toast("Deleted","error");});}}>✕</button>
+                        <button className="del-ico" onClick={ev=>{ev.stopPropagation();if(!confirm("Delete?"))return;fetch("/api/admin/enrollments",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:row._id})}).then(()=>{handleDelete(row._id);toast("Deleted","error");});}}>âœ•</button>
                       </div>
                     </div>
                   ))}
@@ -2239,7 +2243,7 @@ export default function AdminDashboard() {
             </button>
           ))}
           <button className="bn" onClick={logout}>
-            <span className="bn-ico">🚪</span>
+            <span className="bn-ico">ðŸšª</span>
             <span className="bn-lbl">Logout</span>
           </button>
         </nav>
@@ -2251,3 +2255,6 @@ export default function AdminDashboard() {
     </>
   );
 }
+
+
+
