@@ -1,0 +1,8 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find("case 'progress'")
+out = open('sidebar.txt', 'w', encoding='utf-8')
+out.write(c[idx-20:idx+80])
+out.close()
+print('found at:', idx)

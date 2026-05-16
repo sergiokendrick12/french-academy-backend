@@ -2305,7 +2305,7 @@ export default function AdminDashboard() {
           {page==="staff"&&<StaffPage toast={toast}/>}
           {page==="certifications"&&<CertificationsPage enrollments={enrollments} toast={toast}/>}
           {page==="attendance"&&<AttendancePage enrollments={enrollments} toast={toast}/>}
-          {page==="progress"&&<ProgressPage enrollments={enrollments} toast={toast}/>}
+          {page==="resources"?<ResourcesPage toast={toast}/>:page==="progress"&&<ProgressPage enrollments={enrollments} toast={toast}/>}
           {page==="announcements"&&<AnnouncementsPage toast={toast}/>}
           {page==="settings"&&<SettingsPage toast={toast}/>}
         </main>

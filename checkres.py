@@ -1,0 +1,7 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('id:"resources"')
+print('resources in navItems:', idx)
+idx2 = c.find('ResourcesPage')
+print('ResourcesPage exists:', idx2)

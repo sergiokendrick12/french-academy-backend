@@ -1,9 +1,12 @@
-t navItems = [
-    {id:"home",           ico:"🏠", label:"Dashboard",     section:"overview"},
-    {id:"enrollments",    ico:"👥", label:"Enrollments",   section:"management", badge:stats.new||0},
-    {id:"analytics",      ico:"📊", label:"Analytics",     section:"management"},
-    {id:"payments",       ico:"💰", label:"Payments",      section:"finance"},
-    {id:"schedule",       ico:"📅", label:"Schedule",      section:"academy"},
-    {id:"messages",       ico:"💬", label:"Messages",      section:"academy"},
-    {id:"bulk-email",     ico:"📧", label:"Bulk Email",    section:"academy"},
-    {id:"staff",          ico:"👨
+lse)}>Cancel</button>
+              <button className="btn btn-gold" onClick={addResource}>Add Resource</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+function ProgressPage({enrollments, toast}) {
+  const [progress, setProgress] = useState([]);
+  const [select
