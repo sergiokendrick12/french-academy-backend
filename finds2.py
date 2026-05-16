@@ -1,0 +1,8 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find("'certifications'")
+out = open('sidebar.txt', 'w', encoding='utf-8')
+out.write(c[idx-20:idx+300])
+out.close()
+print('done')

@@ -1,0 +1,8 @@
+﻿f = open('app/student/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('const RESOURCES')
+out = open('student_res.txt', 'w', encoding='utf-8')
+out.write(c[idx:idx+600])
+out.close()
+print('done at:', idx)

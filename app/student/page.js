@@ -340,14 +340,10 @@ const LEVELS=[
   {code:"C1",name:"Autonome",desc:"Fluent expression",color:"#fbbf24"},
   {code:"C2",name:"Maîtrise",desc:"Near-native mastery",color:"#fb7aac"},
 ];
-const RESOURCES=[
-  {ico:"📄",name:"French Alphabet Guide",desc:"PDF · Beginner",color:"rgba(96,165,250,.15)"},
-  {ico:"🎧",name:"Listening Practice Pack",desc:"Audio ZIP · A1-A2",color:"rgba(74,222,128,.15)"},
-  {ico:"📝",name:"TCF Québec Sample Tests",desc:"PDF · B1-B2",color:"rgba(155,141,255,.15)"},
-  {ico:"🎬",name:"French Conversation Videos",desc:"Links · All levels",color:"rgba(251,191,36,.15)"},
-  {ico:"📚",name:"Grammar Reference Book",desc:"PDF · All levels",color:"rgba(251,122,172,.15)"},
-  {ico:"🗣️",name:"Pronunciation Guide",desc:"PDF + Audio · A1",color:"rgba(45,212,191,.15)"},
-];
+const [RESOURCES, setRESOURCES] = useState([]);
+  useEffect(()=>{
+    fetch('/api/admin/resources').then(r=>r.json()).then(d=>setRESOURCES(d.resources||[])).catch(()=>{});
+  },[]);
 
 // Bottom nav tabs (most important ones for mobile)
 const BOTTOM_NAV_TABS=[
@@ -724,8 +720,8 @@ export default function StudentPortal(){
             {RESOURCES.map((r,i)=>(
               <div key={i} className="resource-item">
                 <div className="resource-ico" style={{background:r.color}}>{r.ico}</div>
-                <div style={{flex:1,minWidth:0}}><div className="resource-name">{r.name}</div><div className="resource-desc">{r.desc}</div></div>
-                <button className="dl-btn">⬇️ Download</button>
+                <div style={{flex:1,minWidth:0}}><div className="resource-name">{r.title||r.name}</div><div className="resource-desc">{r.description||r.desc}</div></div>
+                <a href={r.url||"#"} target="_blank" rel="noreferrer" className="dl-btn" style={{textDecoration:"none"}}>⬇️ Download</a>
               </div>
             ))}
             <div style={{marginTop:16,padding:"14px 18px",background:"rgba(251,191,36,0.07)",border:"1px solid rgba(251,191,36,0.2)",borderRadius:12,fontSize:12,color:"var(--amber)"}}>

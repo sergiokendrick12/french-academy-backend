@@ -1,0 +1,8 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('setPage')
+out = open('sidebar.txt', 'w', encoding='utf-8')
+out.write(c[idx-50:idx+600])
+out.close()
+print('done at:', idx)

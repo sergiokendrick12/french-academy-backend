@@ -1,0 +1,10 @@
+const RESOURCES=[
+  {ico:"📄",name:"French Alphabet Guide",desc:"PDF · Beginner",color:"rgba(96,165,250,.15)"},
+  {ico:"🎧",name:"Listening Practice Pack",desc:"Audio ZIP · A1-A2",color:"rgba(74,222,128,.15)"},
+  {ico:"📝",name:"TCF Québec Sample Tests",desc:"PDF · B1-B2",color:"rgba(155,141,255,.15)"},
+  {ico:"🎬",name:"French Conversation Videos",desc:"Links · All levels",color:"rgba(251,191,36,.15)"},
+  {ico:"📚",name:"Grammar Reference Book",desc:"PDF · All levels",color:"rgba(251,122,172,.15)"},
+  {ico:"🗣️",name:"Pronunciation Guide",desc:"PDF + Audio · A1",color:"rgba(45,212,191,.15)"},
+];
+
+/
