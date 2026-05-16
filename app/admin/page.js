@@ -1205,11 +1205,11 @@ function StaffPage({toast}) {
 }
 
 function CertificationsPage({enrollments,toast}) {
-  const enrolled = enrollments.filter(e=>e.status==="enrolled");
   const [tracking,setTracking] = useState([]);
   const [showModal,setShowModal] = useState(false);
   const [editItem,setEditItem] = useState(null);
   const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:""});
+  const enrolled = enrollments.filter(e=>e.status==="enrolled");
 
   const fetchTracking = async () => {
     try { const r = await fetch("/api/admin/certifications"); const d = await r.json(); setTracking(d.certifications||[]); } catch {}
