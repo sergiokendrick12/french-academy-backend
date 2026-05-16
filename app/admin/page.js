@@ -1343,6 +1343,11 @@ function QuizPage({toast}) {
     toast("Question added!","success");
   };
   const removeQuestion = (i) => setQuestions(questions.filter((_,idx)=>idx!==i));
+  const deleteResult = async (id) => {
+    if(!confirm("Delete this result?")) return;
+    await fetch("/api/admin/quiz/results",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
+    setQuizResults(quizResults.filter(r=>r._id!==id));
+  };
 
   return (
     <div>
@@ -1378,7 +1383,7 @@ function QuizPage({toast}) {
                 <th style={{textAlign:"left",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Quiz</th>
                 <th style={{textAlign:"center",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Score</th>
                 <th style={{textAlign:"center",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Result</th>
-                <th style={{textAlign:"left",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Date</th>
+                <th style={{textAlign:"left",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Date</th><th style={{padding:"8px 12px"}}></th>
               </tr></thead>
               <tbody>{quizResults.map((r,i)=>{const pct=r.total?Math.round((r.score/r.total)*100):null;return(
                 <tr key={i} style={{borderBottom:"1px solid var(--ink3)"}}>
@@ -1387,7 +1392,7 @@ function QuizPage({toast}) {
                   <td style={{padding:"10px 12px",textAlign:"center"}}><span style={{fontWeight:600,color:"var(--gold)"}}>{r.score}/{r.total}</span></td>
                   <td style={{padding:"10px 12px",textAlign:"center"}}><span style={{fontSize:11,padding:"3px 10px",borderRadius:20,fontWeight:600,background:pct===null?"var(--ink3)":pct>=70?"var(--teal-dim)":pct>=50?"var(--gold-dim)":"var(--rose-dim)",color:pct===null?"var(--text3)":pct>=70?"var(--teal)":pct>=50?"var(--gold)":"var(--rose)"}}>{pct!==null?pct+"%":"N/A"}</span></td>
                   <td style={{padding:"10px 12px",color:"var(--text3)",fontSize:12}}>{r.createdAt?new Date(r.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"N/A"}</td>
-                </tr>);})}</tbody>
+                <td style={{padding:"10px 12px"}}><button onClick={()=>deleteResult(r._id)} style={{background:"var(--rose-dim)",border:"none",color:"var(--rose)",borderRadius:6,padding:"4px 10px",cursor:"pointer",fontSize:11}}>Delete</button></td></tr>);})}</tbody>
             </table>
           </div>
         )}
