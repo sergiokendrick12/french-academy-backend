@@ -1313,7 +1313,7 @@ function CertificationsPage({enrollments,toast}) {
 
 
 function QuizPage({toast}) {
-  const [quizzes,setQuizzes] = useState([]);
+  const [quizzes,setQuizzes] = useState([]);const [quizResults,setQuizResults]=useState([]);
   const [showCreate,setShowCreate] = useState(false);
   const [showQuestions,setShowQuestions] = useState(null);
   const [form,setForm] = useState({title:"",description:"",duration:30,active:true});
@@ -1321,7 +1321,7 @@ function QuizPage({toast}) {
   const [qForm,setQForm] = useState({question:"",type:"multiple",options:["","","",""],correct:0,correctText:""});
 
   const fetchQuizzes = async () => {
-    try { const r = await fetch("/api/admin/quiz"); const d = await r.json(); setQuizzes(d.quizzes||[]); } catch {}
+    try { const r = await fetch("/api/admin/quiz"); const d = await r.json(); setQuizzes(d.quizzes||[]); } catch {} try { const r2=await fetch("/api/admin/quiz/results"); const d2=await r2.json(); setQuizResults(d2.results||[]); } catch {}
   };
   useEffect(()=>{ fetchQuizzes(); },[]);
 
@@ -1368,6 +1368,30 @@ function QuizPage({toast}) {
         ))}
       </div>
 
+      {<div style={{marginTop:32}}>
+        <div style={{fontFamily:"var(--font-d)",fontSize:18,marginBottom:12}}>📊 Student Results</div>
+        {quizResults.length===0?(<div className="empty"><div className="empty-ico">📊</div><p className="empty-txt">No results yet</p></div>):(
+          <div style={{overflowX:"auto"}}>
+            <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+              <thead><tr style={{borderBottom:"1px solid var(--ink3)"}}>
+                <th style={{textAlign:"left",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Student</th>
+                <th style={{textAlign:"left",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Quiz</th>
+                <th style={{textAlign:"center",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Score</th>
+                <th style={{textAlign:"center",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Result</th>
+                <th style={{textAlign:"left",padding:"8px 12px",color:"var(--text3)",fontWeight:500}}>Date</th>
+              </tr></thead>
+              <tbody>{quizResults.map((r,i)=>{const pct=Math.round((r.score/r.total)*100);return(
+                <tr key={i} style={{borderBottom:"1px solid var(--ink3)"}}>
+                  <td style={{padding:"10px 12px",fontWeight:500}}>{r.studentName}</td>
+                  <td style={{padding:"10px 12px",color:"var(--text3)"}}>{r.quizTitle}</td>
+                  <td style={{padding:"10px 12px",textAlign:"center"}}><span style={{fontWeight:600,color:"var(--gold)"}}>{r.score}/{r.total}</span></td>
+                  <td style={{padding:"10px 12px",textAlign:"center"}}><span style={{fontSize:11,padding:"3px 10px",borderRadius:20,fontWeight:600,background:pct>=70?"var(--teal-dim)":pct>=50?"var(--gold-dim)":"var(--rose-dim)",color:pct>=70?"var(--teal)":pct>=50?"var(--gold)":"var(--rose)"}}>{pct}%</span></td>
+                  <td style={{padding:"10px 12px",color:"var(--text3)",fontSize:12}}>{new Date(r.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}</td>
+                </tr>);})}</tbody>
+            </table>
+          </div>
+        )}
+      </div>
       {showCreate&&(
         <div className="modal-bg" onClick={()=>setShowCreate(false)}>
           <div className="modal" style={{maxWidth:700,width:"95%",maxHeight:"90vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
