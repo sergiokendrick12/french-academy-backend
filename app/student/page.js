@@ -378,7 +378,7 @@ export default function StudentPortal(){
   const [err,setErr]=useState("");
   const [tab,setTab]=useState("overview");
   const [RESOURCES,setRESOURCES]=useState([]);
-  const [quizzes,setQuizzes]=useState([]);
+  const [quizzes,setQuizzes]=useState([]);const quizTimerRef=useRef(null);
   const [activeQuiz,setActiveQuiz]=useState(null);
   const [quizAnswers,setQuizAnswers]=useState({});
   const [quizTimeLeft,setQuizTimeLeft]=useState(0);
@@ -794,7 +794,7 @@ export default function StudentPortal(){
                       </div>
                     ))}
                     <button id="quiz-submit-btn" className="btn btn-gold" style={{width:"100%",marginTop:8}} onClick={async()=>{
-                      const r=await fetch("/api/student/quiz/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({quizId:activeQuiz._id,studentId:student?._id,studentName:student?.firstName+" "+student?.lastName,answers:quizAnswers,timeTaken:activeQuiz.duration*60-quizTimeLeft})});
+                      if(quizTimerRef.current){clearInterval(quizTimerRef.current);quizTimerRef.current=null;}const r=await fetch("/api/student/quiz/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({quizId:activeQuiz._id,studentId:student?._id,studentName:student?.firstName+" "+student?.lastName,answers:quizAnswers,timeTaken:activeQuiz.duration*60-quizTimeLeft})});
                       const d=await r.json();
                       if(d.success)setQuizSubmitted(d);
                     }}>Submit Quiz</button>
@@ -814,7 +814,7 @@ export default function StudentPortal(){
                         <span className="pill" style={{background:"var(--gold-dim)",color:"var(--gold)"}}>{q.duration} min</span>
                       </div>
                     </div>
-                    {quizResults.some(r=>r.quizId===q._id)?(()=>{const res=quizResults.find(r=>r.quizId===q._id);return(<div style={{textAlign:"right"}}><div style={{fontSize:13,color:"var(--teal)",fontWeight:600}}>Completed</div><div style={{fontSize:12,color:"var(--gold)"}}>{res.score}/{res.total} marks</div></div>);})():(<button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);return 0;}return p-1;});},1000);}}>Start Quiz</button>)}
+                    {quizResults.some(r=>r.quizId===q._id)?(()=>{const res=quizResults.find(r=>r.quizId===q._id);return(<div style={{textAlign:"right"}}><div style={{fontSize:13,color:"var(--teal)",fontWeight:600}}>Completed</div><div style={{fontSize:12,color:"var(--gold)"}}>{res.score}/{res.total} marks</div></div>);})():(<button className="btn btn-gold" onClick={()=>{setActiveQuiz(q);setQuizAnswers({});setQuizTimeLeft(q.duration*60);setQuizSubmitted(null);const t=setInterval(()=>{setQuizTimeLeft(p=>{if(p<=1){clearInterval(t);return 0;}return p-1;});},1000);quizTimerRef.current=t;}}>Start Quiz</button>)}
                   </div>
                 ))}
               </div>
