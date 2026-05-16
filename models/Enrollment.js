@@ -18,6 +18,7 @@ const EnrollmentSchema = new mongoose.Schema(
       default: "new",
     },
     notes: { type: String, default: "" },
+  photo: { type: String, default: "" },
   },
   { timestamps: true }
 );

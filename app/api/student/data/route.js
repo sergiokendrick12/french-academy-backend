@@ -35,11 +35,11 @@ export async function POST(req) {
 export async function PUT(req) {
   try {
     await connectDB();
-    const { studentId, firstName, lastName, email, phone } = await req.json();
+    const { studentId, firstName, lastName, email, phone, photo } = await req.json();
     const Student = (await import("@/models/Enrollment")).default;
     const student = await Student.findByIdAndUpdate(
       studentId,
-      { firstName, lastName, email, phone },
+      { firstName, lastName, email, phone, ...(photo && { photo }) },
       { new: true }
     );
     if (!student) return NextResponse.json({ success: false, error: "Student not found" });
