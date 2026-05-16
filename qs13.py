@@ -1,0 +1,8 @@
+﻿f = open('app/student/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('setTab(')
+out = open('stu.txt', 'w', encoding='utf-8')
+out.write(c[idx-50:idx+400])
+out.close()
+print('found at:', idx)

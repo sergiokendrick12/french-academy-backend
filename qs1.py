@@ -1,0 +1,8 @@
+﻿f = open('app/student/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('{/* RESOURCES */}')
+out = open('stu.txt', 'w', encoding='utf-8')
+out.write(c[idx-200:idx+50])
+out.close()
+print('found at:', idx)

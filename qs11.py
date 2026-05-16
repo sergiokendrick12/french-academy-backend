@@ -1,0 +1,8 @@
+﻿f = open('app/student/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('className="tab-btn')
+out = open('stu.txt', 'w', encoding='utf-8')
+out.write(c[idx-20:idx+600])
+out.close()
+print('found at:', idx)
