@@ -1,0 +1,5 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('editItem&&')
+print(repr(c[idx-300:idx+50]))

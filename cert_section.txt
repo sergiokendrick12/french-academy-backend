@@ -1,0 +1,108 @@
+function CertificationsPage({enrollments,toast}) {
+  const enrolled = enrollments.filter(e=>e.status==="enrolled");
+  const [tracking,setTracking] = useState([]);
+  const [showModal,setShowModal] = useState(false);
+  const [editItem,setEditItem] = useState(null);
+  const [form,setForm] = useState({studentId:"",examDate:"",score:"",passed:false,notes:""});
+
+  const fetchTracking = async () => {
+    try { const r = await fetch("/api/admin/certifications"); const d = await r.json(); setTracking(d.certifications||[]); } catch {}
+  };
+  useEffect(()=>{ fetchTracking(); },[]);
+
+  const deleteResult = async (id) => { if(!confirm("Delete this result?")) return; await fetch("/api/admin/certifications",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchTracking(); toast("Result deleted!","success"); };
+  const saveEdit = async () => { await fetch("/api/admin/certifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(editItem)}); setEditItem(null); fetchTracking(); toast("Result updated!","success"); };
+  const deleteResult = async (id) => { if(!confirm("Delete this result?")) return; await fetch("/api/admin/certifications",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})}); fetchTracking(); toast("Result deleted!","success"); };
+  const saveEdit = async () => { await fetch("/api/admin/certifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(editItem)}); setEditItem(null); fetchTracking(); toast("Result updated!","success"); };
+  const addResult = async () => {
+    if(!form.studentId) return;
+    const student = enrollments.find(e=>e._id===form.studentId);
+    const body = {...form, studentName:`${student?.firstName||""} ${student?.lastName||""}`, cert:student?.certificationGoal||""};
+    const r = await fetch("/api/admin/certifications",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const d = await r.json();
+    if(d.success){ fetchTracking(); setShowModal(false); toast("Result recorded!","success"); setForm({studentId:"",examDate:"",score:"",passed:false,notes:""}); }
+  };
+
+  const passRate = tracking.length > 0 ? Math.round((tracking.filter(t=>t.passed).length/tracking.length)*100) : 0;
+
+  return (
+    <div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>
+        {[
+          {label:"Enrolled Students",value:enrolled.length,color:"var(--teal)",ico:"📚"},
+          {label:"Exam Results",value:tracking.length,color:"var(--blue)",ico:"📝"},
+          {label:"Pass Rate",value:`${passRate}%`,color:"var(--gold)",ico:"🏆"},
+        ].map((s,i)=>(
+          <div key={i} className="card" style={{borderColor:s.color+"30"}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+              <span style={{fontSize:18}}>{s.ico}</span>
+              <span style={{fontSize:10,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"1.5px"}}>{s.label}</span>
+            </div>
+            <div style={{fontFamily:"var(--font-d)",fontSize:28,color:s.color}}>{s.value}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+        <div style={{fontFamily:"var(--font-d)",fontSize:18}}>Exam Results Tracker</div>
+        <button className="btn btn-gold btn-sm" onClick={()=>setShowModal(true)}>+ Add Result</button>
+      </div>
+      <div className="tbl-wrap">
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"9px 16px",background:"var(--ink3)",borderBottom:"1px solid var(--border)",fontSize:10,fontWeight:600,letterSpacing:"1.5px",textTransform:"uppercase",color:"var(--text3)"}}>
+          <span>Student</span><span>Certification</span><span>Score</span><span>Result</span><span>Date</span>
+        </div>
+        {tracking.length===0?(
+          <div className="empty"><div className="empty-ico">📝</div><p className="empty-txt">No exam results yet</p><p className="empty-sub">Add exam results for enrolled students</p></div>
+        ):tracking.map(t=>(
+          <div key={t._id} style={{display:"grid",gridTemplateColumns:"1fr 1fr 80px 80px 80px",padding:"12px 16px",borderBottom:"1px solid rgba(36,54,80,.5)",fontSize:13,alignItems:"center"}}>
+            <span style={{fontWeight:500}}>{t.studentName}</span>
+            <span style={{fontSize:12,color:"var(--gold)"}}>{t.cert}</span>
+            <span style={{fontWeight:600}}>{t.score||"—"}</span>
+            <span><span className="pill" style={{background:t.passed?"var(--teal-dim)":"var(--rose-dim)",color:t.passed?"var(--teal)":"var(--rose)"}}>{t.passed?"Passed":"Failed"}</span></span>
+            <span style={{fontSize:11,color:"var(--text3)"}}>{t.examDate||"-"}</span><span style={{display:"flex",gap:6}}><button onClick={()=>setEditItem({...t})} style={{background:"var(--ink3)",border:"1px solid var(--border)",color:"var(--gold)",borderRadius:6,padding:"3px 8px",cursor:"pointer",fontSize:11}}>Edit</button><button onClick={()=>deleteResult(t._id)} style={{background:"var(--rose-dim)",border:"none",color:"var(--rose)",borderRadius:6,padding:"3px 8px",cursor:"pointer",fontSize:11}}>Delete</button></span>
+          </div>
+        ))}
+      </div>
+      {editItem&&(<div className="modal-bg" onClick={()=>setEditItem(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-title">Edit Exam Result</div><div className="pay-form"><div className="form-group"><label className="form-label">Score</label><input className="form-input" value={editItem.score||""} onChange={e=>setEditItem({...editItem,score:e.target.value})}/></div><div className="form-group"><label className="form-label">Exam Date</label><input className="form-input" type="date" value={editItem.examDate||""} onChange={e=>setEditItem({...editItem,examDate:e.target.value})}/></div><div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Notes</label><input className="form-input" value={editItem.notes||""} onChange={e=>setEditItem({...editItem,notes:e.target.value})}/></div><div style={{display:"flex",alignItems:"center",gap:8,gridColumn:"span 2"}}><input type="checkbox" checked={editItem.passed||false} onChange={e=>setEditItem({...editItem,passed:e.target.checked})}/><label className="form-label" style={{margin:0}}>Passed</label></div></div><div style={{display:"flex",gap:10,marginTop:16}}><button className="btn btn-gold" onClick={saveEdit}>Save Changes</button><button className="btn" onClick={()=>setEditItem(null)}>Cancel</button></div></div></div>)}{showModal&&(
+        <div className="modal-bg" onClick={()=>setShowModal(false)}>
+          <div className="modal" onClick={e=>e.stopPropagation()}>
+            <div className="modal-title">Add Exam Result</div>
+            <div className="modal-sub">Record a student's certification exam result</div>
+            <div className="pay-form">
+              <div className="form-group" style={{gridColumn:"span 2"}}>
+                <label className="form-label">Student</label>
+                <select className="form-select" value={form.studentId} onChange={e=>setForm({...form,studentId:e.target.value})}>
+                  <option value="">Select student...</option>
+                  {enrollments.map(e=><option key={e._id} value={e._id}>{e.firstName} {e.lastName} — {e.certificationGoal}</option>)}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Exam Date</label>
+                <input className="form-input" type="date" value={form.examDate} onChange={e=>setForm({...form,examDate:e.target.value})}/>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Score</label>
+                <input className="form-input" placeholder="e.g. 75/100" value={form.score} onChange={e=>setForm({...form,score:e.target.value})}/>
+              </div>
+              <div className="form-group" style={{gridColumn:"span 2"}}>
+                <label className="form-label">Result</label>
+                <div style={{display:"flex",gap:10}}>
+                  <button className="btn btn-sm" style={{background:form.passed?"var(--teal-dim)":"transparent",color:form.passed?"var(--teal)":"var(--text2)",border:`1px solid ${form.passed?"var(--teal)":"var(--border)"}`}} onClick={()=>setForm({...form,passed:true})}>✓ Passed</button>
+                  <button className="btn btn-sm" style={{background:!form.passed?"var(--rose-dim)":"transparent",color:!form.passed?"var(--rose)":"var(--text2)",border:`1px solid ${!form.passed?"var(--rose)":"var(--border)"}`}} onClick={()=>setForm({...form,passed:false})}>✕ Failed</button>
+                </div>
+              </div>
+              <div className="form-group" style={{gridColumn:"span 2"}}>
+                <label className="form-label">Notes</label>
+                <input className="form-input" placeholder="Optional notes..." value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})}/>
+              </div>
+            </div>
+            <div className="modal-foot">
+              <button className="btn btn-outline" onClick={()=>setShowModal(false)}>Cancel</button>
+              <button className="btn btn-gold" onClick={addResult}>Save Result</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
