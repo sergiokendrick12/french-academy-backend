@@ -1,0 +1,7 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('ID Card')
+idx2 = c.find('student.photo', idx)
+print('photo in ID card:', idx2)
+print(repr(c[idx2-50:idx2+100]))
