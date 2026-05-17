@@ -1,0 +1,6 @@
+﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('ID Card')
+idx2 = c.find('window.open', idx)
+print(repr(c[idx2-50:idx2+300]))

@@ -1,5 +1,5 @@
 ﻿f = open('app/admin/page.js', 'r', encoding='utf-8')
 c = f.read()
 f.close()
-idx = c.find('class="photo">')
-print(repr(c[idx:idx+150]))
+idx = c.find('window.open')
+print(repr(c[idx-200:idx+200]))

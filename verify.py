@@ -2,4 +2,4 @@
 c = f.read()
 f.close()
 idx = c.find('class="photo">')
-print(repr(c[idx:idx+150]))
+print(repr(c[idx:idx+200]))
