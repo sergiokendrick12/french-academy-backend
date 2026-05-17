@@ -15,7 +15,7 @@ export async function POST(req) {
     const staff = await Staff.findById(staffId).lean();
     if (!staff) return NextResponse.json({ success: false, error: "Staff not found" });
 
-    const schedules = await Schedule.find({ teacher: staff.name }).lean();
+    const schedules = await Schedule.find({ teacher: { $regex: new RegExp("^" + staff.name + "$", "i") } }).lean();
     const students  = await Enrollment.find({ status: { $ne: "cancelled" } }).sort({ createdAt: -1 }).lean();
     const attendance = await Attendance.find({ markedBy: staff.name }).sort({ date: -1 }).lean();
 

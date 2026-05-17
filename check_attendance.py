@@ -1,0 +1,5 @@
+﻿f = open('app/staff/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('Mark Attendance')
+print(repr(c[idx:idx+1000]))

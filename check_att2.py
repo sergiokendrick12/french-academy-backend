@@ -1,0 +1,5 @@
+﻿f = open('app/staff/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('Choose class')
+print(repr(c[idx-200:idx+800]))
