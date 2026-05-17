@@ -454,7 +454,7 @@ export default function StaffPortal(){
               <div className="empty-state"><div className="empty-ico">👥</div><p>No enrolled students</p></div>
             ):enrolledStudents.map((s,i)=>(
               <div key={i} className="student-item">
-                <div className="student-ava">{(s.firstName?.[0]||"")+(s.lastName?.[0]||"")}</div>
+                <div className="student-ava" style={{overflow:"hidden",padding:0}}>{s.photo?<img src={s.photo} style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"50%"}} alt=""/>:(s.firstName?.[0]||"")+(s.lastName?.[0]||"")}</div>
                 <div style={{flex:1}}><div className="student-name">{s.firstName} {s.lastName}</div><div className="student-meta">🎯 {s.certificationGoal} · 📧 {s.email}</div></div>
                 <Pill status={s.status} map={STATUS_MAP}/>
               </div>
