@@ -69,8 +69,8 @@ export async function PUT(req) {
 export async function PATCH(req) {
   try {
     await connectDB();
-    const { staffId, phone } = await req.json();
-    const staff = await Staff.findByIdAndUpdate(staffId, { phone }, { new: true });
+    const { staffId, phone, photo } = await req.json();
+    const staff = await Staff.findByIdAndUpdate(staffId, { phone, ...(photo && { photo }) }, { new: true });
     if (!staff) return NextResponse.json({ success: false, error: "Staff not found" });
     return NextResponse.json({ success: true, staff });
   } catch (e) {

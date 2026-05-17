@@ -1,0 +1,5 @@
+﻿f = open('app/staff/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('profileForm')
+print(repr(c[idx-20:idx+200]))

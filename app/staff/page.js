@@ -184,6 +184,7 @@ export default function StaffPortal(){
   const [profileEdit,setProfileEdit]   = useState(false);
   const [profilePhone,setProfilePhone] = useState("");
   const [profileSaving,setProfileSaving] = useState(false);
+  const [profileForm,setProfileForm] = useState({});
   const [profileMsg,setProfileMsg]     = useState("");
 
   const toast=(msg,type="success")=>{
@@ -244,9 +245,9 @@ export default function StaffPortal(){
   const saveProfile=async()=>{
     setProfileSaving(true);setProfileMsg("");
     try{
-      const r=await fetch("/api/staff/data",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({staffId:staff._id,phone:profilePhone})});
+      const r=await fetch("/api/staff/data",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({staffId:staff._id,phone:profilePhone,photo:profileForm?.photo||staff.photo||""})});
       const d=await r.json();
-      if(d.success){setStaff(s=>({...s,phone:profilePhone}));setProfileMsg("✅ Profile updated!");setProfileEdit(false);}
+      if(d.success){setStaff(s=>({...s,phone:profilePhone,photo:profileForm?.photo||s.photo}));setProfileMsg("✅ Profile updated!");setProfileEdit(false);}
       else setProfileMsg("❌ Update failed.");
     }catch{setProfileMsg("❌ Connection error.");}
     finally{setProfileSaving(false);}
@@ -493,7 +494,22 @@ export default function StaffPortal(){
             <div className="section">
               <div className="section-title">👤 My Profile</div>
               <div className="section-sub">Your staff information</div>
-              <div className="profile-avatar-big">{initials(staff.name)}</div>
+              <div style={{position:"relative",display:"inline-block",marginBottom:8}}>
+                  {staff.photo?
+                    <img src={staff.photo} alt="profile" style={{width:80,height:80,borderRadius:"50%",objectFit:"cover",border:"3px solid var(--blue)"}}/> :
+                    <div className="profile-avatar-big">{initials(staff.name)}</div>
+                  }
+                  <label style={{position:"absolute",bottom:0,right:0,background:"var(--blue)",borderRadius:"50%",width:24,height:24,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:14}}>
+                    📷
+                    <input type="file" accept="image/*" style={{display:"none"}} onChange={e=>{
+                      const file=e.target.files[0];
+                      if(!file) return;
+                      const reader=new FileReader();
+                      reader.onload=ev=>setProfileForm(p=>({...p,photo:ev.target.result}));
+                      reader.readAsDataURL(file);
+                    }}/>
+                  </label>
+                </div>
               <div style={{textAlign:"center",marginBottom:24}}>
                 <div style={{fontFamily:"'Sora',sans-serif",fontSize:18,fontWeight:700}}>{staff.name}</div>
                 <div style={{fontSize:12,color:"var(--text3)",marginTop:4}}>{staff.role}</div>
