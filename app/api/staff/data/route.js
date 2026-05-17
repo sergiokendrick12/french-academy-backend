@@ -4,6 +4,7 @@ import Staff from "@/models/Staff";
 import Attendance from "@/models/Attendance";
 import Schedule from "@/models/Schedule";
 import Enrollment from "@/models/Enrollment";
+import QuizResult from "@/models/QuizResult";
 
 // POST — fetch staff data
 export async function POST(req) {
@@ -19,7 +20,8 @@ export async function POST(req) {
     const students  = await Enrollment.find({ status: { $ne: "cancelled" } }).sort({ createdAt: -1 }).lean();
     const attendance = await Attendance.find({ markedBy: staff.name }).sort({ date: -1 }).lean();
 
-    return NextResponse.json({ success: true, staff, schedules, students, attendance });
+    const quizResults = await QuizResult.find().sort({ createdAt: -1 }).lean();
+    return NextResponse.json({ success: true, staff, schedules, students, attendance, quizResults });
   } catch (e) {
     return NextResponse.json({ success: false, error: e.message }, { status: 500 });
   }
