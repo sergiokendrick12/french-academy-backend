@@ -2135,7 +2135,7 @@ function DetailPanel({e,onClose,onUpdate,onDelete,toast}) {
       <div className="panel-top">
         <div className="panel-head">
           <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
-            <div className="p-av">{initials(e.firstName,e.lastName)}</div>
+            <div className="p-av" style={{overflow:"hidden",padding:0}}>{e.photo?<img src={e.photo} style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"50%"}} alt=""/>:initials(e.firstName,e.lastName)}</div>
             <div>
               <div className="p-name">{e.firstName} {e.lastName}</div>
               <div className="p-since">Since {fmtDate(e.createdAt)}</div>
