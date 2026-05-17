@@ -1151,7 +1151,7 @@ function StaffPage({toast}) {
       <div className="staff-grid">
         {staff.map((s,i)=>(
           <div key={i} className="staff-card">
-            <div className="staff-av">{initials(s.name.split(" ")[0],s.name.split(" ")[1])}</div>
+            <div className="staff-av" style={{overflow:"hidden",padding:0}}>{s.photo?<img src={s.photo} style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"50%"}} alt=""/>:initials(s.name.split(" ")[0],s.name.split(" ")[1])}</div>
             <div className="staff-name">{s.name}</div>
             <div className="staff-role">{s.role}</div>
             <div style={{display:"flex",gap:6,justifyContent:"center",flexWrap:"wrap",marginBottom:12}}>
@@ -1176,7 +1176,7 @@ function StaffPage({toast}) {
                 <label className="form-label">Full Name</label>
                 <input className="form-input" placeholder="e.g. John Doe" value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/>
               </div>
-              <div className="form-group" style={{gridColumn:"span 2"}}>
+              <div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Photo (optional)</label><div style={{display:"flex",alignItems:"center",gap:12}}>{form.photo&&<img src={form.photo} style={{width:48,height:48,borderRadius:"50%",objectFit:"cover"}} alt=""/>}<label style={{background:"var(--ink3)",border:"1px solid var(--border2)",color:"var(--text2)",padding:"8px 16px",borderRadius:8,cursor:"pointer",fontSize:12}}>Upload Photo<input type="file" accept="image/*" style={{display:"none"}} onChange={e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>setForm(p=>({...p,photo:ev.target.result}));reader.readAsDataURL(file);}}/></label></div></div><div className="form-group" style={{gridColumn:"span 2"}}>
                 <label className="form-label">Role</label>
                 <input className="form-input" placeholder="e.g. French Teacher" value={form.role} onChange={e=>setForm({...form,role:e.target.value})}/>
               </div>

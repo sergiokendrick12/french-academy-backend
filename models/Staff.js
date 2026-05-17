@@ -8,6 +8,7 @@ const StaffSchema = new mongoose.Schema(
     phone:  { type: String, default: "" },
     classes:{ type: Number, default: 0 },
     status: { type: String, default: "active" },
+    photo:  { type: String, default: "" },
   },
   { timestamps: true }
 );
