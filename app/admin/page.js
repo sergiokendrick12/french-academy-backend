@@ -326,9 +326,9 @@ function LoginPage({onLogin}) {
         <h1 className="login-title">Admin Portal</h1>
         <p className="login-sub">International French Academy · Kigali</p>
         <div className="login-lbl">Username</div>
-        <input type="text" className="login-in" autoFocus value={username} onChange={e=>setUsername(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin username"/>
+        <input type="text" className="login-in" autoFocus value={username} onChange={e=>setUsername(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin username" autoComplete="off"/>
         <div className="login-lbl">Password</div>
-        <input type="password" className="login-in" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin password"/>
+        <input type="password" className="login-in" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin password" autoComplete="new-password"/>
         {err&&<p className="login-err">{err}</p>}
         <button className="btn btn-gold" style={{width:"100%",justifyContent:"center",padding:"12px",fontSize:"14px"}} onClick={submit} disabled={loading}>{loading?"Verifying...":"Enter Dashboard →"}</button>
         <p className="login-foot">International French Academy · Rwanda</p>
