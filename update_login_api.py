@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+﻿# Update admin login API to require username + password
+content = """import { NextResponse } from "next/server";
 import { createToken } from "@/lib/auth";
 
 export async function POST(request) {
@@ -35,3 +36,8 @@ export async function DELETE() {
   response.cookies.delete("admin_token");
   return response;
 }
+"""
+f = open('app/api/admin/login/route.js', 'w', encoding='utf-8')
+f.write(content)
+f.close()
+print('Login API updated!')

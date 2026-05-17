@@ -305,13 +305,14 @@ function ToastTray({list}) {
 
 function LoginPage({onLogin}) {
   const [pw,setPw] = useState("");
+  const [username,setUsername] = useState("");
   const [err,setErr] = useState("");
   const [loading,setLoading] = useState(false);
   const submit = async () => {
     if(!pw)return;
     setLoading(true);setErr("");
     try {
-      const r = await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:pw})});
+      const r = await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,password:pw})});
       const d = await r.json();
       if(d.success) onLogin(); else setErr(d.error||"Incorrect password.");
     } catch { setErr("Connection error."); }
@@ -324,8 +325,10 @@ function LoginPage({onLogin}) {
         <div className="login-emblem" style={{padding:0,overflow:"hidden",width:80,height:80,borderRadius:"50%",margin:"0 auto 14px"}}><img src="/logo.png" alt="IFA Logo" style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"var(--r-lg)"}}/></div>
         <h1 className="login-title">Admin Portal</h1>
         <p className="login-sub">International French Academy · Kigali</p>
+        <div className="login-lbl">Username</div>
+        <input type="text" className="login-in" autoFocus value={username} onChange={e=>setUsername(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin username"/>
         <div className="login-lbl">Password</div>
-        <input type="password" className="login-in" autoFocus value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin password"/>
+        <input type="password" className="login-in" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()} placeholder="Enter admin password"/>
         {err&&<p className="login-err">{err}</p>}
         <button className="btn btn-gold" style={{width:"100%",justifyContent:"center",padding:"12px",fontSize:"14px"}} onClick={submit} disabled={loading}>{loading?"Verifying...":"Enter Dashboard →"}</button>
         <p className="login-foot">International French Academy · Rwanda</p>
