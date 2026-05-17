@@ -1,0 +1,6 @@
+import mongoose from "mongoose";
+const AdminConfigSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  passwordHash: { type: String, required: true },
+}, { timestamps: true });
+export default mongoose.models.AdminConfig || mongoose.model("AdminConfig", AdminConfigSchema);

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿content = """import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import AdminConfig from "@/models/AdminConfig";
 import bcrypt from "bcryptjs";
@@ -31,3 +31,8 @@ export async function PATCH(req) {
     return NextResponse.json({ success: false, error: e.message }, { status: 500 });
   }
 }
+"""
+f = open('app/api/admin/settings/route.js', 'w', encoding='utf-8')
+f.write(content)
+f.close()
+print('Settings API updated!')

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿content = """import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import AdminConfig from "@/models/AdminConfig";
 import bcrypt from "bcryptjs";
@@ -49,3 +49,8 @@ export async function DELETE() {
   response.cookies.delete("admin_token");
   return response;
 }
+"""
+f = open('app/api/admin/login/route.js', 'w', encoding='utf-8')
+f.write(content)
+f.close()
+print('Login API updated!')
