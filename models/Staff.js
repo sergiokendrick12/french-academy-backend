@@ -9,6 +9,7 @@ const StaffSchema = new mongoose.Schema(
     classes:{ type: Number, default: 0 },
     status: { type: String, default: "active" },
     photo:  { type: String, default: "" },
+    passwordHash: { type: String, default: "" },
   },
   { timestamps: true }
 );

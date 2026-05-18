@@ -185,6 +185,9 @@ export default function StaffPortal(){
   const [profilePhone,setProfilePhone] = useState("");
   const [profileSaving,setProfileSaving] = useState(false);
   const [profileForm,setProfileForm] = useState({});
+  const [staffPwForm,setStaffPwForm] = useState({current:"",newPw:"",confirm:""});
+  const [staffPwSaving,setStaffPwSaving] = useState(false);
+  const [staffPwMsg,setStaffPwMsg] = useState("");
   const [profileMsg,setProfileMsg]     = useState("");
 
   const toast=(msg,type="success")=>{
@@ -205,6 +208,18 @@ export default function StaffPortal(){
     finally{setLoading(false);}
   };
 
+  const changeStaffPassword=async()=>{
+    if(staffPwForm.newPw!==staffPwForm.confirm){setStaffPwMsg("Passwords don't match");return;}
+    if(staffPwForm.newPw.length<8){setStaffPwMsg("Min 8 characters");return;}
+    setStaffPwSaving(true);setStaffPwMsg("");
+    try{
+      const r=await fetch("/api/staff/change-password",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({staffId:staff._id,currentPassword:staffPwForm.current,newPassword:staffPwForm.newPw})});
+      const d=await r.json();
+      if(d.success){setStaffPwMsg("✅ Password updated!");setStaffPwForm({current:"",newPw:"",confirm:""});}
+      else setStaffPwMsg(d.error||"Failed");
+    }catch{setStaffPwMsg("Connection error");}
+    finally{setStaffPwSaving(false);}
+  };
   const fetchData=async(id)=>{
     try{
       const r=await fetch("/api/staff/data",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({staffId:id})});
@@ -566,6 +581,17 @@ export default function StaffPortal(){
                     <button onClick={()=>{setProfileEdit(false);setProfileMsg("");}} style={{background:"rgba(255,255,255,0.05)",border:"1px solid var(--border2)",color:"var(--text2)",padding:"12px 20px",borderRadius:10,cursor:"pointer",fontSize:13}}>Cancel</button>
                   </>
                 )}
+              </div>
+            </div>
+            <div className="section">
+              <div className="section-title">🔒 Change Password</div>
+              <div className="section-sub">Update your login password</div>
+              <div style={{display:"grid",gap:10,marginTop:12}}>
+                <div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text2)"}}>Current Password</label><input className="profile-in" type="password" placeholder="Enter current password" value={staffPwForm.current} onChange={e=>setStaffPwForm(p=>({...p,current:e.target.value}))}/></div>
+                <div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text2)"}}>New Password</label><input className="profile-in" type="password" placeholder="Min 8 characters" value={staffPwForm.newPw} onChange={e=>setStaffPwForm(p=>({...p,newPw:e.target.value}))}/></div>
+                <div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text2)"}}>Confirm Password</label><input className="profile-in" type="password" placeholder="Repeat password" value={staffPwForm.confirm} onChange={e=>setStaffPwForm(p=>({...p,confirm:e.target.value}))}/></div>
+                {staffPwMsg&&<div style={{fontSize:12,padding:"8px 12px",borderRadius:8,background:staffPwMsg.includes("✅")?"rgba(74,222,128,0.1)":"rgba(251,122,172,0.1)",color:staffPwMsg.includes("✅")?"var(--green)":"var(--rose)"}}>{staffPwMsg}</div>}
+                <button className="save-btn" onClick={changeStaffPassword} disabled={staffPwSaving}>{staffPwSaving?"Saving…":"🔒 Update Password"}</button>
               </div>
             </div>
             <div className="section">
