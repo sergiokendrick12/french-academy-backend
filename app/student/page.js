@@ -426,7 +426,9 @@ export default function StudentPortal(){
           if(!d2.success){setErr(d2.error||"Failed to set password");setLoading(false);return;}
           setStudent(d.student);
           setProfileForm({firstName:d.student.firstName,lastName:d.student.lastName,email:d.student.email,phone:d.student.phone||""});
-          fetchData(d.student._id);fetchAnnouncements();
+          fetchData(d.student._id);
+          fetchAnnouncements();
+          fetch("/api/student/quiz/results?studentId="+d.student._id).then(r=>r.json()).then(dd=>setQuizResults(dd.results||[])).catch(()=>{});
           return;
         }
         setStudent(d.student);

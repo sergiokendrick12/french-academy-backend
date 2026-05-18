@@ -1,0 +1,5 @@
+﻿f = open('app/student/page.js', 'r', encoding='utf-8')
+c = f.read()
+f.close()
+idx = c.find('d.firstLogin')
+print(repr(c[idx:idx+800]))
