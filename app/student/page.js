@@ -556,7 +556,7 @@ export default function StudentPortal(){
               </div>
             )}
           </div>
-          <div className="student-chip" onClick={()=>setTab("profile")}>
+          <div className="student-chip" onClick={()=>setTab("profile");setPwMsg("");setPwForm({current:"",newPw:"",confirm:""})}>
             <div className="student-avatar">{initials(student.firstName,student.lastName)}</div>
             <span className="student-chip-name">{student.firstName} {student.lastName}</span>
           </div>
@@ -927,7 +927,7 @@ export default function StudentPortal(){
               <div className="section-title">🔒 Change Password</div>
               <div className="section-sub">Update your login password</div>
               <div style={{display:"grid",gap:10,marginTop:12}}>
-                {student.passwordHash&&<div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)"}}>Current Password</label><input className="profile-in" type="password" placeholder="Enter current password" value={pwForm?.current||""} onChange={e=>setPwForm(p=>({...p,current:e.target.value}))}/></div>}
+                {(student.passwordHash&&student.passwordHash!=="")&&<div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)"}}>Current Password</label><input className="profile-in" type="password" placeholder="Enter current password" value={pwForm?.current||""} onChange={e=>setPwForm(p=>({...p,current:e.target.value}))}/></div>}
                 <div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)"}}>{student.passwordHash?"New Password":"Set Password"}</label><input className="profile-in" type="password" placeholder="Min 8 characters" value={pwForm?.newPw||""} onChange={e=>setPwForm(p=>({...p,newPw:e.target.value}))}/></div>
                 <div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)"}}>Confirm Password</label><input className="profile-in" type="password" placeholder="Repeat password" value={pwForm?.confirm||""} onChange={e=>setPwForm(p=>({...p,confirm:e.target.value}))}/></div>
                 {pwMsg&&<div style={{fontSize:12,padding:"8px 12px",borderRadius:8,background:pwMsg.includes("✅")?"rgba(74,222,128,0.1)":"rgba(251,122,172,0.1)",color:pwMsg.includes("✅")?"var(--green)":"var(--rose)"}}>{pwMsg}</div>}
