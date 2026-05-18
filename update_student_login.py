@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿content = """import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Enrollment from "@/models/Enrollment";
 import bcrypt from "bcryptjs";
@@ -27,3 +27,8 @@ export async function POST(req) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+"""
+f = open('app/api/student/login/route.js', 'w', encoding='utf-8')
+f.write(content)
+f.close()
+print('Login API updated!')

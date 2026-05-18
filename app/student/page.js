@@ -374,6 +374,9 @@ export default function StudentPortal(){
   const [data,setData]=useState(null);
   const [announcements,setAnnouncements]=useState([]);
   const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [showPwField,setShowPwField]=useState(false);
+  const [firstLogin,setFirstLogin]=useState(false);
   const [loading,setLoading]=useState(false);
   const [err,setErr]=useState("");
   const [tab,setTab]=useState("overview");
@@ -396,6 +399,9 @@ export default function StudentPortal(){
   const [profileEdit,setProfileEdit]=useState(false);
   const [profileForm,setProfileForm]=useState({});
   const [profileSaving,setProfileSaving]=useState(false);
+  const [pwForm,setPwForm]=useState({current:"",newPw:"",confirm:""});
+  const [pwSaving,setPwSaving]=useState(false);
+  const [pwMsg,setPwMsg]=useState("");
   const [profileMsg,setProfileMsg]=useState("");
   const notifRef=useRef(null);
 
@@ -409,17 +415,30 @@ export default function StudentPortal(){
     if(!email.trim())return;
     setLoading(true);setErr("");
     try{
-      const r=await fetch("/api/student/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email})});
+      const r=await fetch("/api/student/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
       const d=await r.json();
       if(d.success){
+        if(d.firstLogin){setShowPwField(true);setFirstLogin(true);setLoading(false);return;}
         setStudent(d.student);
         setProfileForm({firstName:d.student.firstName,lastName:d.student.lastName,email:d.student.email,phone:d.student.phone||""});
         fetchData(d.student._id);fetchAnnouncements();
-      }else setErr(d.error||"Student not found.");
+      }else if(d.error==="Password required"){setShowPwField(true);setLoading(false);return;}else setErr(d.error||"Student not found.");
     }catch{setErr("Connection error.");}
     finally{setLoading(false);}
   };
 
+  const changePassword=async()=>{
+    if(pwForm.newPw!==pwForm.confirm){setPwMsg("Passwords don't match");return;}
+    if(pwForm.newPw.length<8){setPwMsg("Min 8 characters");return;}
+    setPwSaving(true);setPwMsg("");
+    try{
+      const r=await fetch("/api/student/change-password",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({studentId:student._id,currentPassword:pwForm.current,newPassword:pwForm.newPw})});
+      const d=await r.json();
+      if(d.success){setPwMsg("✅ Password updated!");setPwForm({current:"",newPw:"",confirm:""});setStudent(s=>({...s,passwordHash:"set"}));}
+      else setPwMsg(d.error||"Failed");
+    }catch{setPwMsg("Connection error");}
+    finally{setPwSaving(false);}
+  };
   const fetchData=async(id)=>{
     try{const r=await fetch("/api/student/data",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({studentId:id})});const d=await r.json();if(d.success)setData(d);}catch{}
   };
@@ -471,10 +490,18 @@ export default function StudentPortal(){
         </div>
         <div className="login-lbl">Your Email Address</div>
         <input className="login-in" type="email" placeholder="your@email.com" value={email}
-          onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&login()}/>
+          onChange={e=>{setEmail(e.target.value);setShowPwField(false);}} onKeyDown={e=>e.key==="Enter"&&login()} disabled={showPwField}/>
+        {showPwField&&(
+          <>
+            <div className="login-lbl" style={{marginTop:12}}>{firstLogin?"Set Your Password":"Password"}</div>
+            <input className="login-in" type="password" placeholder={firstLogin?"Create a password...":"Enter your password..."} value={password}
+              onChange={e=>setPassword(e.target.value)} onKeyDown={e=>e.key==="Enter"&&login()} autoFocus/>
+            {firstLogin&&<p style={{fontSize:11,color:"#9aa0be",marginBottom:8}}>First time login — please set a password for future logins</p>}
+          </>
+        )}
         {err&&<p className="login-err">⚠️ {err}</p>}
         <button className="login-btn" onClick={login} disabled={loading}>{loading?"Checking…":"Access My Portal →"}</button>
-        <p className="login-note">Enter the email address you used when enrolling</p>
+        <p className="login-note">{showPwField?"":"Enter the email address you used when enrolling"}</p>
       </div>
     </div></>
   );
@@ -882,6 +909,17 @@ export default function StudentPortal(){
                     <button onClick={()=>{setProfileEdit(false);setProfileMsg("");}} style={{background:"rgba(255,255,255,0.05)",border:"1px solid var(--border2)",color:"var(--text2)",padding:"12px 20px",borderRadius:10,cursor:"pointer",fontSize:13}}>Cancel</button>
                   </>
                 )}
+              </div>
+            </div>
+            <div className="section">
+              <div className="section-title">🔒 Change Password</div>
+              <div className="section-sub">Update your login password</div>
+              <div style={{display:"grid",gap:10,marginTop:12}}>
+                {student.passwordHash&&<div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)"}}>Current Password</label><input className="profile-in" type="password" placeholder="Enter current password" value={pwForm?.current||""} onChange={e=>setPwForm(p=>({...p,current:e.target.value}))}/></div>}
+                <div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)"}}>{student.passwordHash?"New Password":"Set Password"}</label><input className="profile-in" type="password" placeholder="Min 8 characters" value={pwForm?.newPw||""} onChange={e=>setPwForm(p=>({...p,newPw:e.target.value}))}/></div>
+                <div><label style={{fontSize:11,fontWeight:600,letterSpacing:1,textTransform:"uppercase",color:"var(--text3)"}}>Confirm Password</label><input className="profile-in" type="password" placeholder="Repeat password" value={pwForm?.confirm||""} onChange={e=>setPwForm(p=>({...p,confirm:e.target.value}))}/></div>
+                {pwMsg&&<div style={{fontSize:12,padding:"8px 12px",borderRadius:8,background:pwMsg.includes("✅")?"rgba(74,222,128,0.1)":"rgba(251,122,172,0.1)",color:pwMsg.includes("✅")?"var(--green)":"var(--rose)"}}>{pwMsg}</div>}
+                <button className="save-btn" onClick={changePassword} disabled={pwSaving}>{pwSaving?"Saving…":"🔒 Update Password"}</button>
               </div>
             </div>
             <div className="section">
