@@ -556,7 +556,7 @@ export default function StudentPortal(){
               </div>
             )}
           </div>
-          <div className="student-chip" onClick={()=>setTab("profile");setPwMsg("");setPwForm({current:"",newPw:"",confirm:""})}>
+          <div className="student-chip" onClick={()=>{setTab("profile");setPwMsg("");setPwForm({current:"",newPw:"",confirm:""})}}>
             <div className="student-avatar">{initials(student.firstName,student.lastName)}</div>
             <span className="student-chip-name">{student.firstName} {student.lastName}</span>
           </div>
