@@ -11,16 +11,26 @@ export async function GET() {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
 export async function POST(req) {
   try {
     await connectDB();
-    const body = await req.json();
-    const resource = await Resource.create(body);
+    const formData = await req.formData();
+    const file = formData.get("file");
+    const title = formData.get("title");
+    const type = formData.get("type");
+    const level = formData.get("level");
+    const description = formData.get("description");
+    const bytes = await file.arrayBuffer();
+    const base64 = Buffer.from(bytes).toString("base64");
+    const url = `data:${file.type};base64,${base64}`;
+    const resource = await Resource.create({ title, type, level, description, url, fileName: file.name });
     return NextResponse.json({ success: true, resource });
   } catch(e) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
 export async function DELETE(req) {
   try {
     await connectDB();

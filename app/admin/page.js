@@ -1480,10 +1480,20 @@ function ResourcesPage({toast}) {
   useEffect(()=>{ fetchResources(); },[]);
 
   const addResource = async () => {
-    if(!form.title||!form.url) return;
-    await fetch("/api/admin/resources",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
-    fetchResources(); setShowModal(false); toast("Resource added!","success");
-    setForm({title:"",description:"",type:"PDF",level:"All levels",url:""});
+    if(!form.title){toast("Title required","error");return;}
+    if(!form.file){toast("Please select a file","error");return;}
+    try{
+      const fd=new FormData();
+      fd.append("file",form.file);
+      fd.append("title",form.title);
+      fd.append("type",form.type);
+      fd.append("level",form.level);
+      fd.append("description",form.description||"");
+      const r=await fetch("/api/admin/resources",{method:"POST",body:fd});
+      const d=await r.json();
+      if(d.success){fetchResources();setShowModal(false);toast("Resource added!","success");setForm({title:"",description:"",type:"PDF",level:"All levels",file:null});}
+      else toast(d.error||"Error","error");
+    }catch{toast("Error adding resource","error");}
   };
   const deleteResource = async (id) => {
     if(!confirm("Delete this resource?")) return;
@@ -1529,7 +1539,7 @@ function ResourcesPage({toast}) {
                   <option>All levels</option><option>Beginner</option><option>A1</option><option>A2</option><option>B1</option><option>B1-B2</option><option>B2</option><option>C1</option><option>C2</option>
                 </select>
               </div>
-              <div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">URL (Google Drive, YouTube, etc.)</label><input className="form-input" placeholder="https://drive.google.com/..." value={form.url} onChange={e=>setForm({...form,url:e.target.value})}/></div>
+              <div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Upload File</label><input className="form-input" type="file" accept=".pdf,.mp4,.mp3" onChange={e=>setForm({...form,file:e.target.files[0]})}/>{form.file&&<div style={{fontSize:11,color:"var(--teal)",marginTop:4}}>✓ {form.file.name}</div>}</div>
               <div className="form-group" style={{gridColumn:"span 2"}}><label className="form-label">Description (optional)</label><input className="form-input" placeholder="Short description..." value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div>
             </div>
             <div className="modal-foot">
