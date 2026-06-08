@@ -48,7 +48,7 @@ export async function POST(request) {
             <p style="font-size: 15px; line-height: 1.8; white-space: pre-wrap; color: #f0ede8;">${body.replace(/\n/g, "<br/>")}</p>
           </div>
           <div style="padding: 20px 28px; border-top: 1px solid #1e3250; font-size: 12px; color: #7a8899;">
-            <p>📧 frenchacademyinternational@gmail.com &nbsp;|&nbsp; 📱 +250 785 302 957 &nbsp;|&nbsp; 📍 Norrsken House, Kigali</p>
+            <p>📧 frenchacademyinternational@gmail.com &nbsp;|&nbsp; 📱 +250 785 632 172 &nbsp;|&nbsp; 📍 Norrsken House, Kigali</p>
           </div>
         </div>
       `,
